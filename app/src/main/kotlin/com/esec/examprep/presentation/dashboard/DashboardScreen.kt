@@ -1,19 +1,28 @@
 package com.esec.examprep.presentation.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Assessment
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.Insights
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,18 +32,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.R
 import com.esec.examprep.domain.model.UserProgress
+import com.esec.examprep.presentation.components.IconBadge
+import com.esec.examprep.presentation.components.StatTile
+import com.esec.examprep.presentation.components.StatusPill
 import com.esec.examprep.presentation.theme.CorrectGreen
+import com.esec.examprep.presentation.theme.Elevation
+import com.esec.examprep.presentation.theme.Radius
+import com.esec.examprep.presentation.theme.SkippedAmber
+import com.esec.examprep.presentation.theme.Spacing
 import com.esec.examprep.presentation.theme.WrongRed
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,78 +70,196 @@ fun DashboardScreen(
     if (showClearDialog) {
         AlertDialog(
             onDismissRequest = { showClearDialog = false },
-            title   = { Text("Clear all progress?") },
-            text    = { Text("This cannot be undone.") },
+            title   = { Text(stringResource(R.string.dashboard_clear_dialog_title)) },
+            text    = { Text(stringResource(R.string.dashboard_clear_dialog_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.clearAllProgress(); showClearDialog = false
-                }) { Text("Clear") }
+                }) {
+                    Text(
+                        stringResource(R.string.dashboard_clear),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
             },
-            dismissButton = { TextButton(onClick = { showClearDialog = false }) { Text("Cancel") } },
+            dismissButton = {
+                TextButton(onClick = { showClearDialog = false }) {
+                    Text(stringResource(R.string.dashboard_cancel))
+                }
+            },
         )
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("My Progress") },
+                title = {
+                    Text(
+                        stringResource(R.string.dashboard_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.cd_back),
+                        )
                     }
                 },
                 actions = {
                     if (progress.isNotEmpty()) {
-                        TextButton(onClick = { showClearDialog = true }) { Text("Clear") }
+                        TextButton(onClick = { showClearDialog = true }) {
+                            Text(
+                                stringResource(R.string.dashboard_clear),
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
                     }
                 },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                ),
             )
         },
     ) { padding ->
         if (progress.isEmpty()) {
-            Column(
-                modifier = Modifier.padding(padding).padding(32.dp),
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text("No exams taken yet.", style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+            EmptyProgressState(modifier = Modifier.fillMaxSize().padding(padding))
         } else {
+            val attempts = progress.sumOf { it.totalAttempts }
+            val avg = if (progress.isNotEmpty())
+                progress.map { it.averageScore }.average().toInt() else 0
+            val best = (progress.maxOfOrNull { it.bestScore } ?: 0f).toInt()
+
             LazyColumn(
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(Spacing.lg),
+                verticalArrangement = Arrangement.spacedBy(Spacing.md),
                 modifier = Modifier.padding(padding),
             ) {
-                items(progress, key = { it.subjectId }) { p ->
-                    ProgressCard(p)
+                item {
+                    Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
+                        StatTile(
+                            label = stringResource(R.string.dashboard_stat_attempts),
+                            value = "$attempts",
+                            icon = Icons.Default.Assessment,
+                            accent = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.weight(1f),
+                        )
+                        StatTile(
+                            label = stringResource(R.string.dashboard_stat_best),
+                            value = stringResource(R.string.dashboard_percent_int, best),
+                            icon = Icons.Default.EmojiEvents,
+                            accent = CorrectGreen,
+                            modifier = Modifier.weight(1f),
+                        )
+                        StatTile(
+                            label = stringResource(R.string.dashboard_stat_avg),
+                            value = stringResource(R.string.dashboard_percent_int, avg),
+                            icon = Icons.Default.TrendingUp,
+                            accent = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
                 }
+                item {
+                    Spacer(Modifier.height(Spacing.xs))
+                    Text(
+                        stringResource(R.string.dashboard_section_by_subject),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                }
+                items(progress, key = { it.subjectId }) { p -> ProgressCard(p) }
             }
         }
     }
 }
 
 @Composable
+private fun EmptyProgressState(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.padding(Spacing.xxxl),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        IconBadge(
+            icon = Icons.Default.Insights,
+            tint = MaterialTheme.colorScheme.primary,
+            size = 64.dp,
+        )
+        Spacer(Modifier.height(Spacing.lg))
+        Text(
+            stringResource(R.string.dashboard_empty_title),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+        )
+        Spacer(Modifier.height(Spacing.xs))
+        Text(
+            stringResource(R.string.dashboard_empty_body),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
 private fun ProgressCard(progress: UserProgress) {
-    Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(progress.subjectName, style = MaterialTheme.typography.titleMedium)
-            Spacer(Modifier.height(8.dp))
+    val accent = when {
+        progress.averageScore >= 75f -> CorrectGreen
+        progress.averageScore >= 50f -> SkippedAmber
+        else -> WrongRed
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = Elevation.xs),
+    ) {
+        Column(modifier = Modifier.padding(Spacing.xl)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    progress.subjectName,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f),
+                )
+                StatusPill(
+                    text = stringResource(R.string.dashboard_percent_int, progress.averageScore.toInt()),
+                    color = accent,
+                )
+            }
+            Spacer(Modifier.height(Spacing.md))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                LabeledStat("Attempts", "${progress.totalAttempts}")
-                LabeledStat("Best", "${progress.bestScore.toInt()}%")
-                LabeledStat("Average", "${progress.averageScore.toInt()}%")
+                LabeledStat(
+                    stringResource(R.string.dashboard_stat_attempts),
+                    "${progress.totalAttempts}",
+                )
+                LabeledStat(
+                    stringResource(R.string.dashboard_stat_best),
+                    stringResource(R.string.dashboard_percent_int, progress.bestScore.toInt()),
+                )
+                LabeledStat(
+                    stringResource(R.string.dashboard_stat_average),
+                    stringResource(R.string.dashboard_percent_int, progress.averageScore.toInt()),
+                )
             }
-            Spacer(Modifier.height(8.dp))
-            Text("Average score", style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(Spacing.md))
+            Text(
+                stringResource(R.string.dashboard_average_label),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(Modifier.height(Spacing.xs))
             LinearProgressIndicator(
                 progress  = { (progress.averageScore / 100f).coerceIn(0f, 1f) },
                 modifier  = Modifier.fillMaxWidth().height(8.dp),
-                color     = if (progress.averageScore >= 50f) CorrectGreen else WrongRed,
+                color     = accent,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
                 strokeCap = StrokeCap.Round,
             )
         }
@@ -130,8 +269,11 @@ private fun ProgressCard(progress: UserProgress) {
 @Composable
 private fun LabeledStat(label: String, value: String) {
     Column {
-        Text(value, style = MaterialTheme.typography.titleMedium)
-        Text(label, style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(value, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+        Text(
+            label,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }

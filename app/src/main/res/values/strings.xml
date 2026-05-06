@@ -4,43 +4,78 @@
 
     <!-- Home -->
     <string name="home_title">ESEC Exam Prep</string>
-    <string name="home_start_exam">Start Exam</string>
-    <string name="home_view_dashboard">Dashboard</string>
+    <string name="home_tagline">Practice past papers. Offline. Anytime.</string>
+    <string name="home_section_get_started">Get started</string>
+    <string name="home_section_why">Why ESEC</string>
+    <string name="home_start_exam">Start an exam</string>
+    <string name="home_start_exam_desc">Pick a subject and choose timed or practice mode.</string>
+    <string name="home_my_progress">My progress</string>
+    <string name="home_my_progress_desc">Review past attempts and best scores.</string>
+    <string name="home_action_start">Start</string>
+    <string name="home_action_open">Open</string>
+    <string name="home_feature_offline_title">Fully offline</string>
+    <string name="home_feature_offline_desc">No internet required. Question bank is encrypted on-device.</string>
+    <string name="home_feature_timing_title">Realistic timing</string>
+    <string name="home_feature_timing_desc">Timed mode mirrors exam conditions with a live countdown.</string>
+    <string name="home_feature_review_title">Detailed review</string>
+    <string name="home_feature_review_desc">See explanations and track strengths per subject.</string>
+    <string name="home_loading">Preparing question bank…</string>
+    <string name="home_load_failed">Failed to load questions</string>
+    <string name="home_retry">Try again</string>
 
     <!-- Subject -->
-    <string name="subject_title">Choose Subject</string>
-    <string name="subject_mode_practice">Practice</string>
+    <string name="subject_title">Choose a Subject</string>
+    <string name="subject_subtitle_count">%1$d subjects available</string>
+    <string name="subject_empty">No subjects yet</string>
+    <string name="subject_question_count">%1$d questions</string>
+    <string name="subject_pill_offline">Offline</string>
     <string name="subject_mode_timed">Timed</string>
+    <string name="subject_mode_practice">Practice</string>
 
     <!-- Exam -->
-    <string name="exam_question_progress">Question %1$d of %2$d</string>
-    <string name="exam_action_previous">Previous</string>
+    <string name="exam_question_index">Question %1$d</string>
+    <string name="exam_question_of">of %1$d</string>
+    <string name="exam_progress_format">%1$d / %2$d</string>
+    <string name="exam_action_prev">Previous</string>
     <string name="exam_action_next">Next</string>
-    <string name="exam_action_skip">Skip</string>
+    <string name="exam_action_finish">Finish</string>
     <string name="exam_action_submit">Submit</string>
-    <string name="exam_confirm_submit_title">Submit exam?</string>
-    <string name="exam_confirm_submit_message">You won\'t be able to change your answers after submitting.</string>
-    <string name="exam_action_cancel">Cancel</string>
+    <string name="exam_exit_dialog_title">Abandon exam?</string>
+    <string name="exam_exit_dialog_message">Your answers will be discarded.</string>
+    <string name="exam_exit_dialog_leave">Leave</string>
+    <string name="exam_exit_dialog_stay">Stay</string>
 
     <!-- Result -->
-    <string name="result_title">Your Result</string>
-    <string name="result_score_format">%1$.0f%%</string>
-    <string name="result_passed">Passed</string>
-    <string name="result_failed">Keep practicing</string>
-    <string name="result_correct">Correct: %1$d</string>
-    <string name="result_incorrect">Incorrect: %1$d</string>
-    <string name="result_skipped">Skipped: %1$d</string>
-    <string name="result_action_retry">Try Again</string>
+    <string name="result_title">Results</string>
+    <string name="result_loading">Loading results…</string>
+    <string name="result_status_passed">PASSED</string>
+    <string name="result_status_failed">FAILED</string>
+    <string name="result_action_retry">Retry</string>
     <string name="result_action_home">Home</string>
+    <string name="result_review_header">Question Review</string>
+    <string name="result_stat_correct">Correct</string>
+    <string name="result_stat_wrong">Wrong</string>
+    <string name="result_stat_skipped">Skipped</string>
+    <string name="result_stat_time">Time</string>
+    <string name="result_answer_prefix">Answer: %1$s</string>
 
     <!-- Dashboard -->
-    <string name="dashboard_title">Progress</string>
-    <string name="dashboard_attempts">%1$d attempts</string>
-    <string name="dashboard_best_score">Best: %1$.0f%%</string>
-    <string name="dashboard_average_score">Avg: %1$.0f%%</string>
-    <string name="dashboard_empty">Take your first exam to see progress here.</string>
+    <string name="dashboard_title">My Progress</string>
+    <string name="dashboard_section_by_subject">By subject</string>
+    <string name="dashboard_empty_title">No exams taken yet</string>
+    <string name="dashboard_empty_body">Complete an exam and your stats will appear here.</string>
+    <string name="dashboard_clear">Clear</string>
+    <string name="dashboard_clear_dialog_title">Clear all progress?</string>
+    <string name="dashboard_clear_dialog_message">This action cannot be undone.</string>
+    <string name="dashboard_cancel">Cancel</string>
+    <string name="dashboard_stat_attempts">Attempts</string>
+    <string name="dashboard_stat_best">Best</string>
+    <string name="dashboard_stat_avg">Avg</string>
+    <string name="dashboard_stat_average">Average</string>
+    <string name="dashboard_average_label">Average score</string>
+    <string name="dashboard_percent_int">%1$d%%</string>
 
-    <!-- Errors -->
-    <string name="error_load_questions">Failed to load question bank.</string>
-    <string name="error_generic">Something went wrong.</string>
+    <!-- Common -->
+    <string name="cd_back">Back</string>
+    <string name="cd_exit">Exit</string>
 </resources>
