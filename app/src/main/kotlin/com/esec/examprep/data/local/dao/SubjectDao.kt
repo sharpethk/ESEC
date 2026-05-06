@@ -1,0 +1,20 @@
+package com.esec.examprep.data.local.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.esec.examprep.data.local.entity.SubjectEntity
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface SubjectDao {
+    @Query("SELECT * FROM subjects ORDER BY name ASC")
+    fun observeAll(): Flow<List<SubjectEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(subjects: List<SubjectEntity>)
+
+    @Query("SELECT COUNT(*) FROM subjects")
+    suspend fun count(): Int
+}
