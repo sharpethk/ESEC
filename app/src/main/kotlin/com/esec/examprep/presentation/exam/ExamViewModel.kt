@@ -98,6 +98,8 @@ class ExamViewModel @Inject constructor(
 
     fun showExitDialog(show: Boolean) = _state.update { it.copy(showExitDialog = show) }
 
+    fun showReviewDialog(show: Boolean) = _state.update { it.copy(showReviewDialog = show) }
+
     private fun startTimer() {
         timerJob = viewModelScope.launch {
             while (_state.value.remainingSeconds > 0 && !_state.value.isFinished) {

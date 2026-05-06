@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.esec.examprep.presentation.theme.TimerCritical
 import com.esec.examprep.presentation.theme.TimerSafe
 import com.esec.examprep.presentation.theme.TimerWarning
@@ -55,4 +57,4 @@ private fun formatTime(seconds: Int): String {
     return "%02d:%02d".format(m, s)
 }
 
-private val Int.dp get() = androidx.compose.ui.unit.dp * this
+private val Int.dp: Dp get() = this.toFloat().dp

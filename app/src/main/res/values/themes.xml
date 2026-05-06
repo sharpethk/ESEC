@@ -5,5 +5,9 @@
         <item name="windowSplashScreenBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
     </style>
-    <style name="Theme.ESEC.Main" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.ESEC.Main" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>
