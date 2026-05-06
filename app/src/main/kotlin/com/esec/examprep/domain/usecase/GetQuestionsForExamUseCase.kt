@@ -7,6 +7,9 @@ import javax.inject.Inject
 class GetQuestionsForExamUseCase @Inject constructor(
     private val repository: QuestionRepository,
 ) {
-    suspend operator fun invoke(subjectId: String, count: Int = 40): List<Question> =
-        repository.getQuestionsBySubject(subjectId, limit = count).shuffled()
+    /** [count] <= 0 means "all available questions for the subject". */
+    suspend operator fun invoke(subjectId: String, count: Int = 40): List<Question> {
+        val limit = count.takeIf { it > 0 }
+        return repository.getQuestionsBySubject(subjectId, limit = limit).shuffled()
+    }
 }

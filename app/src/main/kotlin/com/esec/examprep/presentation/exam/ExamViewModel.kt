@@ -48,8 +48,12 @@ class ExamViewModel @Inject constructor(
         viewModelScope.launch {
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
             val prefs = prefsRepo.preferences.first()
-            val timerSeconds = prefs.defaultTimerMinutes * 60
             val questions = getQuestions(subjectId, count = prefs.defaultExamLength)
+            // For "All" runs, scale timer ≈ 1 min/question so the user isn't artificially capped.
+            val timerMinutes =
+                if (prefs.defaultExamLength <= 0) maxOf(prefs.defaultTimerMinutes, questions.size)
+                else prefs.defaultTimerMinutes
+            val timerSeconds = timerMinutes * 60
             _state.update {
                 it.copy(
                     questions = questions,
