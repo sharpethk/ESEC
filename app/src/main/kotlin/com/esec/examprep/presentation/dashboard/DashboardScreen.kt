@@ -178,12 +178,12 @@ fun DashboardScreen(
 
                 if (state.recent.isNotEmpty()) {
                     item { SectionHeader("Recent exams") }
-                    items(state.recent, key = { it.sessionId }) { RecentExamRow(it) }
+                    items(state.recent, key = { "recent-${it.sessionId}" }) { RecentExamRow(it) }
                 }
 
                 if (state.weakTopics.isNotEmpty()) {
                     item { SectionHeader("Weak topics") }
-                    items(state.weakTopics, key = { it.subjectId }) { topic ->
+                    items(state.weakTopics, key = { "weak-${it.subjectId}" }) { topic ->
                         WeakTopicRow(topic, nameById[topic.subjectId] ?: topic.subjectId)
                     }
                 }
@@ -192,7 +192,7 @@ fun DashboardScreen(
                     Spacer(Modifier.height(Spacing.xs))
                     SectionHeader(stringResource(R.string.dashboard_section_by_subject))
                 }
-                items(progress, key = { it.subjectId }) { p ->
+                items(progress, key = { "progress-${it.subjectId}" }) { p ->
                     val trendScores = remember(state.recent, p.subjectId) {
                         state.recent.asReversed()
                             .filter { it.subjectId == p.subjectId }
