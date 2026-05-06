@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
+import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
@@ -13,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -25,6 +27,7 @@ class ExamViewModel @Inject constructor(
     private val getQuestions: GetQuestionsForExamUseCase,
     private val submitExam: SubmitExamUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
+    private val prefsRepo: UserPreferencesRepository,
 ) : ViewModel() {
 
     private val subjectId: String = checkNotNull(savedStateHandle["subjectId"])
@@ -44,12 +47,16 @@ class ExamViewModel @Inject constructor(
     private fun loadQuestions() {
         viewModelScope.launch {
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
-            val questions = getQuestions(subjectId, count = 40)
+            val prefs = prefsRepo.preferences.first()
+            val timerSeconds = prefs.defaultTimerMinutes * 60
+            val questions = getQuestions(subjectId, count = prefs.defaultExamLength)
             _state.update {
                 it.copy(
                     questions = questions,
                     mode = mode,
                     isLoading = false,
+                    timeLimitSeconds = timerSeconds,
+                    remainingSeconds = timerSeconds,
                 )
             }
             if (mode == ExamMode.TIMED) startTimer()
