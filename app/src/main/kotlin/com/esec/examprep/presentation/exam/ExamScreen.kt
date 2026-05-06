@@ -219,6 +219,7 @@ fun ExamScreen(
                             selectedOptionId = state.answers[q.id],
                             revealAnswer     = state.mode == com.esec.examprep.domain.model.ExamMode.PRACTICE,
                             onOptionSelected = viewModel::selectAnswer,
+                            onToggleBookmark = { viewModel.toggleBookmark(q.id) },
                         )
                     }
                     Spacer(Modifier.height(Spacing.xxl))

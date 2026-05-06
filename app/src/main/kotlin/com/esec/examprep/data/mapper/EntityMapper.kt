@@ -55,6 +55,7 @@ fun QuestionEntity.toDomain(): Question {
             "HARD"   -> DifficultyLevel.HARD
             else     -> DifficultyLevel.MEDIUM
         },
+        isBookmarked = isBookmarked,
     )
 }
 

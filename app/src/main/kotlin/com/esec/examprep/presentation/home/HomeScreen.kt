@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
@@ -54,6 +55,7 @@ import com.esec.examprep.presentation.theme.Spacing
 fun HomeScreen(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
+    onBookmarksClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -67,6 +69,7 @@ fun HomeScreen(
                 else -> HomeContent(
                     onSubjectsClick = onSubjectsClick,
                     onDashboardClick = onDashboardClick,
+                    onBookmarksClick = onBookmarksClick,
                 )
             }
         }
@@ -77,6 +80,7 @@ fun HomeScreen(
 private fun HomeContent(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
+    onBookmarksClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -109,6 +113,13 @@ private fun HomeContent(
                 description = stringResource(R.string.home_my_progress_desc),
                 icon = Icons.Default.BarChart,
                 onClick = onDashboardClick,
+            )
+            Spacer(Modifier.height(Spacing.md))
+            SecondaryActionCard(
+                title = "Bookmarked Questions",
+                description = "Review questions you've saved for later",
+                icon = Icons.Default.Bookmark,
+                onClick = onBookmarksClick,
             )
 
             Spacer(Modifier.height(Spacing.xxxl))

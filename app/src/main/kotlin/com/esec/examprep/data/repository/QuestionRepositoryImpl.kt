@@ -53,4 +53,11 @@ class QuestionRepositoryImpl @Inject constructor(
         subjectDao.insertAll(subjectEntities)
         questionDao.insertAll(questionEntities)
     }
+
+    override suspend fun setBookmark(questionId: String, bookmarked: Boolean) {
+        questionDao.setBookmark(questionId, bookmarked)
+    }
+
+    override fun observeBookmarkedQuestions(): Flow<List<Question>> =
+        questionDao.observeBookmarked().map { list -> list.map { it.toDomain() } }
 }

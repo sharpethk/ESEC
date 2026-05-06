@@ -10,4 +10,6 @@ interface QuestionRepository {
     suspend fun getQuestionCount(subjectId: String): Int
     suspend fun isDataLoaded(): Boolean
     suspend fun loadQuestionsFromEncryptedAsset()
+    suspend fun setBookmark(questionId: String, bookmarked: Boolean)
+    fun observeBookmarkedQuestions(): Flow<List<Question>>
 }

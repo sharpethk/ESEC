@@ -4,6 +4,7 @@ sealed class Screen(val route: String) {
     data object Home       : Screen("home")
     data object Subject    : Screen("subject")
     data object Dashboard  : Screen("dashboard")
+    data object Bookmarks  : Screen("bookmarks")
 
     data class Exam(
         val subjectId: String = "{subjectId}",

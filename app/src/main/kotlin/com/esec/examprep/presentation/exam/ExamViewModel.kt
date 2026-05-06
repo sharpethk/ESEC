@@ -7,6 +7,7 @@ import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
+import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,6 +24,7 @@ class ExamViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getQuestions: GetQuestionsForExamUseCase,
     private val submitExam: SubmitExamUseCase,
+    private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
 ) : ViewModel() {
 
     private val subjectId: String = checkNotNull(savedStateHandle["subjectId"])
@@ -99,6 +101,17 @@ class ExamViewModel @Inject constructor(
     fun showExitDialog(show: Boolean) = _state.update { it.copy(showExitDialog = show) }
 
     fun showReviewDialog(show: Boolean) = _state.update { it.copy(showReviewDialog = show) }
+
+    fun toggleBookmark(questionId: String) {
+        val newValue = _state.value.questions.firstOrNull { it.id == questionId }
+            ?.let { !it.isBookmarked } ?: return
+        _state.update { s ->
+            s.copy(questions = s.questions.map {
+                if (it.id == questionId) it.copy(isBookmarked = newValue) else it
+            })
+        }
+        viewModelScope.launch { toggleBookmarkUseCase(questionId, newValue) }
+    }
 
     private fun startTimer() {
         timerJob = viewModelScope.launch {

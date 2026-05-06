@@ -26,4 +26,5 @@ data class QuestionEntity(
     val correctOptionId: String,
     val explanation: String?,
     val difficultyLevel: String,
+    val isBookmarked: Boolean = false,
 )

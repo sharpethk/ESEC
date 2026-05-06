@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.esec.examprep.presentation.bookmarks.BookmarksScreen
 import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
@@ -40,6 +41,7 @@ fun AppNavGraph(navController: NavHostController) {
             HomeScreen(
                 onSubjectsClick  = { navController.navigate(Screen.Subject.route) },
                 onDashboardClick = { navController.navigate(Screen.Dashboard.route) },
+                onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) },
             )
         }
 
@@ -95,6 +97,10 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Screen.Dashboard.route) {
             DashboardScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Bookmarks.route) {
+            BookmarksScreen(onBack = { navController.popBackStack() })
         }
     }
 }

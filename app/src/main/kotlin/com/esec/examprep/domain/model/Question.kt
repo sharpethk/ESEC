@@ -9,6 +9,7 @@ data class Question(
     val correctOptionId: String,
     val explanation: String?,
     val difficultyLevel: DifficultyLevel,
+    val isBookmarked: Boolean = false,
 )
 
 enum class DifficultyLevel { EASY, MEDIUM, HARD }
