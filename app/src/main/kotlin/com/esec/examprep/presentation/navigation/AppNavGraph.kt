@@ -15,6 +15,7 @@ import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
 import com.esec.examprep.presentation.result.ResultScreen
+import com.esec.examprep.presentation.settings.SettingsScreen
 import com.esec.examprep.presentation.subject.SubjectScreen
 
 private const val NAV_ANIM_MS = 350
@@ -42,6 +43,7 @@ fun AppNavGraph(navController: NavHostController) {
                 onSubjectsClick  = { navController.navigate(Screen.Subject.route) },
                 onDashboardClick = { navController.navigate(Screen.Dashboard.route) },
                 onBookmarksClick = { navController.navigate(Screen.Bookmarks.route) },
+                onSettingsClick  = { navController.navigate(Screen.Settings.route) },
             )
         }
 
@@ -101,6 +103,10 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Screen.Bookmarks.route) {
             BookmarksScreen(onBack = { navController.popBackStack() })
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(onBack = { navController.popBackStack() })
         }
     }
 }

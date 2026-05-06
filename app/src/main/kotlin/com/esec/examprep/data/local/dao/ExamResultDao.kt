@@ -32,6 +32,12 @@ interface ExamResultDao {
 
     @Query("DELETE FROM exam_results")
     suspend fun deleteAll()
+
+    @Query("SELECT scorePercent FROM exam_results WHERE subjectId = :subjectId ORDER BY completedAt DESC LIMIT :limit")
+    suspend fun getRecentScoresForSubject(subjectId: String, limit: Int): List<Float>
+
+    @Query("SELECT COALESCE(SUM(durationSeconds) * 1.0 / NULLIF(SUM(totalQuestions), 0), 0.0) FROM exam_results")
+    suspend fun getAvgSecondsPerQuestion(): Double
 }
 
 data class SubjectProgressRow(

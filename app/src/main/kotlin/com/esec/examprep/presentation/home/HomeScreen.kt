@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.Button
@@ -56,6 +57,7 @@ fun HomeScreen(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
     onBookmarksClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -70,6 +72,7 @@ fun HomeScreen(
                     onSubjectsClick = onSubjectsClick,
                     onDashboardClick = onDashboardClick,
                     onBookmarksClick = onBookmarksClick,
+                    onSettingsClick = onSettingsClick,
                 )
             }
         }
@@ -81,6 +84,7 @@ private fun HomeContent(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
     onBookmarksClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -120,6 +124,13 @@ private fun HomeContent(
                 description = "Review questions you've saved for later",
                 icon = Icons.Default.Bookmark,
                 onClick = onBookmarksClick,
+            )
+            Spacer(Modifier.height(Spacing.md))
+            SecondaryActionCard(
+                title = "Settings",
+                description = "Theme, exam preferences, and more",
+                icon = Icons.Default.Settings,
+                onClick = onSettingsClick,
             )
 
             Spacer(Modifier.height(Spacing.xxxl))

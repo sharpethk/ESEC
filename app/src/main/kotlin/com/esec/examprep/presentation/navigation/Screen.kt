@@ -5,6 +5,7 @@ sealed class Screen(val route: String) {
     data object Subject    : Screen("subject")
     data object Dashboard  : Screen("dashboard")
     data object Bookmarks  : Screen("bookmarks")
+    data object Settings   : Screen("settings")
 
     data class Exam(
         val subjectId: String = "{subjectId}",
