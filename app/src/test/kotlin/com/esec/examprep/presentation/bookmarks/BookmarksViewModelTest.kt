@@ -3,7 +3,9 @@ package com.esec.examprep.presentation.bookmarks
 import com.esec.examprep.domain.model.DifficultyLevel
 import com.esec.examprep.domain.model.Option
 import com.esec.examprep.domain.model.Question
+import com.esec.examprep.domain.model.Subject
 import com.esec.examprep.domain.usecase.GetBookmarkedQuestionsUseCase
+import com.esec.examprep.domain.usecase.GetSubjectsUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import io.mockk.coVerify
 import io.mockk.every
@@ -26,8 +28,12 @@ class BookmarksViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
     private val getBookmarked: GetBookmarkedQuestionsUseCase = mockk()
+    private val getSubjects: GetSubjectsUseCase = mockk()
     private val toggleBookmark: ToggleBookmarkUseCase = mockk(relaxed = true)
-    private val flow = MutableStateFlow<List<Question>>(emptyList())
+    private val bookmarksFlow = MutableStateFlow<List<Question>>(emptyList())
+    private val subjectsFlow = MutableStateFlow<List<Subject>>(
+        listOf(Subject("sub", "Subject Name", "", 0, 0, "")),
+    )
 
     private val q = Question(
         id = "q1", subjectId = "sub", year = 2024, text = "Q?",
@@ -38,22 +44,28 @@ class BookmarksViewModelTest {
 
     @Before fun setup() {
         Dispatchers.setMain(dispatcher)
-        every { getBookmarked() } returns flow
+        every { getBookmarked() } returns bookmarksFlow
+        every { getSubjects() } returns subjectsFlow
     }
     @After fun tearDown() { Dispatchers.resetMain() }
 
     @Test
-    fun `state mirrors bookmarked questions flow`() = runTest {
-        flow.value = listOf(q)
-        val vm = BookmarksViewModel(getBookmarked, toggleBookmark)
+    fun `state groups bookmarked questions by subject and year`() = runTest {
+        bookmarksFlow.value = listOf(q)
+        val vm = BookmarksViewModel(getBookmarked, getSubjects, toggleBookmark)
         dispatcher.scheduler.advanceUntilIdle()
-        assertEquals(1, vm.state.value.questions.size)
-        assertFalse(vm.state.value.isLoading)
+        val state = vm.state.value
+        assertEquals(1, state.groups.size)
+        assertEquals("Subject Name", state.groups[0].subjectName)
+        assertEquals(1, state.groups[0].years.size)
+        assertEquals(2024, state.groups[0].years[0].year)
+        assertEquals(1, state.totalCount)
+        assertFalse(state.isLoading)
     }
 
     @Test
     fun `removeBookmark calls toggle with false`() = runTest {
-        val vm = BookmarksViewModel(getBookmarked, toggleBookmark)
+        val vm = BookmarksViewModel(getBookmarked, getSubjects, toggleBookmark)
         dispatcher.scheduler.advanceUntilIdle()
         vm.removeBookmark("q1")
         dispatcher.scheduler.advanceUntilIdle()

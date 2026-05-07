@@ -37,6 +37,7 @@ import com.esec.examprep.presentation.bookmarks.BookmarksScreen
 import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
+import com.esec.examprep.presentation.questiondetail.QuestionDetailScreen
 import com.esec.examprep.presentation.result.ResultScreen
 import com.esec.examprep.presentation.settings.SettingsScreen
 import com.esec.examprep.presentation.subject.SubjectScreen
@@ -191,7 +192,19 @@ fun AppNavGraph(navController: NavHostController) {
             }
 
             composable(Screen.Bookmarks.route) {
-                BookmarksScreen(onBack = { navController.popBackStack() })
+                BookmarksScreen(
+                    onBack = { navController.popBackStack() },
+                    onQuestionClick = { questionId ->
+                        navController.navigate(Screen.QuestionDetail().route(questionId))
+                    },
+                )
+            }
+
+            composable(
+                route = Screen.QuestionDetail().route,
+                arguments = listOf(navArgument("questionId") { type = NavType.StringType }),
+            ) {
+                QuestionDetailScreen(onBack = { navController.popBackStack() })
             }
 
             composable(Screen.Settings.route) {

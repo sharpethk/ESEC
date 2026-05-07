@@ -22,4 +22,10 @@ sealed class Screen(val route: String) {
     ) : Screen("result/{sessionId}") {
         fun route(sessionId: String) = "result/$sessionId"
     }
+
+    data class QuestionDetail(
+        val questionId: String = "{questionId}",
+    ) : Screen("question/{questionId}") {
+        fun route(questionId: String) = "question/$questionId"
+    }
 }

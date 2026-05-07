@@ -38,6 +38,9 @@ class QuestionRepositoryImpl @Inject constructor(
     override suspend fun getQuestionsByYear(subjectId: String, year: Int): List<Question> =
         questionDao.getBySubjectAndYear(subjectId, year).map { it.toDomain() }
 
+    override suspend fun getQuestionById(id: String): Question? =
+        questionDao.getById(id)?.toDomain()
+
     override suspend fun getYearStatsForSubject(subjectId: String): List<YearStat> =
         questionDao.getYearCountsForSubject(subjectId)
             .map { YearStat(year = it.year, questionCount = it.questionCount) }
