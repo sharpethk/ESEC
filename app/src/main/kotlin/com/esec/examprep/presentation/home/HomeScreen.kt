@@ -18,11 +18,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.BarChart
-import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.Button
@@ -46,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.BuildConfig
 import com.esec.examprep.R
 import com.esec.examprep.presentation.components.GradientHero
 import com.esec.examprep.presentation.components.IconBadge
@@ -57,8 +57,6 @@ import com.esec.examprep.presentation.theme.Spacing
 fun HomeScreen(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
-    onBookmarksClick: () -> Unit,
-    onSettingsClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
@@ -72,8 +70,6 @@ fun HomeScreen(
                 else -> HomeContent(
                     onSubjectsClick = onSubjectsClick,
                     onDashboardClick = onDashboardClick,
-                    onBookmarksClick = onBookmarksClick,
-                    onSettingsClick = onSettingsClick,
                 )
             }
         }
@@ -84,8 +80,6 @@ fun HomeScreen(
 private fun HomeContent(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
-    onBookmarksClick: () -> Unit,
-    onSettingsClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -110,31 +104,17 @@ private fun HomeContent(
                 onClick = onSubjectsClick,
             )
 
-            SectionLabel(stringResource(R.string.home_section_get_started))
+            NavTile(
+                title = stringResource(R.string.home_my_progress),
+                icon = Icons.Default.BarChart,
+                accent = MaterialTheme.colorScheme.primary,
+                onClick = onDashboardClick,
+                modifier = Modifier.fillMaxWidth(),
+            )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
-                NavTile(
-                    title = stringResource(R.string.home_my_progress),
-                    icon = Icons.Default.BarChart,
-                    accent = MaterialTheme.colorScheme.primary,
-                    onClick = onDashboardClick,
-                    modifier = Modifier.weight(1f),
-                )
-                NavTile(
-                    title = "Bookmarks",
-                    icon = Icons.Default.Bookmark,
-                    accent = MaterialTheme.colorScheme.tertiary,
-                    onClick = onBookmarksClick,
-                    modifier = Modifier.weight(1f),
-                )
-                NavTile(
-                    title = "Settings",
-                    icon = Icons.Default.Settings,
-                    accent = MaterialTheme.colorScheme.secondary,
-                    onClick = onSettingsClick,
-                    modifier = Modifier.weight(1f),
-                )
-            }
+            Spacer(Modifier.height(Spacing.sm))
+            SectionLabel("About this app")
+            AboutInfoCard()
 
             Spacer(Modifier.height(Spacing.sm))
             SectionLabel(stringResource(R.string.home_section_why))
@@ -155,6 +135,65 @@ private fun HomeContent(
                 description = stringResource(R.string.home_feature_review_desc),
             )
         }
+    }
+}
+
+@Composable
+private fun AboutInfoCard() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = Elevation.xs),
+    ) {
+        Column(modifier = Modifier.padding(Spacing.lg)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(18.dp),
+                )
+                Spacer(Modifier.size(Spacing.sm))
+                Text(
+                    "ESEC \u2014 Eritrean Grade 8 exam prep",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+            Spacer(Modifier.height(Spacing.md))
+            Text(
+                "Practice past national exams offline. Track your progress, bookmark tricky questions, and review answer explanations \u2014 no account required.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            Spacer(Modifier.height(Spacing.md))
+            AboutRow("Version", BuildConfig.VERSION_NAME)
+            AboutRow("Data source", "Eritrean Grade 8 exams 2012\u20132023")
+            AboutRow("Mode", "Offline \u00B7 No tracking")
+        }
+    }
+}
+
+@Composable
+private fun AboutRow(label: String, value: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = Spacing.xs),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            label,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            value,
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Medium,
+        )
     }
 }
 

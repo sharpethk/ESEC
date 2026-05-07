@@ -19,7 +19,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DeleteSweep
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.School
@@ -56,7 +55,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.esec.examprep.BuildConfig
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
@@ -155,13 +153,6 @@ fun SettingsScreen(
                 }
                 Spacer(Modifier.height(Spacing.sm))
                 HelperText("Removes all results, attempts, and weak-topic stats. Bookmarks are kept.")
-            }
-
-            SectionCard(title = "About", icon = Icons.Default.Info) {
-                AboutRow("Version", BuildConfig.VERSION_NAME)
-                AboutRow("Data source", "Eritrean Grade 8 exams 2012\u20132023")
-                AboutRow("Subject", "Social Studies")
-                AboutRow("Mode", "Offline \u00B7 No tracking")
             }
 
             FooterCredit()
@@ -352,27 +343,6 @@ private fun HelperText(text: String) {
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
-}
-
-@Composable
-private fun AboutRow(label: String, value: String) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = Spacing.xs),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            label,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(
-            value,
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Medium,
-        )
-    }
 }
 
 @Composable

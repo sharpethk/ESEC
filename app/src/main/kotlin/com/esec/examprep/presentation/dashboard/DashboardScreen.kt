@@ -57,12 +57,11 @@ import com.esec.examprep.domain.model.WeakTopic
 import com.esec.examprep.presentation.components.IconBadge
 import com.esec.examprep.presentation.components.StatTile
 import com.esec.examprep.presentation.components.StatusPill
-import com.esec.examprep.presentation.theme.CorrectGreen
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
-import com.esec.examprep.presentation.theme.SkippedAmber
 import com.esec.examprep.presentation.theme.Spacing
 import com.esec.examprep.presentation.theme.WrongRed
+import com.esec.examprep.presentation.theme.scoreColor
 import java.time.Duration
 import java.time.Instant
 
@@ -161,14 +160,14 @@ fun DashboardScreen(
                             label = stringResource(R.string.dashboard_stat_best),
                             value = stringResource(R.string.dashboard_percent_int, best),
                             icon = Icons.Default.EmojiEvents,
-                            accent = CorrectGreen,
+                            accent = scoreColor(best.toFloat()),
                             modifier = Modifier.weight(1f),
                         )
                         StatTile(
                             label = stringResource(R.string.dashboard_stat_avg),
                             value = stringResource(R.string.dashboard_percent_int, avg),
                             icon = Icons.AutoMirrored.Filled.TrendingUp,
-                            accent = MaterialTheme.colorScheme.tertiary,
+                            accent = scoreColor(avg.toFloat()),
                             modifier = Modifier.weight(1f),
                         )
                     }
@@ -273,7 +272,7 @@ private fun TimeStatsCard(avgSeconds: Double) {
 
 @Composable
 private fun RecentExamRow(result: ExamResult) {
-    val accent = if (result.passed) CorrectGreen else WrongRed
+    val accent = scoreColor(result.scorePercent)
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Radius.md),
@@ -348,11 +347,7 @@ private fun WeakTopicRow(topic: WeakTopic, subjectName: String) {
 
 @Composable
 private fun ProgressCard(progress: UserProgress, trendScores: List<Float>) {
-    val accent = when {
-        progress.averageScore >= 75f -> CorrectGreen
-        progress.averageScore >= 50f -> SkippedAmber
-        else -> WrongRed
-    }
+    val accent = scoreColor(progress.averageScore)
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Radius.lg),

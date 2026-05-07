@@ -43,3 +43,11 @@ val Neutral900        = Color(0xFF111827)
 val TimerSafe         = Color(0xFF16A34A)
 val TimerWarning      = Color(0xFFD97706)
 val TimerCritical     = Color(0xFFDC2626)
+
+// ── Score-band tinting ───────────────────────────────────────────
+// 0–49 % → red, 50–74 % → orange, 75–100 % → green.
+fun scoreColor(percent: Float): Color = when {
+    percent >= 75f -> CorrectGreen
+    percent >= 50f -> SkippedAmber
+    else           -> WrongRed
+}

@@ -1,5 +1,6 @@
 package com.esec.examprep.presentation.result
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
@@ -245,6 +247,42 @@ private fun QuestionReviewItem(qr: QuestionResult) {
                     color = CorrectGreen,
                     fontWeight = FontWeight.SemiBold,
                 )
+                val explanation = qr.question.explanation?.takeIf { it.isNotBlank() }
+                if (explanation != null) {
+                    Spacer(Modifier.height(Spacing.sm))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
+                                RoundedCornerShape(Radius.sm),
+                            )
+                            .padding(Spacing.sm),
+                    ) {
+                        Row(verticalAlignment = Alignment.Top) {
+                            Icon(
+                                imageVector = Icons.Default.Lightbulb,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(16.dp),
+                            )
+                            Spacer(Modifier.size(Spacing.xs))
+                            Column {
+                                Text(
+                                    "Explanation",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                                Text(
+                                    explanation,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
