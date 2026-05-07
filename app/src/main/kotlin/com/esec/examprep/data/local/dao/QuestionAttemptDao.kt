@@ -17,23 +17,24 @@ interface QuestionAttemptDao {
                (SUM(CASE WHEN isCorrect = 0 THEN 1 ELSE 0 END) * 1.0 / COUNT(*)) AS errorRate,
                COUNT(*) AS attempts
         FROM question_attempts
+        WHERE profileId = :profileId
         GROUP BY subjectId
         ORDER BY errorRate DESC
     """)
-    fun observeWeakTopics(): Flow<List<WeakTopicRow>>
+    fun observeWeakTopics(profileId: String): Flow<List<WeakTopicRow>>
 
     @Query("""
         SELECT questionId, COUNT(*) AS wrongCount
         FROM question_attempts
-        WHERE isCorrect = 0
+        WHERE profileId = :profileId AND isCorrect = 0
         GROUP BY questionId
         ORDER BY wrongCount DESC
         LIMIT :limit
     """)
-    suspend fun getMostMissedQuestionIds(limit: Int): List<MissedQuestionRow>
+    suspend fun getMostMissedQuestionIds(profileId: String, limit: Int): List<MissedQuestionRow>
 
-    @Query("DELETE FROM question_attempts")
-    suspend fun deleteAll()
+    @Query("DELETE FROM question_attempts WHERE profileId = :profileId")
+    suspend fun deleteAllForProfile(profileId: String)
 }
 
 data class WeakTopicRow(

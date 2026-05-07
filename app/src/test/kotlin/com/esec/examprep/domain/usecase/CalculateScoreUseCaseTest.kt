@@ -31,7 +31,7 @@ class CalculateScoreUseCaseTest {
             makeQuestion("q2", "b"),
         )
         val session = ExamSession(
-            id = "s1", subjectId = "sub1", mode = ExamMode.TIMED,
+            id = "s1", profileId = "default", subjectId = "sub1", mode = ExamMode.TIMED,
             questions = questions, answers = mapOf("q1" to "a", "q2" to "b"),
             startedAt = Instant.now(), finishedAt = Instant.now(), timeLimitSeconds = 600,
         )
@@ -47,7 +47,7 @@ class CalculateScoreUseCaseTest {
     fun `zero correct answers produces score 0 and failed`() {
         val questions = listOf(makeQuestion("q1", "a"))
         val session = ExamSession(
-            id = "s2", subjectId = "sub1", mode = ExamMode.PRACTICE,
+            id = "s2", profileId = "default", subjectId = "sub1", mode = ExamMode.PRACTICE,
             questions = questions, answers = mapOf("q1" to "b"),
             startedAt = Instant.now(), finishedAt = Instant.now(), timeLimitSeconds = null,
         )
@@ -60,7 +60,7 @@ class CalculateScoreUseCaseTest {
     fun `skipped questions are counted correctly`() {
         val questions = listOf(makeQuestion("q1", "a"), makeQuestion("q2", "a"))
         val session = ExamSession(
-            id = "s3", subjectId = "sub1", mode = ExamMode.TIMED,
+            id = "s3", profileId = "default", subjectId = "sub1", mode = ExamMode.TIMED,
             questions = questions, answers = emptyMap(),
             startedAt = Instant.now(), finishedAt = Instant.now(), timeLimitSeconds = 600,
         )

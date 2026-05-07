@@ -26,12 +26,13 @@ class ExamSessionRepositoryImpl @Inject constructor(
 
     override suspend fun saveSession(session: ExamSession): ExamResult {
         val result = calculateScore(session, subjectName = session.subjectId)
-        dao.insert(result.toEntity())
+        dao.insert(result.toEntity(session.profileId))
 
         val finishedAt = (session.finishedAt ?: java.time.Instant.now()).epochSecond
         val attempts = session.questions.map { q ->
             val selected = session.answers[q.id]
             QuestionAttemptEntity(
+                profileId = session.profileId,
                 sessionId = session.id,
                 questionId = q.id,
                 subjectId = q.subjectId,
@@ -47,29 +48,30 @@ class ExamSessionRepositoryImpl @Inject constructor(
 
     override suspend fun getSessionById(id: String): ExamSession? = null
 
-    override fun getAllResults(): Flow<List<ExamResult>> =
-        dao.observeAll().map { list -> list.map { it.toDomain() } }
+    override fun getAllResults(profileId: String): Flow<List<ExamResult>> =
+        dao.observeAll(profileId).map { list -> list.map { it.toDomain() } }
 
-    override fun getProgressBySubject(): Flow<List<UserProgress>> =
-        dao.observeProgressBySubject().map { list -> list.map { it.toDomain() } }
+    override fun getProgressBySubject(profileId: String): Flow<List<UserProgress>> =
+        dao.observeProgressBySubject(profileId).map { list -> list.map { it.toDomain() } }
 
-    override suspend fun getRecentResults(limit: Int): List<ExamResult> =
-        dao.getRecent(limit).map { it.toDomain() }
+    override suspend fun getRecentResults(profileId: String, limit: Int): List<ExamResult> =
+        dao.getRecent(profileId, limit).map { it.toDomain() }
 
-    override suspend fun clearAllProgress() {
-        dao.deleteAll()
-        attemptDao.deleteAll()
+    override suspend fun clearAllProgress(profileId: String) {
+        dao.deleteAllForProfile(profileId)
+        attemptDao.deleteAllForProfile(profileId)
     }
 
-    override fun observeWeakTopics(): Flow<List<WeakTopic>> =
-        attemptDao.observeWeakTopics().map { rows ->
+    override fun observeWeakTopics(profileId: String): Flow<List<WeakTopic>> =
+        attemptDao.observeWeakTopics(profileId).map { rows ->
             rows.map { WeakTopic(it.subjectId, it.errorRate, it.attempts) }
         }
 
-    override suspend fun getSubjectTrend(subjectId: String, limit: Int): SubjectTrend {
-        val recentDesc = dao.getRecentScoresForSubject(subjectId, limit)
+    override suspend fun getSubjectTrend(profileId: String, subjectId: String, limit: Int): SubjectTrend {
+        val recentDesc = dao.getRecentScoresForSubject(profileId, subjectId, limit)
         return SubjectTrend(subjectId = subjectId, recentScores = recentDesc.reversed())
     }
 
-    override suspend fun getAvgSecondsPerQuestion(): Double = dao.getAvgSecondsPerQuestion()
+    override suspend fun getAvgSecondsPerQuestion(profileId: String): Double =
+        dao.getAvgSecondsPerQuestion(profileId)
 }

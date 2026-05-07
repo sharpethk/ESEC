@@ -14,11 +14,18 @@ import androidx.room.PrimaryKey
             childColumns = ["questionId"],
             onDelete = ForeignKey.CASCADE,
         ),
+        ForeignKey(
+            entity = ProfileEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["profileId"],
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
-    indices = [Index("questionId"), Index("subjectId"), Index("attemptedAt")],
+    indices = [Index("questionId"), Index("subjectId"), Index("attemptedAt"), Index("profileId")],
 )
 data class QuestionAttemptEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val profileId: String,
     val sessionId: String,
     val questionId: String,
     val subjectId: String,

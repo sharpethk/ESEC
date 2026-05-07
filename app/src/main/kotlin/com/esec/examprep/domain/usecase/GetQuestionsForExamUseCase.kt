@@ -12,14 +12,15 @@ class GetQuestionsForExamUseCase @Inject constructor(
      * Otherwise returns up to [count] random questions ([count] <= 0 means "all available").
      */
     suspend operator fun invoke(
+        profileId: String,
         subjectId: String,
         count: Int = 40,
         year: Int? = null,
     ): List<Question> {
         if (year != null && year > 0) {
-            return repository.getQuestionsByYear(subjectId, year)
+            return repository.getQuestionsByYear(profileId, subjectId, year)
         }
         val limit = count.takeIf { it > 0 }
-        return repository.getQuestionsBySubject(subjectId, limit = limit).shuffled()
+        return repository.getQuestionsBySubject(profileId, subjectId, limit = limit).shuffled()
     }
 }

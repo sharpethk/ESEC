@@ -6,6 +6,6 @@ import javax.inject.Inject
 class ToggleBookmarkUseCase @Inject constructor(
     private val repository: QuestionRepository,
 ) {
-    suspend operator fun invoke(questionId: String, bookmarked: Boolean) =
-        repository.setBookmark(questionId, bookmarked)
+    suspend operator fun invoke(profileId: String, questionId: String, bookmarked: Boolean) =
+        repository.setBookmark(profileId, questionId, bookmarked)
 }

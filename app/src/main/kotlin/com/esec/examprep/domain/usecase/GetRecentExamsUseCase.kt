@@ -7,5 +7,6 @@ import javax.inject.Inject
 class GetRecentExamsUseCase @Inject constructor(
     private val repository: ExamSessionRepository,
 ) {
-    suspend operator fun invoke(limit: Int = 10): List<ExamResult> = repository.getRecentResults(limit)
+    suspend operator fun invoke(profileId: String, limit: Int = 10): List<ExamResult> =
+        repository.getRecentResults(profileId, limit)
 }

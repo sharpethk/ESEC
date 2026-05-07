@@ -37,6 +37,8 @@ import com.esec.examprep.presentation.bookmarks.BookmarksScreen
 import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
+import com.esec.examprep.presentation.profile.ProfileEditScreen
+import com.esec.examprep.presentation.profile.ProfilePickerScreen
 import com.esec.examprep.presentation.questiondetail.QuestionDetailScreen
 import com.esec.examprep.presentation.result.ResultScreen
 import com.esec.examprep.presentation.settings.SettingsScreen
@@ -58,7 +60,10 @@ private val topTabs = listOf(
 )
 
 @Composable
-fun AppNavGraph(navController: NavHostController) {
+fun AppNavGraph(
+    navController: NavHostController,
+    startDestination: String = Screen.Home.route,
+) {
     val backStack by navController.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route
     val showBottomBar = topTabs.any { it.route == currentRoute }
@@ -105,7 +110,7 @@ fun AppNavGraph(navController: NavHostController) {
     ) { padding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = startDestination,
             modifier = Modifier.fillMaxSize().padding(padding),
             enterTransition = {
                 slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Start, tween(NAV_ANIM_MS))
@@ -208,7 +213,37 @@ fun AppNavGraph(navController: NavHostController) {
             }
 
             composable(Screen.Settings.route) {
-                SettingsScreen(onBack = { navController.popBackStack() })
+                SettingsScreen(
+                    onBack = { navController.popBackStack() },
+                    onManageProfiles = { navController.navigate(Screen.ProfilePicker.route) },
+                )
+            }
+
+            composable(Screen.ProfilePicker.route) {
+                ProfilePickerScreen(
+                    onProfilePicked = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) { inclusive = true }
+                        }
+                    },
+                    onAddProfile = { navController.navigate(Screen.ProfileEdit().route(null)) },
+                )
+            }
+
+            composable(
+                route = Screen.ProfileEdit().route,
+                arguments = listOf(
+                    navArgument("profileId") {
+                        type = NavType.StringType
+                        nullable = true
+                        defaultValue = null
+                    },
+                ),
+            ) {
+                ProfileEditScreen(
+                    onDone = { navController.popBackStack() },
+                    onBack = { navController.popBackStack() },
+                )
             }
         }
     }

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Schedule
@@ -66,6 +67,7 @@ private const val ALL_QUESTIONS = 0
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit,
+    onManageProfiles: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -96,6 +98,20 @@ fun SettingsScreen(
             verticalArrangement = Arrangement.spacedBy(Spacing.lg),
         ) {
             SettingsHero()
+
+            SectionCard(title = "Profile", icon = Icons.Default.ManageAccounts) {
+                Button(
+                    onClick = onManageProfiles,
+                    shape = RoundedCornerShape(Radius.md),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.ManageAccounts, contentDescription = null)
+                    Spacer(Modifier.size(Spacing.sm))
+                    Text("Manage profiles", fontWeight = FontWeight.SemiBold)
+                }
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("Add, edit, or switch between students using this device.")
+            }
 
             SectionCard(title = "Appearance", icon = Icons.Default.Palette) {
                 ThemeModeSegmented(

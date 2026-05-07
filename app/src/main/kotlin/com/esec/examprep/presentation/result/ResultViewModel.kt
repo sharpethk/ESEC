@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.esec.examprep.domain.model.ExamResult
 import com.esec.examprep.domain.repository.ExamSessionRepository
+import com.esec.examprep.presentation.common.ActiveProfileHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class ResultViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: ExamSessionRepository,
+    private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
 
     private val sessionId: String = checkNotNull(savedStateHandle["sessionId"])
@@ -24,7 +26,8 @@ class ResultViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            _result.value = repository.getRecentResults(50)
+            val profileId = activeProfile.activeProfile.value?.id ?: return@launch
+            _result.value = repository.getRecentResults(profileId, 50)
                 .firstOrNull { it.sessionId == sessionId }
         }
     }

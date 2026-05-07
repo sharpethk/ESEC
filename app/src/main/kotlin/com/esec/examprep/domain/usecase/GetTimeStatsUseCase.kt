@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetTimeStatsUseCase @Inject constructor(
     private val repository: ExamSessionRepository,
 ) {
-    suspend operator fun invoke(): Double = repository.getAvgSecondsPerQuestion()
+    suspend operator fun invoke(profileId: String): Double =
+        repository.getAvgSecondsPerQuestion(profileId)
 }

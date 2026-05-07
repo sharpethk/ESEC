@@ -3,6 +3,7 @@ package com.esec.examprep.data.local.dao
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.esec.examprep.data.local.entity.ProfileEntity
 import com.esec.examprep.data.local.db.AppDatabase
 import com.esec.examprep.data.local.entity.QuestionAttemptEntity
 import com.esec.examprep.data.local.entity.QuestionEntity
@@ -18,6 +19,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class QuestionAttemptDaoTest {
+
+    private val profileId = "p1"
 
     private lateinit var db: AppDatabase
     private lateinit var dao: QuestionAttemptDao
@@ -35,6 +38,18 @@ class QuestionAttemptDaoTest {
         subjectDao = db.subjectDao()
         questionDao = db.questionDao()
 
+        db.profileDao().insert(
+            ProfileEntity(
+                id = profileId,
+                name = "Tester",
+                avatarKey = "avatar_owl",
+                gradeLevel = 8,
+                examCategory = "GRADE_8",
+                pinHash = null,
+                createdAt = 0L,
+                lastActiveAt = 0L,
+            ),
+        )
         subjectDao.insertAll(listOf(subject("sub1"), subject("sub2")))
         questionDao.insertAll(
             listOf(question("q1", "sub1"), question("q2", "sub1"), question("q3", "sub2"))
@@ -53,14 +68,13 @@ class QuestionAttemptDaoTest {
             attempt("q3", "sub2", isCorrect = true),
         ))
 
-        val rows = dao.observeWeakTopics().first().associateBy { it.subjectId }
+        val rows = dao.observeWeakTopics(profileId).first().associateBy { it.subjectId }
 
         assertEquals(2, rows.size)
         assertEquals(2f / 3f, rows.getValue("sub1").errorRate, 0.01f)
         assertEquals(3, rows.getValue("sub1").attempts)
         assertEquals(0f, rows.getValue("sub2").errorRate, 0.01f)
-        // sub1 (higher error rate) should appear first per ORDER BY
-        assertEquals("sub1", dao.observeWeakTopics().first().first().subjectId)
+        assertEquals("sub1", dao.observeWeakTopics(profileId).first().first().subjectId)
     }
 
     @Test
@@ -73,7 +87,7 @@ class QuestionAttemptDaoTest {
             attempt("q3", "sub2", isCorrect = true),
         ))
 
-        val missed = dao.getMostMissedQuestionIds(limit = 5)
+        val missed = dao.getMostMissedQuestionIds(profileId, limit = 5)
 
         assertEquals(2, missed.size)
         assertEquals("q1", missed[0].questionId)
@@ -82,10 +96,10 @@ class QuestionAttemptDaoTest {
     }
 
     @Test
-    fun deleteAll_clearsTable() = runBlocking {
+    fun deleteAllForProfile_clearsTable() = runBlocking {
         dao.insertAll(listOf(attempt("q1", "sub1", isCorrect = true)))
-        dao.deleteAll()
-        assertTrue(dao.observeWeakTopics().first().isEmpty())
+        dao.deleteAllForProfile(profileId)
+        assertTrue(dao.observeWeakTopics(profileId).first().isEmpty())
     }
 
     @Test
@@ -96,12 +110,12 @@ class QuestionAttemptDaoTest {
         ))
         db.openHelper.writableDatabase.execSQL("DELETE FROM questions")
 
-        assertTrue(dao.observeWeakTopics().first().isEmpty())
+        assertTrue(dao.observeWeakTopics(profileId).first().isEmpty())
     }
 
     private fun subject(id: String) = SubjectEntity(
         id = id, name = id, description = "", iconRes = 0,
-        totalQuestions = 0, category = "test",
+        totalQuestions = 0, category = "GRADE_8",
     )
 
     private fun question(id: String, subjectId: String) = QuestionEntity(
@@ -116,6 +130,7 @@ class QuestionAttemptDaoTest {
         isCorrect: Boolean,
         sessionId: String = "s1",
     ) = QuestionAttemptEntity(
+        profileId = profileId,
         sessionId = sessionId, questionId = questionId, subjectId = subjectId,
         selectedOptionId = if (isCorrect) "a" else "b",
         isCorrect = isCorrect, attemptedAt = 0L,

@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SubjectDao {
+    @Query("SELECT * FROM subjects WHERE totalQuestions > 0 AND category = :category ORDER BY name ASC")
+    fun observeByCategory(category: String): Flow<List<SubjectEntity>>
+
     @Query("SELECT * FROM subjects WHERE totalQuestions > 0 ORDER BY name ASC")
     fun observeAll(): Flow<List<SubjectEntity>>
 

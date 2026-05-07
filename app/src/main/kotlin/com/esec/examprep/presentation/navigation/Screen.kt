@@ -6,6 +6,14 @@ sealed class Screen(val route: String) {
     data object Dashboard  : Screen("dashboard")
     data object Bookmarks  : Screen("bookmarks")
     data object Settings   : Screen("settings")
+    data object ProfilePicker : Screen("profile_picker")
+
+    data class ProfileEdit(
+        val profileId: String = "{profileId}",
+    ) : Screen("profile_edit?profileId={profileId}") {
+        fun route(profileId: String? = null): String =
+            if (profileId.isNullOrEmpty()) "profile_edit" else "profile_edit?profileId=$profileId"
+    }
 
     data class Exam(
         val subjectId: String = "{subjectId}",

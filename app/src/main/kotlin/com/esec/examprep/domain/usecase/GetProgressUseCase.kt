@@ -8,5 +8,6 @@ import javax.inject.Inject
 class GetProgressUseCase @Inject constructor(
     private val repository: ExamSessionRepository,
 ) {
-    operator fun invoke(): Flow<List<UserProgress>> = repository.getProgressBySubject()
+    operator fun invoke(profileId: String): Flow<List<UserProgress>> =
+        repository.getProgressBySubject(profileId)
 }

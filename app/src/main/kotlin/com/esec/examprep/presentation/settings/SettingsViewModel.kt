@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.repository.ExamSessionRepository
+import com.esec.examprep.presentation.common.ActiveProfileHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val prefs: UserPreferencesRepository,
     private val examRepo: ExamSessionRepository,
+    private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -46,8 +48,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun clearHistoryConfirmed() {
+        val profileId = activeProfile.activeProfile.value?.id ?: return
         viewModelScope.launch {
-            examRepo.clearAllProgress()
+            examRepo.clearAllProgress(profileId)
             _state.update { it.copy(showClearHistoryDialog = false) }
         }
     }

@@ -8,5 +8,6 @@ import javax.inject.Inject
 class GetWeakTopicsUseCase @Inject constructor(
     private val repository: ExamSessionRepository,
 ) {
-    operator fun invoke(): Flow<List<WeakTopic>> = repository.observeWeakTopics()
+    operator fun invoke(profileId: String): Flow<List<WeakTopic>> =
+        repository.observeWeakTopics(profileId)
 }

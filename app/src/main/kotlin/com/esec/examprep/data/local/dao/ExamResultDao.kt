@@ -12,11 +12,11 @@ interface ExamResultDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(result: ExamResultEntity)
 
-    @Query("SELECT * FROM exam_results ORDER BY completedAt DESC")
-    fun observeAll(): Flow<List<ExamResultEntity>>
+    @Query("SELECT * FROM exam_results WHERE profileId = :profileId ORDER BY completedAt DESC")
+    fun observeAll(profileId: String): Flow<List<ExamResultEntity>>
 
-    @Query("SELECT * FROM exam_results ORDER BY completedAt DESC LIMIT :limit")
-    suspend fun getRecent(limit: Int): List<ExamResultEntity>
+    @Query("SELECT * FROM exam_results WHERE profileId = :profileId ORDER BY completedAt DESC LIMIT :limit")
+    suspend fun getRecent(profileId: String, limit: Int): List<ExamResultEntity>
 
     @Query("""
         SELECT subjectId, subjectName,
@@ -26,18 +26,19 @@ interface ExamResultDao {
                SUM(totalQuestions) AS totalQuestionsAttempted,
                SUM(correctAnswers) AS totalCorrect
         FROM exam_results
+        WHERE profileId = :profileId
         GROUP BY subjectId
     """)
-    fun observeProgressBySubject(): Flow<List<SubjectProgressRow>>
+    fun observeProgressBySubject(profileId: String): Flow<List<SubjectProgressRow>>
 
-    @Query("DELETE FROM exam_results")
-    suspend fun deleteAll()
+    @Query("DELETE FROM exam_results WHERE profileId = :profileId")
+    suspend fun deleteAllForProfile(profileId: String)
 
-    @Query("SELECT scorePercent FROM exam_results WHERE subjectId = :subjectId ORDER BY completedAt DESC LIMIT :limit")
-    suspend fun getRecentScoresForSubject(subjectId: String, limit: Int): List<Float>
+    @Query("SELECT scorePercent FROM exam_results WHERE profileId = :profileId AND subjectId = :subjectId ORDER BY completedAt DESC LIMIT :limit")
+    suspend fun getRecentScoresForSubject(profileId: String, subjectId: String, limit: Int): List<Float>
 
-    @Query("SELECT COALESCE(SUM(durationSeconds) * 1.0 / NULLIF(SUM(totalQuestions), 0), 0.0) FROM exam_results")
-    suspend fun getAvgSecondsPerQuestion(): Double
+    @Query("SELECT COALESCE(SUM(durationSeconds) * 1.0 / NULLIF(SUM(totalQuestions), 0), 0.0) FROM exam_results WHERE profileId = :profileId")
+    suspend fun getAvgSecondsPerQuestion(profileId: String): Double
 }
 
 data class SubjectProgressRow(

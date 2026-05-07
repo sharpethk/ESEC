@@ -4,6 +4,7 @@ import java.time.Instant
 
 data class ExamSession(
     val id: String,
+    val profileId: String,
     val subjectId: String,
     val mode: ExamMode,
     val questions: List<Question>,

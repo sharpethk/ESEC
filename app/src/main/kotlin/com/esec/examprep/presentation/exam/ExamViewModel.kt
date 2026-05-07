@@ -3,13 +3,15 @@ package com.esec.examprep.presentation.exam
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
-import com.esec.examprep.data.preferences.UserPreferencesRepository
+import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.GetSubjectsUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
+import com.esec.examprep.presentation.common.ActiveProfileHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -30,6 +32,7 @@ class ExamViewModel @Inject constructor(
     private val submitExam: SubmitExamUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
     private val prefsRepo: UserPreferencesRepository,
+    private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
 
     private val subjectId: String = checkNotNull(savedStateHandle["subjectId"])
@@ -43,6 +46,8 @@ class ExamViewModel @Inject constructor(
     private var timerJob: Job? = null
     private val sessionId = UUID.randomUUID().toString()
     private val startedAt = Instant.now()
+    private lateinit var profileIdSnapshot: String
+    private lateinit var categorySnapshot: ExamCategory
 
     init {
         loadQuestions()
@@ -50,11 +55,18 @@ class ExamViewModel @Inject constructor(
 
     private fun loadQuestions() {
         viewModelScope.launch {
+            val profile = activeProfile.activeProfile.value
+                ?: run {
+                    _state.update { it.copy(isLoading = false) }
+                    return@launch
+                }
+            profileIdSnapshot = profile.id
+            categorySnapshot = profile.examCategory
+
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
             val prefs = prefsRepo.preferences.first()
-            val questions = getQuestions(subjectId, count = prefs.defaultExamLength, year = year)
-            val subjectName = getSubjects().first().firstOrNull { it.id == subjectId }?.name.orEmpty()
-            // Past-paper or "All" runs: scale timer ≈ 1 min/question.
+            val questions = getQuestions(profileIdSnapshot, subjectId, count = prefs.defaultExamLength, year = year)
+            val subjectName = getSubjects(categorySnapshot).first().firstOrNull { it.id == subjectId }?.name.orEmpty()
             val timerMinutes = when {
                 year != null               -> maxOf(prefs.defaultTimerMinutes, questions.size)
                 prefs.defaultExamLength <= 0 -> maxOf(prefs.defaultTimerMinutes, questions.size)
@@ -105,6 +117,7 @@ class ExamViewModel @Inject constructor(
             val s = _state.value
             val session = ExamSession(
                 id               = sessionId,
+                profileId        = profileIdSnapshot,
                 subjectId        = subjectId,
                 mode             = s.mode,
                 questions        = s.questions,
@@ -131,7 +144,7 @@ class ExamViewModel @Inject constructor(
                 if (it.id == questionId) it.copy(isBookmarked = newValue) else it
             })
         }
-        viewModelScope.launch { toggleBookmarkUseCase(questionId, newValue) }
+        viewModelScope.launch { toggleBookmarkUseCase(profileIdSnapshot, questionId, newValue) }
     }
 
     private fun startTimer() {

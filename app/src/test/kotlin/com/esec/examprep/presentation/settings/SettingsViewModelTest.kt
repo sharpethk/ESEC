@@ -3,7 +3,11 @@ package com.esec.examprep.presentation.settings
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.data.preferences.UserPreferences
 import com.esec.examprep.data.preferences.UserPreferencesRepository
+import com.esec.examprep.domain.model.ExamCategory
+import com.esec.examprep.domain.model.Profile
 import com.esec.examprep.domain.repository.ExamSessionRepository
+import com.esec.examprep.domain.repository.ProfileRepository
+import com.esec.examprep.presentation.common.ActiveProfileHolder
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -28,15 +32,25 @@ class SettingsViewModelTest {
     private val dispatcher = StandardTestDispatcher()
     private val prefs: UserPreferencesRepository = mockk(relaxUnitFun = true)
     private val examRepo: ExamSessionRepository = mockk(relaxUnitFun = true)
+    private val profileRepo: ProfileRepository = mockk()
     private val prefsFlow = MutableStateFlow(UserPreferences())
+
+    private val testProfile = Profile(
+        id = "p1", name = "Test", avatarKey = "avatar_owl", gradeLevel = 8,
+        examCategory = ExamCategory.GRADE_8, hasPin = false, createdAt = 0, lastActiveAt = 0,
+    )
 
     @Before fun setup() {
         Dispatchers.setMain(dispatcher)
         every { prefs.preferences } returns prefsFlow
+        every { profileRepo.observeActiveProfile() } returns MutableStateFlow<Profile?>(testProfile)
     }
     @After fun tearDown() { Dispatchers.resetMain() }
 
-    private fun build() = SettingsViewModel(prefs, examRepo)
+    private fun build(): SettingsViewModel {
+        val holder = ActiveProfileHolder(profileRepo)
+        return SettingsViewModel(prefs, examRepo, holder)
+    }
 
     @Test
     fun `state reflects preferences flow updates`() = runTest {
@@ -69,15 +83,16 @@ class SettingsViewModelTest {
 
     @Test
     fun `clearHistoryConfirmed clears progress and dismisses dialog`() = runTest {
-        coEvery { examRepo.clearAllProgress() } returns Unit
+        coEvery { examRepo.clearAllProgress(any()) } returns Unit
         val vm = build()
+        dispatcher.scheduler.advanceUntilIdle()
         vm.showClearHistoryDialog(true)
         assertTrue(vm.state.value.showClearHistoryDialog)
 
         vm.clearHistoryConfirmed()
         dispatcher.scheduler.advanceUntilIdle()
 
-        coVerify { examRepo.clearAllProgress() }
+        coVerify { examRepo.clearAllProgress(any()) }
         assertFalse(vm.state.value.showClearHistoryDialog)
     }
 }

@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val prefs by mainViewModel.preferences.collectAsState()
+            val startDest by mainViewModel.startDestination.collectAsState()
             val systemDark = isSystemInDarkTheme()
             val isDark = when (prefs.themeMode) {
                 ThemeMode.LIGHT  -> false
@@ -37,7 +38,10 @@ class MainActivity : ComponentActivity() {
             }
             ESECTheme(darkTheme = isDark) {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    AppNavGraph(rememberNavController())
+                    val dest = startDest
+                    if (dest != null) {
+                        AppNavGraph(rememberNavController(), startDestination = dest)
+                    }
                 }
             }
         }

@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetSubjectTrendUseCase @Inject constructor(
     private val repository: ExamSessionRepository,
 ) {
-    suspend operator fun invoke(subjectId: String, limit: Int = 10): SubjectTrend =
-        repository.getSubjectTrend(subjectId, limit)
+    suspend operator fun invoke(profileId: String, subjectId: String, limit: Int = 10): SubjectTrend =
+        repository.getSubjectTrend(profileId, subjectId, limit)
 }

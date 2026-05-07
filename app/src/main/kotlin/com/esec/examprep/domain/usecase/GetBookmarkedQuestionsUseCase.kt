@@ -8,5 +8,6 @@ import javax.inject.Inject
 class GetBookmarkedQuestionsUseCase @Inject constructor(
     private val repository: QuestionRepository,
 ) {
-    operator fun invoke(): Flow<List<Question>> = repository.observeBookmarkedQuestions()
+    operator fun invoke(profileId: String): Flow<List<Question>> =
+        repository.observeBookmarkedQuestions(profileId)
 }

@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.esec.examprep.data.local.entity.QuestionEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface QuestionDao {
@@ -38,15 +37,6 @@ interface QuestionDao {
 
     @Query("SELECT * FROM questions WHERE id = :id LIMIT 1")
     suspend fun getById(id: String): QuestionEntity?
-
-    @Query("UPDATE questions SET isBookmarked = :bookmarked WHERE id = :id")
-    suspend fun setBookmark(id: String, bookmarked: Boolean)
-
-    @Query("SELECT * FROM questions WHERE isBookmarked = 1 ORDER BY subjectId, year")
-    fun observeBookmarked(): Flow<List<QuestionEntity>>
-
-    @Query("SELECT COUNT(*) FROM questions WHERE isBookmarked = 1")
-    fun observeBookmarkedCount(): Flow<Int>
 }
 
 data class YearCountRow(

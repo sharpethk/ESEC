@@ -42,7 +42,7 @@ fun SubjectEntity.toDomain() = Subject(
     iconRes = iconRes, totalQuestions = totalQuestions, category = category,
 )
 
-fun QuestionEntity.toDomain(): Question {
+fun QuestionEntity.toDomain(isBookmarked: Boolean = false): Question {
     val optionType = object : TypeToken<List<OptionDto>>() {}.type
     val options: List<OptionDto> = gson.fromJson(optionsJson, optionType)
     return Question(
@@ -69,8 +69,9 @@ fun ExamResultEntity.toDomain(breakdown: List<QuestionResult> = emptyList()) = E
     year = year,
 )
 
-fun ExamResult.toEntity() = ExamResultEntity(
-    sessionId = sessionId, subjectId = subjectId, subjectName = subjectName,
+fun ExamResult.toEntity(profileId: String) = ExamResultEntity(
+    sessionId = sessionId, profileId = profileId,
+    subjectId = subjectId, subjectName = subjectName,
     totalQuestions = totalQuestions, correctAnswers = correctAnswers,
     incorrectAnswers = incorrectAnswers, skippedAnswers = skippedAnswers,
     scorePercent = scorePercent, passed = passed, durationSeconds = durationSeconds,

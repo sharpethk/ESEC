@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.Flow
 interface ExamSessionRepository {
     suspend fun saveSession(session: ExamSession): ExamResult
     suspend fun getSessionById(id: String): ExamSession?
-    fun getAllResults(): Flow<List<ExamResult>>
-    fun getProgressBySubject(): Flow<List<UserProgress>>
-    suspend fun getRecentResults(limit: Int = 10): List<ExamResult>
-    suspend fun clearAllProgress()
+    fun getAllResults(profileId: String): Flow<List<ExamResult>>
+    fun getProgressBySubject(profileId: String): Flow<List<UserProgress>>
+    suspend fun getRecentResults(profileId: String, limit: Int = 10): List<ExamResult>
+    suspend fun clearAllProgress(profileId: String)
 
-    fun observeWeakTopics(): Flow<List<WeakTopic>>
-    suspend fun getSubjectTrend(subjectId: String, limit: Int = 10): SubjectTrend
-    suspend fun getAvgSecondsPerQuestion(): Double
+    fun observeWeakTopics(profileId: String): Flow<List<WeakTopic>>
+    suspend fun getSubjectTrend(profileId: String, subjectId: String, limit: Int = 10): SubjectTrend
+    suspend fun getAvgSecondsPerQuestion(profileId: String): Double
 }

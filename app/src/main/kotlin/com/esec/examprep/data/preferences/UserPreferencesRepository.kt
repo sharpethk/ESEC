@@ -25,6 +25,8 @@ class UserPreferencesRepository @Inject constructor(
         )
     }
 
+    val activeProfileId: Flow<String?> = dataStore.data.map { it[KEY_ACTIVE_PROFILE] }
+
     suspend fun setThemeMode(mode: ThemeMode) {
         dataStore.edit { it[KEY_THEME] = mode.name }
     }
@@ -36,6 +38,14 @@ class UserPreferencesRepository @Inject constructor(
     suspend fun setTimerMinutes(n: Int) {
         dataStore.edit { it[KEY_TIMER] = n }
     }
+
+    suspend fun setActiveProfileId(id: String?) {
+        dataStore.edit {
+            if (id == null) it.remove(KEY_ACTIVE_PROFILE) else it[KEY_ACTIVE_PROFILE] = id
+        }
+    }
+
+    suspend fun getActiveProfileId(): String? = activeProfileId.first()
 
     suspend fun getQuestionBankVersion(): Int =
         dataStore.data.map { it[KEY_BANK_VERSION] ?: 0 }.first()
@@ -49,5 +59,6 @@ class UserPreferencesRepository @Inject constructor(
         val KEY_LENGTH = intPreferencesKey("default_exam_length")
         val KEY_TIMER = intPreferencesKey("default_timer_minutes")
         val KEY_BANK_VERSION = intPreferencesKey("question_bank_version")
+        val KEY_ACTIVE_PROFILE = stringPreferencesKey("active_profile_id")
     }
 }

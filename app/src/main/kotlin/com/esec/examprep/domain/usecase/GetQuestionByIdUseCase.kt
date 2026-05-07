@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetQuestionByIdUseCase @Inject constructor(
     private val repository: QuestionRepository,
 ) {
-    suspend operator fun invoke(questionId: String): Question? =
-        repository.getQuestionById(questionId)
+    suspend operator fun invoke(profileId: String, questionId: String): Question? =
+        repository.getQuestionById(profileId, questionId)
 }
