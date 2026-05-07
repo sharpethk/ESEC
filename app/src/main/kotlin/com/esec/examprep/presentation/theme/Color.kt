@@ -51,3 +51,9 @@ fun scoreColor(percent: Float): Color = when {
     percent >= 50f -> SkippedAmber
     else           -> WrongRed
 }
+
+fun gradeColor(grade: com.esec.examprep.domain.model.Grade): Color = when {
+    grade.gpa >= 3.5f -> CorrectGreen
+    grade.gpa >= 2.0f -> SkippedAmber
+    else              -> WrongRed
+}

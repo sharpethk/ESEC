@@ -72,6 +72,16 @@
     <string name="result_stat_skipped">Skipped</string>
     <string name="result_stat_time">Time</string>
     <string name="result_answer_prefix">Answer: %1$s</string>
+    <string name="result_grade_label">Grade</string>
+    <string name="result_gpa_label">GPA</string>
+    <string name="result_your_answer_prefix">Your answer: %1$s</string>
+    <string name="result_your_answer_skipped">Skipped</string>
+    <string name="result_question_number">Question %1$d</string>
+    <string name="result_status_correct">Correct</string>
+    <string name="result_status_incorrect">Incorrect</string>
+    <string name="result_status_skipped">Skipped</string>
+    <string name="cd_expand_question">Expand question</string>
+    <string name="cd_collapse_question">Collapse question</string>
 
     <!-- Dashboard -->
     <string name="dashboard_title">My Progress</string>
@@ -88,6 +98,9 @@
     <string name="dashboard_stat_average">Average</string>
     <string name="dashboard_average_label">Average score</string>
     <string name="dashboard_percent_int">%1$d%%</string>
+    <string name="dashboard_overall_gpa_label">Overall GPA</string>
+    <string name="dashboard_overall_grade_label">Grade</string>
+    <string name="dashboard_gpa_scale_hint">Weighted across attempts · 4.00 scale</string>
 
     <!-- Common -->
     <string name="cd_back">Back</string>

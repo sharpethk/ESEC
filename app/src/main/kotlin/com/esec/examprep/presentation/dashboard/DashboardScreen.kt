@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.esec.examprep.R
 import com.esec.examprep.domain.model.ExamResult
+import com.esec.examprep.domain.model.Grade
 import com.esec.examprep.domain.model.UserProgress
 import com.esec.examprep.domain.model.WeakTopic
 import com.esec.examprep.presentation.components.IconBadge
@@ -61,6 +62,7 @@ import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
 import com.esec.examprep.presentation.theme.Spacing
 import com.esec.examprep.presentation.theme.WrongRed
+import com.esec.examprep.presentation.theme.gradeColor
 import com.esec.examprep.presentation.theme.scoreColor
 import java.time.Duration
 import java.time.Instant
@@ -140,6 +142,8 @@ fun DashboardScreen(
             val avg = if (progress.isNotEmpty())
                 progress.map { it.averageScore }.average().toInt() else 0
             val best = (progress.maxOfOrNull { it.bestScore } ?: 0f).toInt()
+            val overallGpa = Grade.weightedGpa(progress.map { it.averageScore to it.totalAttempts })
+            val overallGrade = Grade.fromPercent(avg.toFloat())
             val nameById = remember(progress) { progress.associate { it.subjectId to it.subjectName } }
 
             LazyColumn(
@@ -147,6 +151,9 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.md),
                 modifier = Modifier.padding(padding),
             ) {
+                item {
+                    OverallGpaCard(gpa = overallGpa, grade = overallGrade)
+                }
                 item {
                     Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
                         StatTile(
@@ -212,6 +219,57 @@ private fun SectionHeader(text: String) {
         style = MaterialTheme.typography.titleMedium,
         fontWeight = FontWeight.SemiBold,
     )
+}
+
+@Composable
+private fun OverallGpaCard(gpa: Float, grade: Grade) {
+    val accent = gradeColor(grade)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(containerColor = accent.copy(alpha = 0.10f)),
+        elevation = CardDefaults.cardElevation(defaultElevation = Elevation.none),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(Spacing.xl),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    stringResource(R.string.dashboard_overall_gpa_label),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Spacer(Modifier.height(Spacing.xxs))
+                Text(
+                    "%.2f".format(gpa),
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = accent,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    stringResource(R.string.dashboard_gpa_scale_hint),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    stringResource(R.string.dashboard_overall_grade_label),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(Modifier.height(Spacing.xxs))
+                Text(
+                    grade.letter,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = accent,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -348,6 +406,8 @@ private fun WeakTopicRow(topic: WeakTopic, subjectName: String) {
 @Composable
 private fun ProgressCard(progress: UserProgress, trendScores: List<Float>) {
     val accent = scoreColor(progress.averageScore)
+    val grade = Grade.fromPercent(progress.averageScore)
+    val gradeAccent = gradeColor(grade)
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Radius.lg),
@@ -362,6 +422,11 @@ private fun ProgressCard(progress: UserProgress, trendScores: List<Float>) {
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f),
                 )
+                StatusPill(
+                    text = "${grade.letter} · ${"%.2f".format(grade.gpa)}",
+                    color = gradeAccent,
+                )
+                Spacer(Modifier.padding(start = Spacing.xs))
                 StatusPill(
                     text = stringResource(R.string.dashboard_percent_int, progress.averageScore.toInt()),
                     color = accent,
