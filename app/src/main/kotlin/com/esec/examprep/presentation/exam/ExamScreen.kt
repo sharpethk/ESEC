@@ -125,13 +125,19 @@ fun ExamScreen(
             TopAppBar(
                 title = {
                     Column {
+                        val headerLabel = when {
+                            state.subjectName.isNotEmpty() && state.year != null ->
+                                "${state.subjectName} · ${state.year}"
+                            state.subjectName.isNotEmpty() -> state.subjectName
+                            else -> stringResource(R.string.exam_question_index, state.currentIndex + 1)
+                        }
                         Text(
-                            stringResource(R.string.exam_question_index, state.currentIndex + 1),
+                            headerLabel,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                         )
                         Text(
-                            stringResource(R.string.exam_question_of, state.questions.size),
+                            "${stringResource(R.string.exam_question_index, state.currentIndex + 1)} ${stringResource(R.string.exam_question_of, state.questions.size)}",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

@@ -15,6 +15,8 @@ data class ExamState(
     val resultSessionId: String?         = null,
     val showExitDialog: Boolean          = false,
     val showReviewDialog: Boolean        = false,
+    val subjectName: String              = "",
+    val year: Int?                       = null,
 ) {
     val currentQuestion get() = questions.getOrNull(currentIndex)
     val progress        get() = if (questions.isEmpty()) 0f else (currentIndex + 1f) / questions.size

@@ -135,7 +135,7 @@ fun AppNavGraph(navController: NavHostController) {
             composable(Screen.Subject.route) {
                 SubjectScreen(
                     onSubjectSelected = { subjectId, mode, year ->
-                        navController.navigate(Screen.Exam().route(subjectId, mode, year))
+                        navController.navigate(Screen.Exam().route(subjectId, mode.name, year))
                     },
                     onBack = { navController.popBackStack() },
                 )

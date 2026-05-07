@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -35,7 +37,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,10 +44,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.esec.examprep.R
 import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.Subject
@@ -62,12 +66,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectScreen(
-    onSubjectSelected: (subjectId: String, mode: String, year: Int?) -> Unit,
+    onSubjectSelected: (subjectId: String, mode: ExamMode, year: Int?) -> Unit,
     onBack: () -> Unit,
     viewModel: SubjectViewModel = hiltViewModel(),
 ) {
-    val subjects by viewModel.subjects.collectAsState()
-    val yearStats by viewModel.yearStats.collectAsState()
+    val subjects by viewModel.subjects.collectAsStateWithLifecycle()
+    val yearStats by viewModel.yearStats.collectAsStateWithLifecycle()
 
     var pickerSubject by remember { mutableStateOf<Subject?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -125,10 +129,7 @@ fun SubjectScreen(
                 items(subjects, key = { it.id }) { subject ->
                     SubjectCard(
                         subject = subject,
-                        onClick = {
-                            pickerSubject = subject
-                            viewModel.loadYearStats(subject.id)
-                        },
+                        onClick = { pickerSubject = subject },
                     )
                 }
             }
@@ -137,7 +138,15 @@ fun SubjectScreen(
 
     val current = pickerSubject
     if (current != null) {
+        LaunchedEffect(current.id) { viewModel.loadYearStats(current.id) }
+
         val years = yearStats[current.id].orEmpty()
+        val dismissThen: (() -> Unit) -> Unit = { action ->
+            scope.launch { sheetState.hide() }.invokeOnCompletion {
+                pickerSubject = null
+                action()
+            }
+        }
         ModalBottomSheet(
             onDismissRequest = { pickerSubject = null },
             sheetState = sheetState,
@@ -147,21 +156,14 @@ fun SubjectScreen(
                 years = years,
                 onPickMode = { mode ->
                     val subjectId = current.id
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        pickerSubject = null
-                        onSubjectSelected(subjectId, mode, null)
-                    }
+                    dismissThen { onSubjectSelected(subjectId, mode, null) }
                 },
                 onPickYear = { year ->
                     val subjectId = current.id
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        pickerSubject = null
-                        onSubjectSelected(subjectId, ExamMode.PRACTICE.name, year)
-                    }
+                    dismissThen { onSubjectSelected(subjectId, ExamMode.TIMED, year) }
                 },
             )
         }
-        LaunchedEffect(current.id) { viewModel.loadYearStats(current.id) }
     }
 }
 
@@ -223,12 +225,13 @@ private fun SubjectCard(
 private fun ModePickerSheet(
     subject: Subject,
     years: List<YearStat>,
-    onPickMode: (String) -> Unit,
+    onPickMode: (ExamMode) -> Unit,
     onPickYear: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = Spacing.lg)
             .padding(bottom = Spacing.xl),
         verticalArrangement = Arrangement.spacedBy(Spacing.sm),
@@ -250,14 +253,14 @@ private fun ModePickerSheet(
             title = stringResource(R.string.subject_mode_timed),
             subtitle = stringResource(R.string.subject_mode_timed_desc),
             tint = MaterialTheme.colorScheme.primary,
-            onClick = { onPickMode(ExamMode.TIMED.name) },
+            onClick = { onPickMode(ExamMode.TIMED) },
         )
         ModeRow(
             icon = Icons.Default.School,
             title = stringResource(R.string.subject_mode_practice),
             subtitle = stringResource(R.string.subject_mode_practice_desc),
             tint = AccentTeal,
-            onClick = { onPickMode(ExamMode.PRACTICE.name) },
+            onClick = { onPickMode(ExamMode.PRACTICE) },
         )
 
         Spacer(Modifier.height(Spacing.sm))
@@ -285,10 +288,10 @@ private fun ModePickerSheet(
 
 @Composable
 private fun ModeRow(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     title: String,
     subtitle: String,
-    tint: androidx.compose.ui.graphics.Color,
+    tint: Color,
     onClick: () -> Unit,
 ) {
     Card(

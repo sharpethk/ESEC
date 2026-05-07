@@ -7,6 +7,7 @@ import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
+import com.esec.examprep.domain.usecase.GetSubjectsUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class ExamViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getQuestions: GetQuestionsForExamUseCase,
+    private val getSubjects: GetSubjectsUseCase,
     private val submitExam: SubmitExamUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
     private val prefsRepo: UserPreferencesRepository,
@@ -51,6 +53,7 @@ class ExamViewModel @Inject constructor(
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
             val prefs = prefsRepo.preferences.first()
             val questions = getQuestions(subjectId, count = prefs.defaultExamLength, year = year)
+            val subjectName = getSubjects().first().firstOrNull { it.id == subjectId }?.name.orEmpty()
             // Past-paper or "All" runs: scale timer ≈ 1 min/question.
             val timerMinutes = when {
                 year != null               -> maxOf(prefs.defaultTimerMinutes, questions.size)
@@ -65,6 +68,8 @@ class ExamViewModel @Inject constructor(
                     isLoading = false,
                     timeLimitSeconds = timerSeconds,
                     remainingSeconds = timerSeconds,
+                    subjectName = subjectName,
+                    year = year,
                 )
             }
             if (mode == ExamMode.TIMED) startTimer()

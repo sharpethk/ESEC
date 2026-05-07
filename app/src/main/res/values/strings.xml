@@ -43,6 +43,8 @@
     <!-- Exam -->
     <string name="exam_question_index">Question %1$d</string>
     <string name="exam_question_of">of %1$d</string>
+    <string name="exam_header_subject_year">%1$s · %2$d</string>
+    <string name="exam_header_progress">Question %1$d of %2$d</string>
     <string name="exam_progress_format">%1$d / %2$d</string>
     <string name="exam_action_prev">Previous</string>
     <string name="exam_action_next">Next</string>
