@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SubjectDao {
-    @Query("SELECT * FROM subjects ORDER BY name ASC")
+    @Query("SELECT * FROM subjects WHERE totalQuestions > 0 ORDER BY name ASC")
     fun observeAll(): Flow<List<SubjectEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

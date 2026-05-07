@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,9 +37,17 @@ class UserPreferencesRepository @Inject constructor(
         dataStore.edit { it[KEY_TIMER] = n }
     }
 
+    suspend fun getQuestionBankVersion(): Int =
+        dataStore.data.map { it[KEY_BANK_VERSION] ?: 0 }.first()
+
+    suspend fun setQuestionBankVersion(version: Int) {
+        dataStore.edit { it[KEY_BANK_VERSION] = version }
+    }
+
     private companion object {
         val KEY_THEME = stringPreferencesKey("theme_mode")
         val KEY_LENGTH = intPreferencesKey("default_exam_length")
         val KEY_TIMER = intPreferencesKey("default_timer_minutes")
+        val KEY_BANK_VERSION = intPreferencesKey("question_bank_version")
     }
 }

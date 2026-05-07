@@ -44,11 +44,16 @@ class QuestionRepositoryImpl @Inject constructor(
         val json = decryptor.decryptToJson()
         val bank = gson.fromJson(json, QuestionBankDto::class.java)
 
-        val questionsBySubject = bank.questions.groupBy { it.subjectId }
+        val validQuestions = bank.questions.filter { q ->
+            q.correctOptionId.isNotBlank() &&
+                q.options.any { it.id == q.correctOptionId }
+        }
+
+        val questionsBySubject = validQuestions.groupBy { it.subjectId }
         val subjectEntities = bank.subjects.map { dto ->
             dto.toEntity(totalQuestions = questionsBySubject[dto.id]?.size ?: 0)
         }
-        val questionEntities = bank.questions.map { it.toEntity() }
+        val questionEntities = validQuestions.map { it.toEntity() }
 
         subjectDao.insertAll(subjectEntities)
         questionDao.insertAll(questionEntities)
