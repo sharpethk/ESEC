@@ -20,7 +20,7 @@ import com.esec.examprep.data.local.entity.SubjectEntity
         ExamResultEntity::class,
         QuestionAttemptEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -53,6 +53,12 @@ abstract class AppDatabase : RoomDatabase() {
                 db.execSQL("CREATE INDEX IF NOT EXISTS index_question_attempts_questionId ON question_attempts(questionId)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS index_question_attempts_subjectId ON question_attempts(subjectId)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS index_question_attempts_attemptedAt ON question_attempts(attemptedAt)")
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE exam_results ADD COLUMN year INTEGER")
             }
         }
     }

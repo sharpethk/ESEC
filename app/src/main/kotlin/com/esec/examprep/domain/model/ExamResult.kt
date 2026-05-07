@@ -15,6 +15,7 @@ data class ExamResult(
     val durationSeconds: Long,
     val completedAt: Instant,
     val questionBreakdown: List<QuestionResult>,
+    val year: Int? = null,
 )
 
 data class QuestionResult(

@@ -10,8 +10,11 @@ sealed class Screen(val route: String) {
     data class Exam(
         val subjectId: String = "{subjectId}",
         val mode: String = "{mode}",
-    ) : Screen("exam/{subjectId}/{mode}") {
-        fun route(subjectId: String, mode: String) = "exam/$subjectId/$mode"
+    ) : Screen("exam/{subjectId}/{mode}?year={year}") {
+        fun route(subjectId: String, mode: String, year: Int? = null): String {
+            val base = "exam/$subjectId/$mode"
+            return if (year != null && year > 0) "$base?year=$year" else base
+        }
     }
 
     data class Result(

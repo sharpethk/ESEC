@@ -31,6 +31,14 @@
     <string name="subject_pill_offline">Offline</string>
     <string name="subject_mode_timed">Timed</string>
     <string name="subject_mode_practice">Practice</string>
+    <string name="subject_picker_subtitle">Choose how you want to take this exam.</string>
+    <string name="subject_mode_timed_desc">40-question timed test simulating the real exam.</string>
+    <string name="subject_mode_practice_desc">Untimed practice with instant feedback.</string>
+    <string name="subject_past_papers_header">Past papers by year</string>
+    <string name="subject_past_papers_empty">No past papers available for this subject.</string>
+    <string name="subject_past_paper_year">%1$d</string>
+    <string name="subject_past_paper_count">%1$d questions</string>
+    <string name="result_past_paper_subtitle">Past Paper · %1$d</string>
 
     <!-- Exam -->
     <string name="exam_question_index">Question %1$d</string>

@@ -17,4 +17,5 @@ data class ExamResultEntity(
     val durationSeconds: Long,
     val completedAt: Long,           // epoch seconds
     val answersJson: String,         // Map<questionId, selectedOptionId> serialized
+    val year: Int? = null,           // null for random/timed runs; >0 for past-paper runs
 )

@@ -134,8 +134,8 @@ fun AppNavGraph(navController: NavHostController) {
 
             composable(Screen.Subject.route) {
                 SubjectScreen(
-                    onSubjectSelected = { subjectId, mode ->
-                        navController.navigate(Screen.Exam().route(subjectId, mode))
+                    onSubjectSelected = { subjectId, mode, year ->
+                        navController.navigate(Screen.Exam().route(subjectId, mode, year))
                     },
                     onBack = { navController.popBackStack() },
                 )
@@ -146,6 +146,10 @@ fun AppNavGraph(navController: NavHostController) {
                 arguments = listOf(
                     navArgument("subjectId") { type = NavType.StringType },
                     navArgument("mode")      { type = NavType.StringType },
+                    navArgument("year")      {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
                 ),
             ) { backStack ->
                 val subjectId = backStack.arguments?.getString("subjectId").orEmpty()

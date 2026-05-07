@@ -162,6 +162,15 @@ private fun ScoreSummaryCard(result: ExamResult) {
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            result.year?.let { y ->
+                Spacer(Modifier.height(Spacing.xxs))
+                Text(
+                    stringResource(R.string.result_past_paper_subtitle, y),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
             Spacer(Modifier.height(Spacing.lg))
             ScoreRing(scorePercent = result.scorePercent)
             Spacer(Modifier.height(Spacing.lg))

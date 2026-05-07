@@ -21,6 +21,18 @@ interface QuestionDao {
     @Query("SELECT COUNT(*) FROM questions WHERE subjectId = :subjectId")
     suspend fun countBySubject(subjectId: String): Int
 
+    @Query("SELECT DISTINCT year FROM questions WHERE subjectId = :subjectId AND year > 0 ORDER BY year DESC")
+    suspend fun getYearsForSubject(subjectId: String): List<Int>
+
+    @Query(
+        "SELECT year, COUNT(*) AS questionCount FROM questions " +
+            "WHERE subjectId = :subjectId AND year > 0 GROUP BY year ORDER BY year DESC"
+    )
+    suspend fun getYearCountsForSubject(subjectId: String): List<YearCountRow>
+
+    @Query("SELECT * FROM questions WHERE subjectId = :subjectId AND year = :year ORDER BY id ASC")
+    suspend fun getBySubjectAndYear(subjectId: String, year: Int): List<QuestionEntity>
+
     @Query("SELECT COUNT(*) FROM questions")
     suspend fun totalCount(): Int
 
@@ -34,3 +46,7 @@ interface QuestionDao {
     fun observeBookmarkedCount(): Flow<Int>
 }
 
+data class YearCountRow(
+    val year: Int,
+    val questionCount: Int,
+)

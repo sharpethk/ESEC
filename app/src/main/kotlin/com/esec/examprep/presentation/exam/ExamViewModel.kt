@@ -32,6 +32,8 @@ class ExamViewModel @Inject constructor(
 
     private val subjectId: String = checkNotNull(savedStateHandle["subjectId"])
     private val modeArg: String   = checkNotNull(savedStateHandle["mode"])
+    private val yearArg: Int      = savedStateHandle.get<Int>("year") ?: -1
+    private val year: Int?        = yearArg.takeIf { it > 0 }
 
     private val _state = MutableStateFlow(ExamState())
     val state = _state.asStateFlow()
@@ -48,11 +50,13 @@ class ExamViewModel @Inject constructor(
         viewModelScope.launch {
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
             val prefs = prefsRepo.preferences.first()
-            val questions = getQuestions(subjectId, count = prefs.defaultExamLength)
-            // For "All" runs, scale timer ≈ 1 min/question so the user isn't artificially capped.
-            val timerMinutes =
-                if (prefs.defaultExamLength <= 0) maxOf(prefs.defaultTimerMinutes, questions.size)
-                else prefs.defaultTimerMinutes
+            val questions = getQuestions(subjectId, count = prefs.defaultExamLength, year = year)
+            // Past-paper or "All" runs: scale timer ≈ 1 min/question.
+            val timerMinutes = when {
+                year != null               -> maxOf(prefs.defaultTimerMinutes, questions.size)
+                prefs.defaultExamLength <= 0 -> maxOf(prefs.defaultTimerMinutes, questions.size)
+                else                        -> prefs.defaultTimerMinutes
+            }
             val timerSeconds = timerMinutes * 60
             _state.update {
                 it.copy(
@@ -103,6 +107,7 @@ class ExamViewModel @Inject constructor(
                 startedAt        = startedAt,
                 finishedAt       = Instant.now(),
                 timeLimitSeconds = if (s.isTimedMode) s.timeLimitSeconds else null,
+                year             = year,
             )
             val result = submitExam(session)
             _state.update { it.copy(isFinished = true, resultSessionId = result.sessionId) }

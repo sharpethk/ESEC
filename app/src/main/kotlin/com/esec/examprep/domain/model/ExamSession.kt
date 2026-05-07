@@ -11,6 +11,7 @@ data class ExamSession(
     val startedAt: Instant,
     val finishedAt: Instant?,
     val timeLimitSeconds: Int?,
+    val year: Int? = null,
 )
 
 enum class ExamMode { TIMED, PRACTICE }

@@ -66,6 +66,7 @@ fun ExamResultEntity.toDomain(breakdown: List<QuestionResult> = emptyList()) = E
     scorePercent = scorePercent, passed = passed, durationSeconds = durationSeconds,
     completedAt = Instant.ofEpochSecond(completedAt),
     questionBreakdown = breakdown,
+    year = year,
 )
 
 fun ExamResult.toEntity() = ExamResultEntity(
@@ -75,6 +76,7 @@ fun ExamResult.toEntity() = ExamResultEntity(
     scorePercent = scorePercent, passed = passed, durationSeconds = durationSeconds,
     completedAt = completedAt.epochSecond,
     answersJson = gson.toJson(questionBreakdown.associate { it.question.id to it.selectedOptionId }),
+    year = year,
 )
 
 fun SubjectProgressRow.toDomain() = UserProgress(

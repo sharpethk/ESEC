@@ -37,6 +37,7 @@ class CalculateScoreUseCase @Inject constructor() {
             durationSeconds = duration,
             completedAt = session.finishedAt ?: Instant.now(),
             questionBreakdown = breakdown,
+            year = session.year,
         )
     }
 }

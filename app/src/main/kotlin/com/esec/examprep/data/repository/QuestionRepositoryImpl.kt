@@ -8,6 +8,7 @@ import com.esec.examprep.data.mapper.toDomain
 import com.esec.examprep.data.mapper.toEntity
 import com.esec.examprep.domain.model.Question
 import com.esec.examprep.domain.model.Subject
+import com.esec.examprep.domain.model.YearStat
 import com.esec.examprep.domain.repository.QuestionRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -33,6 +34,13 @@ class QuestionRepositoryImpl @Inject constructor(
             questionDao.getAllBySubject(subjectId)
         return entities.map { it.toDomain() }
     }
+
+    override suspend fun getQuestionsByYear(subjectId: String, year: Int): List<Question> =
+        questionDao.getBySubjectAndYear(subjectId, year).map { it.toDomain() }
+
+    override suspend fun getYearStatsForSubject(subjectId: String): List<YearStat> =
+        questionDao.getYearCountsForSubject(subjectId)
+            .map { YearStat(year = it.year, questionCount = it.questionCount) }
 
     override suspend fun getQuestionCount(subjectId: String): Int =
         questionDao.countBySubject(subjectId)
