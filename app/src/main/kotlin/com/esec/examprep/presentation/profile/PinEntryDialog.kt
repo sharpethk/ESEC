@@ -15,9 +15,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.esec.examprep.R
 
 @Composable
 fun PinEntryDialog(
@@ -34,12 +36,12 @@ fun PinEntryDialog(
             OutlinedTextField(
                 value = pin,
                 onValueChange = { v -> if (v.length <= 4 && v.all(Char::isDigit)) pin = v },
-                label = { Text("4-digit PIN") },
+                label = { Text(stringResource(R.string.profile_pin_label)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                 visualTransformation = PasswordVisualTransformation(),
                 isError = error,
                 supportingText = if (error) {
-                    { Text("Wrong PIN", color = MaterialTheme.colorScheme.error) }
+                    { Text(stringResource(R.string.pin_error), color = MaterialTheme.colorScheme.error) }
                 } else null,
             )
         },
@@ -47,10 +49,10 @@ fun PinEntryDialog(
             TextButton(
                 enabled = pin.length == 4,
                 onClick = { onSubmit(pin) },
-            ) { Text("Submit") }
+            ) { Text(stringResource(R.string.action_submit)) }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
         },
     )
 }

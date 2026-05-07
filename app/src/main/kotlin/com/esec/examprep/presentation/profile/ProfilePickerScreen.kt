@@ -32,10 +32,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.R
 import com.esec.examprep.domain.model.Profile
 import com.esec.examprep.presentation.theme.Spacing
 
@@ -50,7 +52,7 @@ fun ProfilePickerScreen(
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Choose profile") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.profile_picker_title)) }) },
     ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -67,7 +69,7 @@ fun ProfilePickerScreen(
 
     if (state.pinDialogProfileId != null) {
         PinEntryDialog(
-            title = "Enter PIN",
+            title = stringResource(R.string.pin_dialog_title),
             error = state.pinError,
             onDismiss = viewModel::dismissPinDialog,
             onSubmit = { pin -> viewModel.submitPin(pin, onProfilePicked) },
@@ -103,7 +105,7 @@ private fun ProfileCard(profile: Profile, onClick: () -> Unit) {
             Spacer(Modifier.height(Spacing.sm))
             Text(profile.name, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
             Text(
-                "Grade ${profile.gradeLevel}",
+                stringResource(R.string.profile_grade_label, profile.gradeLevel),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -112,7 +114,7 @@ private fun ProfileCard(profile: Profile, onClick: () -> Unit) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Lock, contentDescription = null, modifier = Modifier.size(12.dp))
                     Spacer(Modifier.size(4.dp))
-                    Text("PIN", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.profile_pin_indicator), style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
@@ -145,7 +147,7 @@ private fun AddProfileCard(onClick: () -> Unit) {
                 }
             }
             Spacer(Modifier.height(Spacing.sm))
-            Text("Add profile", fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.profile_add), fontWeight = FontWeight.SemiBold)
         }
     }
 }

@@ -45,11 +45,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.R
 import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.presentation.theme.Spacing
 
@@ -68,10 +70,10 @@ fun ProfileEditScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (state.isNew) "Add profile" else "Edit profile") },
+                title = { Text(stringResource(if (state.isNew) R.string.profile_edit_title_new else R.string.profile_edit_title_edit)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 },
             )
@@ -88,11 +90,11 @@ fun ProfileEditScreen(
             OutlinedTextField(
                 value = state.name,
                 onValueChange = viewModel::setName,
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.profile_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            Text("Avatar", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.profile_avatar_label), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
             LazyRow(horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 items(ProfileAvatars.keys) { key ->
                     val selected = state.avatarKey == key
@@ -117,17 +119,17 @@ fun ProfileEditScreen(
                 }
             }
 
-            Text("Exam category", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+            Text(stringResource(R.string.profile_category_label), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
             Row(horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 FilterChip(
                     selected = state.category == ExamCategory.GRADE_8,
                     onClick = { viewModel.setCategory(ExamCategory.GRADE_8) },
-                    label = { Text("Grade 8") },
+                    label = { Text(stringResource(R.string.profile_category_grade8)) },
                 )
                 FilterChip(
                     selected = state.category == ExamCategory.MATRICULATION,
                     onClick = { viewModel.setCategory(ExamCategory.MATRICULATION) },
-                    label = { Text("Matriculation") },
+                    label = { Text(stringResource(R.string.profile_category_matriculation)) },
                 )
             }
 
@@ -135,7 +137,7 @@ fun ProfileEditScreen(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Require PIN", modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.profile_pin_require), modifier = Modifier.weight(1f))
                 Switch(checked = state.pinEnabled, onCheckedChange = viewModel::setPinEnabled)
             }
 
@@ -143,7 +145,7 @@ fun ProfileEditScreen(
                 OutlinedTextField(
                     value = state.pin,
                     onValueChange = viewModel::setPin,
-                    label = { Text("4-digit PIN") },
+                    label = { Text(stringResource(R.string.profile_pin_label)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth(),
@@ -156,14 +158,14 @@ fun ProfileEditScreen(
                 onClick = viewModel::save,
                 enabled = state.name.isNotBlank() && (!state.pinEnabled || state.pin.length == 4),
                 modifier = Modifier.fillMaxWidth(),
-            ) { Text("Save") }
+            ) { Text(stringResource(R.string.action_save)) }
 
             if (!state.isNew && state.canDelete) {
                 OutlinedButton(
                     onClick = { confirmDelete = true },
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
                     modifier = Modifier.fillMaxWidth(),
-                ) { Text("Delete profile") }
+                ) { Text(stringResource(R.string.profile_delete)) }
             }
         }
     }
@@ -171,15 +173,15 @@ fun ProfileEditScreen(
     if (confirmDelete) {
         AlertDialog(
             onDismissRequest = { confirmDelete = false },
-            title = { Text("Delete profile?") },
-            text = { Text("All exam history, attempts, and bookmarks for this profile will be removed.") },
+            title = { Text(stringResource(R.string.profile_delete_dialog_title)) },
+            text = { Text(stringResource(R.string.profile_delete_dialog_message)) },
             confirmButton = {
                 Button(
                     onClick = { confirmDelete = false; viewModel.delete() },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-                ) { Text("Delete") }
+                ) { Text(stringResource(R.string.action_delete)) }
             },
-            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text("Cancel") } },
+            dismissButton = { TextButton(onClick = { confirmDelete = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 }

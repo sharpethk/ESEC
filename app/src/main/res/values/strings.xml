@@ -105,4 +105,37 @@
     <!-- Common -->
     <string name="cd_back">Back</string>
     <string name="cd_exit">Exit</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_submit">Submit</string>
+
+    <!-- Profile picker -->
+    <string name="profile_picker_title">Choose profile</string>
+    <string name="profile_grade_label">Grade %1$d</string>
+    <string name="profile_pin_indicator">PIN</string>
+    <string name="profile_add">Add profile</string>
+
+    <!-- Profile edit -->
+    <string name="profile_edit_title_new">Add profile</string>
+    <string name="profile_edit_title_edit">Edit profile</string>
+    <string name="profile_name_label">Name</string>
+    <string name="profile_avatar_label">Avatar</string>
+    <string name="profile_category_label">Exam category</string>
+    <string name="profile_category_grade8">Grade 8</string>
+    <string name="profile_category_matriculation">Matriculation</string>
+    <string name="profile_pin_require">Require PIN</string>
+    <string name="profile_pin_label">4-digit PIN</string>
+    <string name="profile_delete">Delete profile</string>
+    <string name="profile_delete_dialog_title">Delete profile?</string>
+    <string name="profile_delete_dialog_message">All exam history, attempts, and bookmarks for this profile will be removed.</string>
+
+    <!-- PIN dialog -->
+    <string name="pin_dialog_title">Enter PIN</string>
+    <string name="pin_error">Wrong PIN</string>
+
+    <!-- Settings: profile section -->
+    <string name="settings_profile_section">Profile</string>
+    <string name="settings_manage_profiles">Manage profiles</string>
+    <string name="settings_profile_helper">Add, edit, or switch between students using this device.</string>
 </resources>

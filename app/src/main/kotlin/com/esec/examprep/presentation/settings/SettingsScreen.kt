@@ -53,9 +53,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.R
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
@@ -99,7 +101,7 @@ fun SettingsScreen(
         ) {
             SettingsHero()
 
-            SectionCard(title = "Profile", icon = Icons.Default.ManageAccounts) {
+            SectionCard(title = stringResource(R.string.settings_profile_section), icon = Icons.Default.ManageAccounts) {
                 Button(
                     onClick = onManageProfiles,
                     shape = RoundedCornerShape(Radius.md),
@@ -107,10 +109,10 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.ManageAccounts, contentDescription = null)
                     Spacer(Modifier.size(Spacing.sm))
-                    Text("Manage profiles", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.settings_manage_profiles), fontWeight = FontWeight.SemiBold)
                 }
                 Spacer(Modifier.height(Spacing.sm))
-                HelperText("Add, edit, or switch between students using this device.")
+                HelperText(stringResource(R.string.settings_profile_helper))
             }
 
             SectionCard(title = "Appearance", icon = Icons.Default.Palette) {
