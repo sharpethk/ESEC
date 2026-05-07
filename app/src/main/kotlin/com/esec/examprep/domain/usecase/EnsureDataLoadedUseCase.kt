@@ -17,7 +17,7 @@ class EnsureDataLoadedUseCase @Inject constructor(
         }
     }
 
-    private companion object {
+    companion object {
         const val CURRENT_BANK_VERSION = 3
     }
 }

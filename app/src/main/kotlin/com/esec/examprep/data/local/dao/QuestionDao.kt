@@ -37,6 +37,15 @@ interface QuestionDao {
 
     @Query("SELECT * FROM questions WHERE id = :id LIMIT 1")
     suspend fun getById(id: String): QuestionEntity?
+
+    @Query("SELECT * FROM questions WHERE id IN (:ids)")
+    suspend fun getByIds(ids: List<String>): List<QuestionEntity>
+
+    @Query("SELECT id FROM questions")
+    suspend fun getAllIds(): List<String>
+
+    @Query("DELETE FROM questions WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<String>)
 }
 
 data class YearCountRow(

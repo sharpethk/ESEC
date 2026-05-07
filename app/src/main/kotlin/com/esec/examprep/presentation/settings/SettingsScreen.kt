@@ -17,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.LightMode
@@ -32,23 +33,29 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -57,6 +64,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.esec.examprep.BuildConfig
 import com.esec.examprep.R
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.presentation.theme.Elevation
@@ -74,9 +82,19 @@ fun SettingsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val prefs = state.preferences
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(state.reloadBankMessage) {
+        val msg = state.reloadBankMessage
+        if (msg != null) {
+            snackbarHostState.showSnackbar(msg)
+            viewModel.consumeReloadBankMessage()
+        }
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Settings", fontWeight = FontWeight.SemiBold) },
@@ -171,6 +189,36 @@ fun SettingsScreen(
                 }
                 Spacer(Modifier.height(Spacing.sm))
                 HelperText("Removes all results, attempts, and weak-topic stats. Bookmarks are kept.")
+            }
+
+            if (BuildConfig.DEBUG) {
+                SectionCard(title = "Debug", icon = Icons.Default.BugReport) {
+                    OutlinedButton(
+                        onClick = viewModel::reloadQuestionBank,
+                        enabled = !state.isReloadingBank,
+                        shape = RoundedCornerShape(Radius.md),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        if (state.isReloadingBank) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(16.dp),
+                                strokeWidth = 2.dp,
+                            )
+                        } else {
+                            Icon(Icons.Default.BugReport, contentDescription = null)
+                        }
+                        Spacer(Modifier.size(Spacing.sm))
+                        Text(
+                            if (state.isReloadingBank) "Reloading\u2026" else "Reload question bank",
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                    }
+                    Spacer(Modifier.height(Spacing.sm))
+                    HelperText(
+                        "Re-decrypts and re-seeds the bundled question bank. " +
+                            "Removed questions are deleted; user data is preserved.",
+                    )
+                }
             }
 
             FooterCredit()

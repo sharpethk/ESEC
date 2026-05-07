@@ -20,4 +20,10 @@ interface SubjectDao {
 
     @Query("SELECT COUNT(*) FROM subjects")
     suspend fun count(): Int
+
+    @Query("SELECT id FROM subjects")
+    suspend fun getAllIds(): List<String>
+
+    @Query("DELETE FROM subjects WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<String>)
 }

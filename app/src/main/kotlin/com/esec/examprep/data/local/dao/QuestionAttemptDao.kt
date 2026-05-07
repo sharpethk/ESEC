@@ -35,7 +35,37 @@ interface QuestionAttemptDao {
 
     @Query("DELETE FROM question_attempts WHERE profileId = :profileId")
     suspend fun deleteAllForProfile(profileId: String)
+
+    /**
+     * Returns one row per question whose most-recent attempt for [profileId] was incorrect.
+     * Most recently missed first. Drives the Wrong Answer Notebook.
+     */
+    @Query("""
+        WITH latest AS (
+          SELECT questionId, MAX(attemptedAt) AS maxAt
+          FROM question_attempts
+          WHERE profileId = :profileId
+          GROUP BY questionId
+        )
+        SELECT a.questionId, a.subjectId, a.attemptedAt AS lastAttemptedAt,
+               a.selectedOptionId AS lastSelectedOptionId,
+               (SELECT COUNT(*) FROM question_attempts a2
+                WHERE a2.profileId = :profileId AND a2.questionId = a.questionId) AS attemptCount
+        FROM question_attempts a
+        JOIN latest ON a.questionId = latest.questionId AND a.attemptedAt = latest.maxAt
+        WHERE a.profileId = :profileId AND a.isCorrect = 0
+        ORDER BY a.attemptedAt DESC
+    """)
+    fun observeStillWrong(profileId: String): Flow<List<WrongAnswerRow>>
 }
+
+data class WrongAnswerRow(
+    val questionId: String,
+    val subjectId: String,
+    val lastAttemptedAt: Long,
+    val lastSelectedOptionId: String?,
+    val attemptCount: Int,
+)
 
 data class WeakTopicRow(
     val subjectId: String,

@@ -6,4 +6,6 @@ data class SettingsState(
     val preferences: UserPreferences = UserPreferences(),
     val isLoading: Boolean = true,
     val showClearHistoryDialog: Boolean = false,
+    val isReloadingBank: Boolean = false,
+    val reloadBankMessage: String? = null,
 )

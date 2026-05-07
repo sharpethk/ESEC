@@ -3,27 +3,34 @@ package com.esec.examprep.data.repository
 import com.esec.examprep.data.crypto.QuestionBankDecryptor
 import com.esec.examprep.data.json.QuestionBankDto
 import com.esec.examprep.data.local.dao.BookmarkDao
+import com.esec.examprep.data.local.dao.QuestionAttemptDao
 import com.esec.examprep.data.local.dao.QuestionDao
 import com.esec.examprep.data.local.dao.SubjectDao
+import com.esec.examprep.data.local.db.AppDatabase
 import com.esec.examprep.data.local.entity.BookmarkEntity
 import com.esec.examprep.data.mapper.toDomain
 import com.esec.examprep.data.mapper.toEntity
 import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.domain.model.Question
 import com.esec.examprep.domain.model.Subject
+import com.esec.examprep.domain.model.WrongAnswerEntry
 import com.esec.examprep.domain.model.YearStat
 import com.esec.examprep.domain.repository.QuestionRepository
 import com.google.gson.Gson
+import androidx.room.withTransaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class QuestionRepositoryImpl @Inject constructor(
+    private val database: AppDatabase,
     private val subjectDao: SubjectDao,
     private val questionDao: QuestionDao,
     private val bookmarkDao: BookmarkDao,
+    private val attemptDao: QuestionAttemptDao,
     private val decryptor: QuestionBankDecryptor,
     private val gson: Gson,
 ) : QuestionRepository {
@@ -55,6 +62,17 @@ class QuestionRepositoryImpl @Inject constructor(
         return entity.toDomain(isBookmarked = bookmarked)
     }
 
+    override suspend fun getQuestionsByIds(profileId: String, ids: List<String>): List<Question> {
+        if (ids.isEmpty()) return emptyList()
+        val entities = questionDao.getByIds(ids)
+        val bookmarks = bookmarkDao.getQuestionIds(profileId).toSet()
+        val byId = entities.associateBy { it.id }
+        // Preserve caller's order; drop any IDs that no longer exist in the bank.
+        return ids.mapNotNull { id ->
+            byId[id]?.toDomain(isBookmarked = id in bookmarks)
+        }
+    }
+
     override suspend fun getYearStatsForSubject(subjectId: String): List<YearStat> =
         questionDao.getYearCountsForSubject(subjectId)
             .map { YearStat(year = it.year, questionCount = it.questionCount) }
@@ -69,8 +87,13 @@ class QuestionRepositoryImpl @Inject constructor(
         val json = decryptor.decryptToJson()
         val bank = gson.fromJson(json, QuestionBankDto::class.java)
 
+        // Mirrors validation in tools/encrypt_bank.py: drop questions that
+        // would render as broken in the UI rather than seeding them.
         val validQuestions = bank.questions.filter { q ->
             q.correctOptionId.isNotBlank() &&
+                q.options.size >= 2 &&
+                q.options.all { it.id.isNotBlank() && it.text.isNotBlank() } &&
+                q.options.distinctBy { it.id }.size == q.options.size &&
                 q.options.any { it.id == q.correctOptionId }
         }
 
@@ -80,8 +103,26 @@ class QuestionRepositoryImpl @Inject constructor(
         }
         val questionEntities = validQuestions.map { it.toEntity() }
 
-        subjectDao.insertAll(subjectEntities)
-        questionDao.insertAll(questionEntities)
+        // Upsert current bank, then drop rows that disappeared from it.
+        // Question CASCADE wipes attempts/bookmarks for removed questions only;
+        // questions still present (and their user data) are untouched.
+        val keepSubjectIds = subjectEntities.map { it.id }.toSet()
+        val keepQuestionIds = questionEntities.map { it.id }.toSet()
+
+        database.withTransaction {
+            subjectDao.insertAll(subjectEntities)
+            questionDao.insertAll(questionEntities)
+
+            val orphanQuestionIds = questionDao.getAllIds().filterNot { it in keepQuestionIds }
+            if (orphanQuestionIds.isNotEmpty()) questionDao.deleteByIds(orphanQuestionIds)
+
+            val orphanSubjectIds = subjectDao.getAllIds().filterNot { it in keepSubjectIds }
+            if (orphanSubjectIds.isNotEmpty()) subjectDao.deleteByIds(orphanSubjectIds)
+        }
+    }
+
+    override suspend fun forceReseedFromEncryptedAsset() {
+        loadQuestionsFromEncryptedAsset()
     }
 
     override suspend fun setBookmark(profileId: String, questionId: String, bookmarked: Boolean) {
@@ -101,5 +142,22 @@ class QuestionRepositoryImpl @Inject constructor(
     override fun observeBookmarkedQuestions(profileId: String): Flow<List<Question>> =
         bookmarkDao.observeForProfile(profileId).map { list ->
             list.map { it.toDomain(isBookmarked = true) }
+        }
+
+    override fun observeWrongAnswers(profileId: String): Flow<List<WrongAnswerEntry>> =
+        attemptDao.observeStillWrong(profileId).map { rows ->
+            if (rows.isEmpty()) return@map emptyList()
+            val ids = rows.map { it.questionId }
+            val questionEntities = questionDao.getByIds(ids).associateBy { it.id }
+            val bookmarks = bookmarkDao.getQuestionIds(profileId).toSet()
+            rows.mapNotNull { row ->
+                val q = questionEntities[row.questionId] ?: return@mapNotNull null
+                WrongAnswerEntry(
+                    question = q.toDomain(isBookmarked = row.questionId in bookmarks),
+                    lastAttemptedAt = Instant.ofEpochSecond(row.lastAttemptedAt),
+                    attemptCount = row.attemptCount,
+                    lastSelectedOptionId = row.lastSelectedOptionId,
+                )
+            }
         }
 }
