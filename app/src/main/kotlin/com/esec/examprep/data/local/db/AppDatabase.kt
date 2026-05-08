@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.esec.examprep.data.local.dao.BookmarkDao
 import com.esec.examprep.data.local.dao.DailyChallengeDao
 import com.esec.examprep.data.local.dao.ExamResultDao
+import com.esec.examprep.data.local.dao.ProfileAchievementDao
 import com.esec.examprep.data.local.dao.ProfileDao
 import com.esec.examprep.data.local.dao.QuestionAttemptDao
 import com.esec.examprep.data.local.dao.QuestionDao
@@ -14,6 +15,7 @@ import com.esec.examprep.data.local.dao.SubjectDao
 import com.esec.examprep.data.local.entity.BookmarkEntity
 import com.esec.examprep.data.local.entity.DailyChallengeEntity
 import com.esec.examprep.data.local.entity.ExamResultEntity
+import com.esec.examprep.data.local.entity.ProfileAchievementEntity
 import com.esec.examprep.data.local.entity.ProfileEntity
 import com.esec.examprep.data.local.entity.QuestionAttemptEntity
 import com.esec.examprep.data.local.entity.QuestionEntity
@@ -30,8 +32,9 @@ const val DEFAULT_PROFILE_ID = "default"
         ProfileEntity::class,
         BookmarkEntity::class,
         DailyChallengeEntity::class,
+        ProfileAchievementEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -42,6 +45,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
     abstract fun bookmarkDao(): BookmarkDao
     abstract fun dailyChallengeDao(): DailyChallengeDao
+    abstract fun profileAchievementDao(): ProfileAchievementDao
 
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -224,6 +228,21 @@ abstract class AppDatabase : RoomDatabase() {
                 """.trimIndent())
                 db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_daily_challenges_profileId_date ON daily_challenges(profileId, date)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS index_daily_challenges_date ON daily_challenges(date)")
+            }
+        }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS profile_achievements (
+                      profileId TEXT NOT NULL,
+                      code TEXT NOT NULL,
+                      unlockedAt INTEGER NOT NULL,
+                      PRIMARY KEY(profileId, code),
+                      FOREIGN KEY(profileId) REFERENCES profiles(id) ON DELETE CASCADE
+                    )
+                """.trimIndent())
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_profile_achievements_profileId ON profile_achievements(profileId)")
             }
         }
     }

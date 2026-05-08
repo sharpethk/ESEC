@@ -33,10 +33,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.esec.examprep.presentation.achievements.AchievementsScreen
 import com.esec.examprep.presentation.bookmarks.BookmarksScreen
 import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
+import com.esec.examprep.presentation.parent.ParentGateScreen
+import com.esec.examprep.presentation.parent.ParentViewScreen
 import com.esec.examprep.presentation.practice.PracticeBuilderScreen
 import com.esec.examprep.presentation.profile.ProfileEditScreen
 import com.esec.examprep.presentation.profile.ProfilePickerScreen
@@ -251,7 +254,28 @@ fun AppNavGraph(
                     onBack = { navController.popBackStack() },
                     onManageProfiles = { navController.navigate(Screen.ProfilePicker.route) },
                     onPracticeBuilder = { navController.navigate(Screen.PracticeBuilder.route) },
+                    onAchievements = { navController.navigate(Screen.Achievements.route) },
+                    onParentView = { navController.navigate(Screen.ParentGate.route) },
                 )
+            }
+
+            composable(Screen.Achievements.route) {
+                AchievementsScreen(onBack = { navController.popBackStack() })
+            }
+
+            composable(Screen.ParentGate.route) {
+                ParentGateScreen(
+                    onBack = { navController.popBackStack() },
+                    onUnlocked = {
+                        navController.navigate(Screen.ParentView.route) {
+                            popUpTo(Screen.ParentGate.route) { inclusive = true }
+                        }
+                    },
+                )
+            }
+
+            composable(Screen.ParentView.route) {
+                ParentViewScreen(onBack = { navController.popBackStack() })
             }
 
             composable(Screen.ProfilePicker.route) {

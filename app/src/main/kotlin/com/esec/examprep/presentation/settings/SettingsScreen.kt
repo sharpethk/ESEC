@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DeleteSweep
+import androidx.compose.material.icons.filled.FamilyRestroom
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ManageAccounts
@@ -81,6 +82,8 @@ fun SettingsScreen(
     onBack: () -> Unit,
     onManageProfiles: () -> Unit = {},
     onPracticeBuilder: () -> Unit = {},
+    onAchievements: () -> Unit = {},
+    onParentView: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -148,6 +151,34 @@ fun SettingsScreen(
                 }
                 Spacer(Modifier.height(Spacing.sm))
                 HelperText("Pick subjects and difficulty mix to focus your study session.")
+            }
+
+            SectionCard(title = "Achievements", icon = Icons.Default.AutoAwesome) {
+                Button(
+                    onClick = onAchievements,
+                    shape = RoundedCornerShape(Radius.md),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.AutoAwesome, contentDescription = null)
+                    Spacer(Modifier.size(Spacing.sm))
+                    Text("View achievements", fontWeight = FontWeight.SemiBold)
+                }
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("Unlock badges as you study and master subjects.")
+            }
+
+            SectionCard(title = "Parent view", icon = Icons.Default.FamilyRestroom) {
+                Button(
+                    onClick = onParentView,
+                    shape = RoundedCornerShape(Radius.md),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.FamilyRestroom, contentDescription = null)
+                    Spacer(Modifier.size(Spacing.sm))
+                    Text("Open parent view", fontWeight = FontWeight.SemiBold)
+                }
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("PIN-protected read-only summary of all profiles.")
             }
 
             SectionCard(title = "Language", icon = Icons.Default.Language) {

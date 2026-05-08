@@ -36,6 +36,12 @@ interface QuestionAttemptDao {
     @Query("DELETE FROM question_attempts WHERE profileId = :profileId")
     suspend fun deleteAllForProfile(profileId: String)
 
+    @Query("SELECT COUNT(*) FROM question_attempts WHERE profileId = :profileId")
+    suspend fun countForProfile(profileId: String): Int
+
+    @Query("SELECT COUNT(*) FROM question_attempts WHERE profileId = :profileId AND isCorrect = 0")
+    suspend fun countWrongForProfile(profileId: String): Int
+
     /**
      * Returns one row per question whose most-recent attempt for [profileId] was incorrect.
      * Most recently missed first. Drives the Wrong Answer Notebook.

@@ -21,6 +21,9 @@ interface SubjectDao {
     @Query("SELECT COUNT(*) FROM subjects")
     suspend fun count(): Int
 
+    @Query("SELECT COUNT(*) FROM subjects WHERE category = :category AND totalQuestions > 0")
+    suspend fun countByCategory(category: String): Int
+
     @Query("SELECT id FROM subjects")
     suspend fun getAllIds(): List<String>
 

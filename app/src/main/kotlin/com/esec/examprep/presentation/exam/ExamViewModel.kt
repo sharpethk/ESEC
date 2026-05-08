@@ -9,6 +9,7 @@ import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.domain.usecase.BuildPracticeExamUseCase
 import com.esec.examprep.domain.usecase.CompleteDailyChallengeUseCase
+import com.esec.examprep.domain.usecase.EvaluateAchievementsUseCase
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.GetSubjectsUseCase
 import com.esec.examprep.domain.usecase.GetWrongAnswerQuestionsUseCase
@@ -41,6 +42,7 @@ class ExamViewModel @Inject constructor(
     private val practiceConfigHolder: PracticeConfigHolder,
     private val dailyChallengeRunHolder: DailyChallengeRunHolder,
     private val completeDailyChallenge: CompleteDailyChallengeUseCase,
+    private val evaluateAchievements: EvaluateAchievementsUseCase,
     private val prefsRepo: UserPreferencesRepository,
     private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
@@ -171,6 +173,7 @@ class ExamViewModel @Inject constructor(
                 val pct = if (s.questions.isEmpty()) 0f else correct * 100f / s.questions.size
                 val durationSeconds = ((Instant.now().toEpochMilli() - startedAt.toEpochMilli()) / 1000).toInt()
                 completeDailyChallenge(profileIdSnapshot, dailyDate, pct, durationSeconds)
+                runCatching { evaluateAchievements(profileIdSnapshot, session) }
             }
             _state.update { it.copy(isFinished = true, resultSessionId = result.sessionId) }
         }

@@ -13,6 +13,7 @@ import com.esec.examprep.domain.model.UserProgress
 import com.esec.examprep.domain.model.WeakTopic
 import com.esec.examprep.domain.repository.ExamSessionRepository
 import com.esec.examprep.domain.usecase.CalculateScoreUseCase
+import com.esec.examprep.domain.usecase.EvaluateAchievementsUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class ExamSessionRepositoryImpl @Inject constructor(
     private val dao: ExamResultDao,
     private val attemptDao: QuestionAttemptDao,
     private val calculateScore: CalculateScoreUseCase,
+    private val evaluateAchievements: EvaluateAchievementsUseCase,
 ) : ExamSessionRepository {
 
     override suspend fun saveSession(session: ExamSession): ExamResult {
@@ -45,6 +47,8 @@ class ExamSessionRepositoryImpl @Inject constructor(
             )
         }
         if (attempts.isNotEmpty()) attemptDao.insertAll(attempts)
+
+        runCatching { evaluateAchievements(session.profileId, session) }
 
         return result
     }

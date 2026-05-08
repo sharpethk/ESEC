@@ -10,6 +10,9 @@ sealed class Screen(val route: String) {
     data object WrongAnswers : Screen("wrong_answers")
     data object PracticeBuilder : Screen("practice_builder")
     data object DailyChallenge : Screen("daily_challenge")
+    data object Achievements : Screen("achievements")
+    data object ParentGate : Screen("parent_gate")
+    data object ParentView : Screen("parent_view")
 
     data class ProfileEdit(
         val profileId: String = "{profileId}",
