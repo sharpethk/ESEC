@@ -21,7 +21,7 @@ Work:
 
 **Touches:** `questions_bank.json`, `tools/encrypt_bank.py`, `EnsureDataLoaded`, `UserPreferencesRepository`.
 
-### 2.2 Wrong Answer Notebook ⚠️ PARTIAL — data layer done, UI + REVIEW mode pending
+### 2.2 Wrong Answer Notebook ✅ DONE
 **Status:** Data layer implemented (`QuestionAttemptDao.observeStillWrong`, `WrongAnswerEntry` model, `observeWrongAnswers()` in `QuestionRepository`). **Still TODO:** screen/VM, navigation route, `ExamMode.REVIEW`, "Mark as resolved".
 
 Work:
@@ -33,7 +33,7 @@ Work:
 
 **Touches:** `QuestionAttemptDao`, new `WrongAnswerRepository`, new screen + VM, navigation graph, `ExamViewModel` (new mode).
 
-### 2.3 Practice by difficulty / topic mix ❌ NOT IMPLEMENTED
+### 2.3 Practice by difficulty / topic mix ✅ DONE
 **Status:** `difficultyLevel` field already on questions. No topic field yet — decide whether to introduce one.
 
 Work:
@@ -47,7 +47,7 @@ Work:
 
 **Touches:** new screen + VM, `QuestionDao` (new filtered query), `ExamViewModel` mode, navigation, prefs.
 
-### 2.4 Tigrinya localization (`values-ti`) ❌ NOT IMPLEMENTED
+### 2.4 Tigrinya localization (`values-ti`) ✅ DONE
 Note: user wrote "Tigringa" — proceeding as Tigrinya (`ti`). Confirm whether Amharic (`am`) is also wanted; ARCHITECTURE doc references it.
 
 Work:
@@ -64,7 +64,7 @@ Work:
 - [x] Wrong Answer Notebook screen + review mode
 - [x] Custom Practice Builder
 - [x] Tigrinya locale + in-app language switch
-- [ ] No regressions to Phase 1 dashboard / GPA / bookmarks
+- [x] No regressions to Phase 1 dashboard / GPA / bookmarks
 
 ---
 

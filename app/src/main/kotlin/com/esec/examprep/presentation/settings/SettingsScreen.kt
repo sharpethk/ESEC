@@ -72,6 +72,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.compose.ui.platform.LocalContext
 import com.esec.examprep.BuildConfig
 import com.esec.examprep.R
 import com.esec.examprep.data.preferences.AppLanguage
@@ -237,11 +244,27 @@ fun SettingsScreen(
             }
 
             SectionCard(title = "Reminders", icon = Icons.Default.Notifications) {
+                val ctx = LocalContext.current
+                val permLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                ) { granted ->
+                    if (granted) viewModel.onRemindersEnabledChanged(true)
+                }
                 ReminderRow(
                     enabled = prefs.remindersEnabled,
                     hour = prefs.reminderHour,
                     minute = prefs.reminderMinute,
-                    onEnabledChange = viewModel::onRemindersEnabledChanged,
+                    onEnabledChange = { wantEnabled ->
+                        if (wantEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            val granted = ContextCompat.checkSelfPermission(
+                                ctx, Manifest.permission.POST_NOTIFICATIONS,
+                            ) == PackageManager.PERMISSION_GRANTED
+                            if (granted) viewModel.onRemindersEnabledChanged(true)
+                            else permLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        } else {
+                            viewModel.onRemindersEnabledChanged(wantEnabled)
+                        }
+                    },
                     onTimeChange = viewModel::onReminderTimeChanged,
                 )
                 Spacer(Modifier.height(Spacing.sm))
