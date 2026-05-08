@@ -8,12 +8,14 @@ import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.domain.usecase.BuildPracticeExamUseCase
+import com.esec.examprep.domain.usecase.CompleteDailyChallengeUseCase
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.GetSubjectsUseCase
 import com.esec.examprep.domain.usecase.GetWrongAnswerQuestionsUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import com.esec.examprep.presentation.common.ActiveProfileHolder
+import com.esec.examprep.presentation.common.DailyChallengeRunHolder
 import com.esec.examprep.presentation.common.PracticeConfigHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -37,6 +39,8 @@ class ExamViewModel @Inject constructor(
     private val getWrongAnswerQuestions: GetWrongAnswerQuestionsUseCase,
     private val buildPracticeExam: BuildPracticeExamUseCase,
     private val practiceConfigHolder: PracticeConfigHolder,
+    private val dailyChallengeRunHolder: DailyChallengeRunHolder,
+    private val completeDailyChallenge: CompleteDailyChallengeUseCase,
     private val prefsRepo: UserPreferencesRepository,
     private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
@@ -54,6 +58,7 @@ class ExamViewModel @Inject constructor(
     private val startedAt = Instant.now()
     private lateinit var profileIdSnapshot: String
     private lateinit var categorySnapshot: ExamCategory
+    private var dailyChallengeDate: java.time.LocalDate? = null
 
     init {
         loadQuestions()
@@ -80,15 +85,23 @@ class ExamViewModel @Inject constructor(
                     val cfg = practiceConfigHolder.take()
                     if (cfg != null) buildPracticeExam(profileIdSnapshot, cfg) else emptyList()
                 }
+                ExamMode.DAILY -> {
+                    val run = dailyChallengeRunHolder.take()
+                    if (run != null) {
+                        dailyChallengeDate = run.date
+                        run.questions
+                    } else emptyList()
+                }
                 else -> getQuestions(profileIdSnapshot, subjectId, count = prefs.defaultExamLength, year = year)
             }
             val subjectName = when (mode) {
                 ExamMode.REVIEW -> ""
                 ExamMode.PRACTICE_CUSTOM -> ""
+                ExamMode.DAILY -> ""
                 else -> getSubjects(categorySnapshot).first().firstOrNull { it.id == subjectId }?.name.orEmpty()
             }
             val timerMinutes = when {
-                mode == ExamMode.REVIEW || mode == ExamMode.PRACTICE_CUSTOM ->
+                mode == ExamMode.REVIEW || mode == ExamMode.PRACTICE_CUSTOM || mode == ExamMode.DAILY ->
                     maxOf(prefs.defaultTimerMinutes, questions.size)
                 year != null               -> maxOf(prefs.defaultTimerMinutes, questions.size)
                 prefs.defaultExamLength <= 0 -> maxOf(prefs.defaultTimerMinutes, questions.size)
@@ -150,6 +163,15 @@ class ExamViewModel @Inject constructor(
                 year             = year,
             )
             val result = submitExam(session)
+            val dailyDate = dailyChallengeDate
+            if (s.mode == ExamMode.DAILY && dailyDate != null) {
+                val correct = s.questions.count { q ->
+                    s.answers[q.id] != null && s.answers[q.id] == q.correctOptionId
+                }
+                val pct = if (s.questions.isEmpty()) 0f else correct * 100f / s.questions.size
+                val durationSeconds = ((Instant.now().toEpochMilli() - startedAt.toEpochMilli()) / 1000).toInt()
+                completeDailyChallenge(profileIdSnapshot, dailyDate, pct, durationSeconds)
+            }
             _state.update { it.copy(isFinished = true, resultSessionId = result.sessionId) }
         }
     }

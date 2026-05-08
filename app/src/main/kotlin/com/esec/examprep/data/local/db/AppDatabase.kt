@@ -5,12 +5,14 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.esec.examprep.data.local.dao.BookmarkDao
+import com.esec.examprep.data.local.dao.DailyChallengeDao
 import com.esec.examprep.data.local.dao.ExamResultDao
 import com.esec.examprep.data.local.dao.ProfileDao
 import com.esec.examprep.data.local.dao.QuestionAttemptDao
 import com.esec.examprep.data.local.dao.QuestionDao
 import com.esec.examprep.data.local.dao.SubjectDao
 import com.esec.examprep.data.local.entity.BookmarkEntity
+import com.esec.examprep.data.local.entity.DailyChallengeEntity
 import com.esec.examprep.data.local.entity.ExamResultEntity
 import com.esec.examprep.data.local.entity.ProfileEntity
 import com.esec.examprep.data.local.entity.QuestionAttemptEntity
@@ -27,8 +29,9 @@ const val DEFAULT_PROFILE_ID = "default"
         QuestionAttemptEntity::class,
         ProfileEntity::class,
         BookmarkEntity::class,
+        DailyChallengeEntity::class,
     ],
-    version = 5,
+    version = 6,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -38,6 +41,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun questionAttemptDao(): QuestionAttemptDao
     abstract fun profileDao(): ProfileDao
     abstract fun bookmarkDao(): BookmarkDao
+    abstract fun dailyChallengeDao(): DailyChallengeDao
 
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -201,6 +205,25 @@ abstract class AppDatabase : RoomDatabase() {
 
                 // 7. Normalize subjects.category for any pre-existing rows.
                 db.execSQL("UPDATE subjects SET category = 'GRADE_8' WHERE category IS NULL OR category = '' OR category = 'grade8'")
+            }
+        }
+
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("""
+                    CREATE TABLE IF NOT EXISTS daily_challenges (
+                      id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                      profileId TEXT NOT NULL,
+                      date INTEGER NOT NULL,
+                      questionIdsJson TEXT NOT NULL,
+                      completedAt INTEGER,
+                      scorePercent REAL,
+                      durationSeconds INTEGER,
+                      FOREIGN KEY(profileId) REFERENCES profiles(id) ON DELETE CASCADE
+                    )
+                """.trimIndent())
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS index_daily_challenges_profileId_date ON daily_challenges(profileId, date)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_daily_challenges_date ON daily_challenges(date)")
             }
         }
     }

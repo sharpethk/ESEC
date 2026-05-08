@@ -23,6 +23,7 @@ object DatabaseModule {
                 AppDatabase.MIGRATION_2_3,
                 AppDatabase.MIGRATION_3_4,
                 AppDatabase.MIGRATION_4_5,
+                AppDatabase.MIGRATION_5_6,
             )
             .build()
 
@@ -32,4 +33,5 @@ object DatabaseModule {
     @Provides fun provideQuestionAttemptDao(db: AppDatabase) = db.questionAttemptDao()
     @Provides fun provideProfileDao(db: AppDatabase) = db.profileDao()
     @Provides fun provideBookmarkDao(db: AppDatabase) = db.bookmarkDao()
+    @Provides fun provideDailyChallengeDao(db: AppDatabase) = db.dailyChallengeDao()
 }

@@ -18,12 +18,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material.icons.filled.Today
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -57,10 +60,13 @@ import com.esec.examprep.presentation.theme.Spacing
 fun HomeScreen(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
+    onStartDailyChallenge: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
+    val challenge by viewModel.todayChallenge.collectAsState()
+    val streak by viewModel.streak.collectAsState()
 
     Scaffold(containerColor = MaterialTheme.colorScheme.background) { padding ->
         Box(Modifier.fillMaxSize().padding(padding)) {
@@ -70,6 +76,13 @@ fun HomeScreen(
                 else -> HomeContent(
                     onSubjectsClick = onSubjectsClick,
                     onDashboardClick = onDashboardClick,
+                    streak = streak,
+                    challengeQuestionCount = challenge?.questions?.size ?: 0,
+                    challengeCompleted = challenge?.isCompleted == true,
+                    challengeScorePercent = challenge?.scorePercent,
+                    onStartDailyChallenge = {
+                        if (viewModel.stageDailyChallenge()) onStartDailyChallenge()
+                    },
                 )
             }
         }
@@ -80,6 +93,11 @@ fun HomeScreen(
 private fun HomeContent(
     onSubjectsClick: () -> Unit,
     onDashboardClick: () -> Unit,
+    streak: Int,
+    challengeQuestionCount: Int,
+    challengeCompleted: Boolean,
+    challengeScorePercent: Float?,
+    onStartDailyChallenge: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -97,6 +115,19 @@ private fun HomeContent(
                 .padding(top = Spacing.xl, bottom = Spacing.huge),
             verticalArrangement = Arrangement.spacedBy(Spacing.lg),
         ) {
+            if (streak > 0) {
+                StreakChip(streak = streak)
+            }
+
+            if (challengeQuestionCount > 0) {
+                DailyChallengeCard(
+                    questionCount = challengeQuestionCount,
+                    completed = challengeCompleted,
+                    scorePercent = challengeScorePercent,
+                    onStart = onStartDailyChallenge,
+                )
+            }
+
             PrimaryActionCard(
                 title = stringResource(R.string.home_start_exam),
                 description = stringResource(R.string.home_start_exam_desc),
@@ -340,25 +371,3 @@ private fun LoadingState() {
 
 @Composable
 private fun ErrorState(onRetry: () -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(Spacing.xxl),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Icon(
-            Icons.Default.Refresh,
-            null,
-            tint = MaterialTheme.colorScheme.error,
-            modifier = Modifier.size(40.dp),
-        )
-        Spacer(Modifier.height(Spacing.md))
-        Text(
-            text = stringResource(R.string.home_load_failed),
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(Spacing.sm))
-        TextButton(onClick = onRetry) { Text(stringResource(R.string.home_retry)) }
-    }
-}

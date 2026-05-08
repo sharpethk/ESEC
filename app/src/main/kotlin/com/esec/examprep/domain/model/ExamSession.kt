@@ -15,4 +15,4 @@ data class ExamSession(
     val year: Int? = null,
 )
 
-enum class ExamMode { TIMED, PRACTICE, REVIEW, PRACTICE_CUSTOM }
+enum class ExamMode { TIMED, PRACTICE, REVIEW, PRACTICE_CUSTOM, DAILY }
