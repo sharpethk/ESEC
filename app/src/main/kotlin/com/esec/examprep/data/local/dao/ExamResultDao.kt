@@ -34,6 +34,12 @@ interface ExamResultDao {
     @Query("DELETE FROM exam_results WHERE profileId = :profileId")
     suspend fun deleteAllForProfile(profileId: String)
 
+    @Query("SELECT COUNT(*) FROM exam_results WHERE profileId = :profileId")
+    suspend fun countForProfile(profileId: String): Int
+
+    @Query("SELECT COUNT(DISTINCT subjectId) FROM exam_results WHERE profileId = :profileId")
+    suspend fun countDistinctSubjects(profileId: String): Int
+
     @Query("SELECT scorePercent FROM exam_results WHERE profileId = :profileId AND subjectId = :subjectId ORDER BY completedAt DESC LIMIT :limit")
     suspend fun getRecentScoresForSubject(profileId: String, subjectId: String, limit: Int): List<Float>
 

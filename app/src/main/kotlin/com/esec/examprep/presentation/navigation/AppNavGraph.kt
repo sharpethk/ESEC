@@ -137,6 +137,9 @@ fun AppNavGraph(
                         }
                     },
                     onDashboardClick = { navController.navigate(Screen.Dashboard.route) },
+                    onStartDailyChallenge = {
+                        navController.navigate(Screen.Exam().route("daily", "DAILY"))
+                    },
                 )
             }
 

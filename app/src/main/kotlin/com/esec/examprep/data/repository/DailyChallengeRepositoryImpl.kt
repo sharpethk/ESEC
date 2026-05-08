@@ -8,17 +8,13 @@ import com.esec.examprep.domain.model.DailyChallenge
 import com.esec.examprep.domain.repository.DailyChallengeRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -33,7 +29,6 @@ class DailyChallengeRepositoryImpl @Inject constructor(
     private val gson: Gson,
 ) : DailyChallengeRepository {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     override fun observeTodayChallenge(profileId: String): Flow<DailyChallenge?> = flow {
         val today = LocalDate.now()
         ensureTodayChallenge(profileId, today)

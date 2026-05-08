@@ -371,3 +371,121 @@ private fun LoadingState() {
 
 @Composable
 private fun ErrorState(onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(Spacing.xxl),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Icon(
+            Icons.Default.Refresh,
+            null,
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(40.dp),
+        )
+        Spacer(Modifier.height(Spacing.md))
+        Text(
+            text = stringResource(R.string.home_load_failed),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
+        )
+        Spacer(Modifier.height(Spacing.sm))
+        TextButton(onClick = onRetry) { Text(stringResource(R.string.home_retry)) }
+    }
+}
+
+@Composable
+private fun StreakChip(streak: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            modifier = Modifier
+                .background(
+                    MaterialTheme.colorScheme.tertiaryContainer,
+                    RoundedCornerShape(Radius.pill),
+                )
+                .padding(horizontal = Spacing.md, vertical = Spacing.xs),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                Icons.Default.LocalFireDepartment,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                modifier = Modifier.size(16.dp),
+            )
+            Spacer(Modifier.size(Spacing.xs))
+            Text(
+                "$streak day streak",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DailyChallengeCard(
+    questionCount: Int,
+    completed: Boolean,
+    scorePercent: Float?,
+    onStart: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiary,
+            contentColor = MaterialTheme.colorScheme.onTertiary,
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = Elevation.sm),
+        onClick = { if (!completed) onStart() },
+    ) {
+        Row(
+            modifier = Modifier.padding(Spacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .background(
+                        MaterialTheme.colorScheme.onTertiary.copy(alpha = 0.18f),
+                        RoundedCornerShape(Radius.md),
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    if (completed) Icons.Default.CheckCircle else Icons.Default.Today,
+                    contentDescription = null,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
+            Spacer(Modifier.size(Spacing.md))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    "Today's Challenge",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(Modifier.height(Spacing.xxs))
+                Text(
+                    text = when {
+                        completed && scorePercent != null ->
+                            "Done — ${scorePercent.toInt()}% correct"
+                        completed -> "Completed today"
+                        else -> "$questionCount questions · come back tomorrow for more"
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onTertiary.copy(alpha = 0.85f),
+                )
+            }
+            if (!completed) {
+                Spacer(Modifier.size(Spacing.md))
+                Icon(Icons.Default.PlayArrow, contentDescription = null)
+            }
+        }
+    }
+}
