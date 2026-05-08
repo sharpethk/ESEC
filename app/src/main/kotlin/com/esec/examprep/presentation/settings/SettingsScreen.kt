@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.DeleteSweep
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.filled.Palette
@@ -66,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.esec.examprep.BuildConfig
 import com.esec.examprep.R
+import com.esec.examprep.data.preferences.AppLanguage
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
@@ -78,6 +80,7 @@ private const val ALL_QUESTIONS = 0
 fun SettingsScreen(
     onBack: () -> Unit,
     onManageProfiles: () -> Unit = {},
+    onPracticeBuilder: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -131,6 +134,29 @@ fun SettingsScreen(
                 }
                 Spacer(Modifier.height(Spacing.sm))
                 HelperText(stringResource(R.string.settings_profile_helper))
+            }
+
+            SectionCard(title = "Custom practice", icon = Icons.Default.Tune) {
+                Button(
+                    onClick = onPracticeBuilder,
+                    shape = RoundedCornerShape(Radius.md),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.Tune, contentDescription = null)
+                    Spacer(Modifier.size(Spacing.sm))
+                    Text("Build a practice exam", fontWeight = FontWeight.SemiBold)
+                }
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("Pick subjects and difficulty mix to focus your study session.")
+            }
+
+            SectionCard(title = "Language", icon = Icons.Default.Language) {
+                LanguageSegmented(
+                    selected = prefs.language,
+                    onChange = viewModel::onLanguageChanged,
+                )
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("Changes apply on next screen change.")
             }
 
             SectionCard(title = "Appearance", icon = Icons.Default.Palette) {
@@ -330,6 +356,25 @@ private fun SectionCard(
             }
             Spacer(Modifier.height(Spacing.md))
             content()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LanguageSegmented(
+    selected: AppLanguage,
+    onChange: (AppLanguage) -> Unit,
+) {
+    val items = AppLanguage.entries
+    SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+        items.forEachIndexed { index, lang ->
+            SegmentedButton(
+                selected = selected == lang,
+                onClick = { onChange(lang) },
+                shape = SegmentedButtonDefaults.itemShape(index = index, count = items.size),
+                label = { Text(lang.label) },
+            )
         }
     }
 }

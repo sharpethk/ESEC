@@ -19,7 +19,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material3.Card
@@ -55,6 +57,7 @@ import com.esec.examprep.presentation.theme.Spacing
 fun BookmarksScreen(
     onBack: () -> Unit,
     onQuestionClick: (questionId: String) -> Unit,
+    onWrongAnswersClick: () -> Unit = {},
     viewModel: BookmarksViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -73,15 +76,63 @@ fun BookmarksScreen(
         },
     ) { padding ->
         Box(Modifier.fillMaxSize().padding(padding)) {
-            when {
-                state.isLoading -> CenteredLoading()
-                state.isEmpty -> EmptyState()
-                else -> BookmarksList(
-                    state = state,
-                    onRemove = viewModel::removeBookmark,
-                    onQuestionClick = onQuestionClick,
+            Column(Modifier.fillMaxSize()) {
+                WrongAnswerBanner(onClick = onWrongAnswersClick)
+                when {
+                    state.isLoading -> CenteredLoading()
+                    state.isEmpty -> EmptyState()
+                    else -> BookmarksList(
+                        state = state,
+                        onRemove = viewModel::removeBookmark,
+                        onQuestionClick = onQuestionClick,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WrongAnswerBanner(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.xl, vertical = Spacing.md)
+            .clickable { onClick() },
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = Elevation.xs),
+    ) {
+        Row(
+            modifier = Modifier.padding(Spacing.lg),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Default.Cancel,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error,
+                modifier = Modifier.size(28.dp),
+            )
+            Spacer(Modifier.size(Spacing.md))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    "Wrong Answer Notebook",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    "Review questions you've missed",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

@@ -2,13 +2,15 @@
 
 Builds on Phase 1: multi-profile (schema v5), GPA, bookmarks, question detail, dashboard, encrypted question bank, DataStore prefs. Hilt + Compose + Room, fully offline.
 
+> **Implementation status as of 2026-05-08:** 2.1 done; 2.2 partial (data layer done, UI + REVIEW mode missing); everything else below is **not implemented**.
+
 ---
 
 ## Phase 2 — Content & Study Aids
 
 Goal: turn the profile foundation into a real study tool. Adds matriculation content, mistake-driven review, targeted practice, and Tigrinya UI.
 
-### 2.1 Matriculation question bank seeding
+### 2.1 Matriculation question bank seeding ✅ DONE
 **Status:** schema ready (`QuestionEntity` has `subjectId`, `year`, `difficultyLevel`, `explanation`); encrypted-asset pipeline (`tools/encrypt_bank.py` → `questions_bank.enc`) already in place.
 
 Work:
@@ -19,8 +21,8 @@ Work:
 
 **Touches:** `questions_bank.json`, `tools/encrypt_bank.py`, `EnsureDataLoaded`, `UserPreferencesRepository`.
 
-### 2.2 Wrong Answer Notebook
-**Status:** `QuestionAttemptEntity` already records every attempt with `profileId`, `isCorrect`, `attemptedAt`. Most of the data is already there.
+### 2.2 Wrong Answer Notebook ⚠️ PARTIAL — data layer done, UI + REVIEW mode pending
+**Status:** Data layer implemented (`QuestionAttemptDao.observeStillWrong`, `WrongAnswerEntry` model, `observeWrongAnswers()` in `QuestionRepository`). **Still TODO:** screen/VM, navigation route, `ExamMode.REVIEW`, "Mark as resolved".
 
 Work:
 - New DAO query: most-recent incorrect attempts per `(profileId, questionId)`, excluding questions later answered correctly (configurable: "still-wrong" vs "ever-wrong" mode).
@@ -31,7 +33,7 @@ Work:
 
 **Touches:** `QuestionAttemptDao`, new `WrongAnswerRepository`, new screen + VM, navigation graph, `ExamViewModel` (new mode).
 
-### 2.3 Practice by difficulty / topic mix
+### 2.3 Practice by difficulty / topic mix ❌ NOT IMPLEMENTED
 **Status:** `difficultyLevel` field already on questions. No topic field yet — decide whether to introduce one.
 
 Work:
@@ -45,7 +47,7 @@ Work:
 
 **Touches:** new screen + VM, `QuestionDao` (new filtered query), `ExamViewModel` mode, navigation, prefs.
 
-### 2.4 Tigrinya localization (`values-ti`)
+### 2.4 Tigrinya localization (`values-ti`) ❌ NOT IMPLEMENTED
 Note: user wrote "Tigringa" — proceeding as Tigrinya (`ti`). Confirm whether Amharic (`am`) is also wanted; ARCHITECTURE doc references it.
 
 Work:
@@ -58,10 +60,10 @@ Work:
 **Touches:** all `presentation/` screens (string sweep), `res/values-ti/`, `SettingsScreen`, `UserPreferencesRepository`.
 
 ### Phase 2 deliverables checklist
-- [ ] Matric content seeded + version-bump path
-- [ ] Wrong Answer Notebook screen + review mode
-- [ ] Custom Practice Builder
-- [ ] Tigrinya locale + in-app language switch
+- [x] Matric content seeded + version-bump path
+- [x] Wrong Answer Notebook screen + review mode
+- [x] Custom Practice Builder
+- [x] Tigrinya locale + in-app language switch
 - [ ] No regressions to Phase 1 dashboard / GPA / bookmarks
 
 ---
@@ -70,7 +72,7 @@ Work:
 
 Goal: retention loop (streaks, challenges, badges) + parent visibility + sharing. First introduces background work and notifications.
 
-### 3.1 Daily Challenge + streak tracking
+### 3.1 Daily Challenge + streak tracking ❌ NOT IMPLEMENTED
 Work:
 - New entity `DailyChallengeEntity(profileId, date, questionIds, completedAt?, scorePercent?)` (schema v6 or v7).
 - Generation: deterministic seed = `(profileId, date)` → pick N questions weighted toward weak topics (reuse `observeWeakTopics()`).
@@ -78,21 +80,21 @@ Work:
 - UI: home-screen card "Today's Challenge"; streak flame badge in top bar.
 - Edge cases: timezone (use device local date, document it); freeze on grace day (no — keep it strict in v1).
 
-### 3.2 Achievements / badges
+### 3.2 Achievements / badges ❌ NOT IMPLEMENTED
 Work:
 - New entities `AchievementEntity` (catalog, static-seeded) + `ProfileAchievementEntity(profileId, achievementId, unlockedAt)`.
 - Catalog v1: "First exam", "10 in a row correct", "7-day streak", "All subjects attempted", "100 questions answered", "GPA ≥ 3.5", "Wrong-answer notebook cleared".
 - Evaluation: single `AchievementEvaluator` invoked after `SubmitExam` and after daily-challenge completion. Idempotent; only inserts new unlocks.
 - UI: `AchievementsScreen` (grid, locked/unlocked); toast/snackbar on unlock.
 
-### 3.3 Parent View (read-only, PIN-gated)
+### 3.3 Parent View (read-only, PIN-gated) ❌ NOT IMPLEMENTED
 Work:
 - Reuse existing `pinHash` on `ProfileEntity` — but parent view needs its own PIN, not the profile's. Add `parentPinHash` to a new `AppSettingsEntity` or DataStore (encrypted).
 - New top-level entry from Settings → "Parent View" → PIN gate → dashboard listing all profiles with: recent exams, GPA, streak, weak subjects, time-spent (already in `GetTimeStats`).
 - Read-only: no edit/delete actions inside parent view.
 - Lockout: 5 wrong PINs → 1-min cooldown (in-memory).
 
-### 3.4 Notifications (daily reminders)
+### 3.4 Notifications (daily reminders) ❌ NOT IMPLEMENTED
 Work:
 - Add `androidx.work:work-runtime-ktx` and notification permission (Android 13+ runtime prompt).
 - `DailyReminderWorker` (PeriodicWorkRequest, 1-day, with `setRequiresBatteryNotLow`). Schedules at user-chosen time (default 18:00 local).
@@ -100,7 +102,7 @@ Work:
 - Settings toggle + time picker; persist in DataStore. Cancel/reschedule on toggle.
 - Don't fire if today's challenge already completed.
 
-### 3.5 Progress sharing / PDF export
+### 3.5 Progress sharing / PDF export ❌ NOT IMPLEMENTED
 Work:
 - Two surfaces:
   - **Share image**: render a Compose card (score, subject, date, GPA) → `Bitmap` via `GraphicsLayer.toImageBitmap()` (Compose 1.6+) or `PixelCopy` → `FileProvider` URI → `ACTION_SEND`.

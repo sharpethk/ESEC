@@ -6,6 +6,7 @@ import com.esec.examprep.data.local.entity.QuestionAttemptEntity
 import com.esec.examprep.data.mapper.toDomain
 import com.esec.examprep.data.mapper.toEntity
 import com.esec.examprep.domain.model.ExamResult
+import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.domain.model.SubjectTrend
 import com.esec.examprep.domain.model.UserProgress
@@ -26,7 +27,9 @@ class ExamSessionRepositoryImpl @Inject constructor(
 
     override suspend fun saveSession(session: ExamSession): ExamResult {
         val result = calculateScore(session, subjectName = session.subjectId)
-        dao.insert(result.toEntity(session.profileId))
+        if (session.mode != ExamMode.REVIEW && session.mode != ExamMode.PRACTICE_CUSTOM) {
+            dao.insert(result.toEntity(session.profileId))
+        }
 
         val finishedAt = (session.finishedAt ?: java.time.Instant.now()).epochSecond
         val attempts = session.questions.map { q ->

@@ -37,12 +37,14 @@ import com.esec.examprep.presentation.bookmarks.BookmarksScreen
 import com.esec.examprep.presentation.dashboard.DashboardScreen
 import com.esec.examprep.presentation.exam.ExamScreen
 import com.esec.examprep.presentation.home.HomeScreen
+import com.esec.examprep.presentation.practice.PracticeBuilderScreen
 import com.esec.examprep.presentation.profile.ProfileEditScreen
 import com.esec.examprep.presentation.profile.ProfilePickerScreen
 import com.esec.examprep.presentation.questiondetail.QuestionDetailScreen
 import com.esec.examprep.presentation.result.ResultScreen
 import com.esec.examprep.presentation.settings.SettingsScreen
 import com.esec.examprep.presentation.subject.SubjectScreen
+import com.esec.examprep.presentation.wronganswers.WrongAnswersScreen
 
 private const val NAV_ANIM_MS = 350
 
@@ -202,6 +204,35 @@ fun AppNavGraph(
                     onQuestionClick = { questionId ->
                         navController.navigate(Screen.QuestionDetail().route(questionId))
                     },
+                    onWrongAnswersClick = {
+                        navController.navigate(Screen.WrongAnswers.route)
+                    },
+                )
+            }
+
+            composable(Screen.WrongAnswers.route) {
+                WrongAnswersScreen(
+                    onBack = { navController.popBackStack() },
+                    onQuestionClick = { questionId ->
+                        navController.navigate(Screen.QuestionDetail().route(questionId))
+                    },
+                    onReviewAll = {
+                        navController.navigate(Screen.Exam().route("all", "REVIEW"))
+                    },
+                    onReviewSubject = { subjectId ->
+                        navController.navigate(Screen.Exam().route(subjectId, "REVIEW"))
+                    },
+                )
+            }
+
+            composable(Screen.PracticeBuilder.route) {
+                PracticeBuilderScreen(
+                    onBack = { navController.popBackStack() },
+                    onStart = {
+                        navController.navigate(Screen.Exam().route("custom", "PRACTICE_CUSTOM")) {
+                            popUpTo(Screen.PracticeBuilder.route) { inclusive = true }
+                        }
+                    },
                 )
             }
 
@@ -216,6 +247,7 @@ fun AppNavGraph(
                 SettingsScreen(
                     onBack = { navController.popBackStack() },
                     onManageProfiles = { navController.navigate(Screen.ProfilePicker.route) },
+                    onPracticeBuilder = { navController.navigate(Screen.PracticeBuilder.route) },
                 )
             }
 

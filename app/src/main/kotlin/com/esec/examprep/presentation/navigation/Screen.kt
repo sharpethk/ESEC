@@ -7,6 +7,8 @@ sealed class Screen(val route: String) {
     data object Bookmarks  : Screen("bookmarks")
     data object Settings   : Screen("settings")
     data object ProfilePicker : Screen("profile_picker")
+    data object WrongAnswers : Screen("wrong_answers")
+    data object PracticeBuilder : Screen("practice_builder")
 
     data class ProfileEdit(
         val profileId: String = "{profileId}",

@@ -22,6 +22,9 @@ class UserPreferencesRepository @Inject constructor(
             }.getOrDefault(ThemeMode.SYSTEM),
             defaultExamLength = p[KEY_LENGTH] ?: 40,
             defaultTimerMinutes = p[KEY_TIMER] ?: 30,
+            language = runCatching {
+                AppLanguage.valueOf(p[KEY_LANGUAGE] ?: AppLanguage.SYSTEM.name)
+            }.getOrDefault(AppLanguage.SYSTEM),
         )
     }
 
@@ -37,6 +40,10 @@ class UserPreferencesRepository @Inject constructor(
 
     suspend fun setTimerMinutes(n: Int) {
         dataStore.edit { it[KEY_TIMER] = n }
+    }
+
+    suspend fun setLanguage(lang: AppLanguage) {
+        dataStore.edit { it[KEY_LANGUAGE] = lang.name }
     }
 
     suspend fun setActiveProfileId(id: String?) {
@@ -60,5 +67,6 @@ class UserPreferencesRepository @Inject constructor(
         val KEY_TIMER = intPreferencesKey("default_timer_minutes")
         val KEY_BANK_VERSION = intPreferencesKey("question_bank_version")
         val KEY_ACTIVE_PROFILE = stringPreferencesKey("active_profile_id")
+        val KEY_LANGUAGE = stringPreferencesKey("app_language")
     }
 }

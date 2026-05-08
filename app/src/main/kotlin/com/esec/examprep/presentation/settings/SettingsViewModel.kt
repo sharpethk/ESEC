@@ -2,6 +2,7 @@ package com.esec.examprep.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.esec.examprep.data.preferences.AppLanguage
 import com.esec.examprep.data.preferences.ThemeMode
 import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.repository.ExamSessionRepository
@@ -43,6 +44,22 @@ class SettingsViewModel @Inject constructor(
 
     fun onTimerMinutesChanged(minutes: Int) {
         viewModelScope.launch { prefs.setTimerMinutes(minutes) }
+    }
+
+    fun onLanguageChanged(language: AppLanguage) {
+        viewModelScope.launch {
+            prefs.setLanguage(language)
+            applyLocale(language)
+        }
+    }
+
+    private fun applyLocale(language: AppLanguage) {
+        val locales = if (language.tag.isEmpty()) {
+            androidx.core.os.LocaleListCompat.getEmptyLocaleList()
+        } else {
+            androidx.core.os.LocaleListCompat.forLanguageTags(language.tag)
+        }
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(locales)
     }
 
     fun showClearHistoryDialog(show: Boolean) {

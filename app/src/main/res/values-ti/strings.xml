@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ESEC ፈተና ምድላው</string>
+
+    <!-- Home -->
+    <string name="home_title">ESEC ፈተና ምድላው</string>
+    <string name="home_tagline">ናይ ሕሉፍ ፈተናታት ተለማመዱ። ብዘይ ኢንተርነት። ኩሉ ሳዕ።</string>
+    <string name="home_section_get_started">ጀምር</string>
+    <string name="home_section_why">ስለምንታይ ESEC</string>
+    <string name="home_start_exam">ፈተና ጀምር</string>
+    <string name="home_start_exam_desc">ትምህርቲ ምረጽ፡ ብጊዜ ወይ ብልምምድ ምርጫኻ ግበር።</string>
+    <string name="home_my_progress">ምዕባለይ</string>
+    <string name="home_my_progress_desc">ናይ ቀደም ፈተናታትን ዝለዓለ ነጥብታትካን ርአ።</string>
+    <string name="home_action_start">ጀምር</string>
+    <string name="home_action_open">ክፈት</string>
+    <string name="home_feature_offline_title">ብዘይ ኢንተርነት</string>
+    <string name="home_feature_offline_desc">ኢንተርነት ኣየድልን። ናይ ሕቶ ባንክ ኣብ ናውቲ ዝተሸሞዐ እዩ።</string>
+    <string name="home_feature_timing_title">ተወዳዳርይ ጊዜ</string>
+    <string name="home_feature_timing_desc">ናይ ጊዜ ሞድ ናይ ሓቒ ፈተና ኩነታት ይመሳሰል።</string>
+    <string name="home_feature_review_title">ዝርዝር ምርኣይ</string>
+    <string name="home_feature_review_desc">መግለጺታት ርአ፡ ብትምህርቲ ጥንካረኻ ተኸታተል።</string>
+    <string name="home_loading">ናይ ሕቶ ባንክ ይዳሎ…</string>
+    <string name="home_load_failed">ሕቶታት ምጽዓን ኣይተዓወተን</string>
+    <string name="home_retry">እንደገና ፈትን</string>
+
+    <!-- Subject -->
+    <string name="subject_title">ትምህርቲ ምረጽ</string>
+    <string name="subject_subtitle_count">%1$d ትምህርትታት ይርከቡ</string>
+    <string name="subject_empty">ትምህርትታት ገና የለዉን</string>
+    <string name="subject_question_count">%1$d ሕቶታት</string>
+    <string name="subject_pill_offline">ብዘይ ኢንተርነት</string>
+    <string name="subject_mode_timed">ብጊዜ</string>
+    <string name="subject_mode_practice">ልምምድ</string>
+    <string name="subject_picker_subtitle">ከመይ ጌርካ ክትወስዶ ከም ትደሊ ምረጽ።</string>
+    <string name="subject_mode_timed_desc">ናይ 40 ሕቶ ብጊዜ ዝውሰድ ናይ ሓቒ ፈተና ምስልታት።</string>
+    <string name="subject_mode_practice_desc">ብዘይ ጊዜ ልምምድ ምስ ቅጽበታዊ ምላሽ።</string>
+    <string name="subject_past_papers_header">ሕሉፋት ናይ ዓመት ፈተናታት</string>
+    <string name="subject_past_papers_empty">ናይዚ ትምህርቲ ሕሉፋት ፈተናታት የለዉን።</string>
+    <string name="subject_past_paper_year">%1$d</string>
+    <string name="subject_past_paper_count">%1$d ሕቶታት</string>
+    <string name="result_past_paper_subtitle">ሕሉፍ ፈተና · %1$d</string>
+
+    <!-- Exam -->
+    <string name="exam_question_index">ሕቶ %1$d</string>
+    <string name="exam_question_of">ካብ %1$d</string>
+    <string name="exam_header_subject_year">%1$s · %2$d</string>
+    <string name="exam_header_progress">ሕቶ %1$d ካብ %2$d</string>
+    <string name="exam_progress_format">%1$d / %2$d</string>
+    <string name="exam_action_prev">ዝሓለፈ</string>
+    <string name="exam_action_next">ቀጻሊ</string>
+    <string name="exam_action_finish">ወዳእ</string>
+    <string name="exam_action_submit">ኣረክብ</string>
+    <string name="exam_action_review">ድጊም ርአ</string>
+    <string name="exam_review_title">ሕቶታት ድጊም ርአ</string>
+    <string name="exam_review_stat">%1$d / %2$d ተመሊሱ</string>
+    <string name="exam_review_close">ዕጾ</string>
+    <string name="exam_exit_dialog_title">ፈተና ራሕርሕ ድዩ?</string>
+    <string name="exam_exit_dialog_message">መልሲታትካ ክጠፍኡ እዮም።</string>
+    <string name="exam_exit_dialog_leave">ራሕርሕ</string>
+    <string name="exam_exit_dialog_stay">ቀጽል</string>
+
+    <!-- Result -->
+    <string name="result_title">ውጽኢታት</string>
+    <string name="result_loading">ውጽኢታት ይጽዓኑ…</string>
+    <string name="result_status_passed">ዓዊቱ</string>
+    <string name="result_status_failed">ኣይዓወተን</string>
+    <string name="result_action_retry">እንደገና</string>
+    <string name="result_action_home">መበገሲ</string>
+    <string name="result_review_header">ናይ ሕቶታት ምርኣይ</string>
+    <string name="result_stat_correct">ቅኑዕ</string>
+    <string name="result_stat_wrong">ጌጋ</string>
+    <string name="result_stat_skipped">ዘይተመለሰ</string>
+    <string name="result_stat_time">ጊዜ</string>
+    <string name="result_answer_prefix">መልሲ: %1$s</string>
+    <string name="result_grade_label">ደረጃ</string>
+    <string name="result_gpa_label">GPA</string>
+    <string name="result_your_answer_prefix">መልስኻ: %1$s</string>
+    <string name="result_your_answer_skipped">ዘይተመለሰ</string>
+    <string name="result_question_number">ሕቶ %1$d</string>
+    <string name="result_status_correct">ቅኑዕ</string>
+    <string name="result_status_incorrect">ጌጋ</string>
+    <string name="result_status_skipped">ዘይተመለሰ</string>
+    <string name="cd_expand_question">ሕቶ ኣስፍሕ</string>
+    <string name="cd_collapse_question">ሕቶ ኣጽብብ</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">ምዕባለይ</string>
+    <string name="dashboard_section_by_subject">ብትምህርቲ</string>
+    <string name="dashboard_empty_title">ገና ፈተና ኣይወሰድካን</string>
+    <string name="dashboard_empty_body">ፈተና ምስ ወዳእካ፡ ስታቲስቲክስካ ኣብዚ ክርአ እዩ።</string>
+    <string name="dashboard_clear">ኣጽሪ</string>
+    <string name="dashboard_clear_dialog_title">ኩሉ ምዕባለ ኣጽሪ?</string>
+    <string name="dashboard_clear_dialog_message">እዚ ተግባር ድሕሪ ምግባሩ ኣይምለስን።</string>
+    <string name="dashboard_cancel">ስረዝ</string>
+    <string name="dashboard_stat_attempts">ፈተናታት</string>
+    <string name="dashboard_stat_best">ዝለዓለ</string>
+    <string name="dashboard_stat_avg">መዓልቲ</string>
+    <string name="dashboard_stat_average">መዓልቲ</string>
+    <string name="dashboard_average_label">ማእከላይ ነጥቢ</string>
+    <string name="dashboard_percent_int">%1$d%%</string>
+    <string name="dashboard_overall_gpa_label">ጠቕላላ GPA</string>
+    <string name="dashboard_overall_grade_label">ደረጃ</string>
+    <string name="dashboard_gpa_scale_hint">ብፈተናታት ዝተወሃሃደ · ካብ 4.00</string>
+
+    <!-- Common -->
+    <string name="cd_back">ተመለስ</string>
+    <string name="cd_exit">ውጻእ</string>
+    <string name="action_save">ኣቐምጥ</string>
+    <string name="action_cancel">ስረዝ</string>
+    <string name="action_delete">ኣጥፍእ</string>
+    <string name="action_submit">ኣረክብ</string>
+
+    <!-- Profile picker -->
+    <string name="profile_picker_title">ፕሮፋይል ምረጽ</string>
+    <string name="profile_grade_label">ክፍሊ %1$d</string>
+    <string name="profile_pin_indicator">PIN</string>
+    <string name="profile_add">ፕሮፋይል ወስኽ</string>
+
+    <!-- Profile edit -->
+    <string name="profile_edit_title_new">ፕሮፋይል ወስኽ</string>
+    <string name="profile_edit_title_edit">ፕሮፋይል ኣርም</string>
+    <string name="profile_name_label">ስም</string>
+    <string name="profile_avatar_label">ስእሊ</string>
+    <string name="profile_category_label">ናይ ፈተና ምድብ</string>
+    <string name="profile_category_grade8">ክፍሊ 8</string>
+    <string name="profile_category_matriculation">ማትሪክ</string>
+    <string name="profile_pin_require">PIN የድሊ</string>
+    <string name="profile_pin_label">4-ኣሃዝ PIN</string>
+    <string name="profile_delete">ፕሮፋይል ኣጥፍእ</string>
+    <string name="profile_delete_dialog_title">ፕሮፋይል ይጥፋእ?</string>
+    <string name="profile_delete_dialog_message">ኩሉ ናይ ፈተና ታሪኽ፡ ፈተናታትን ተኣክባትን ናይዚ ፕሮፋይል ክጠፍእ እዩ።</string>
+
+    <!-- PIN dialog -->
+    <string name="pin_dialog_title">PIN ኣእትው</string>
+    <string name="pin_error">ጌጋ PIN</string>
+
+    <!-- Settings: profile section -->
+    <string name="settings_profile_section">ፕሮፋይል</string>
+    <string name="settings_manage_profiles">ፕሮፋይላት ኣመሓድር</string>
+    <string name="settings_profile_helper">ኣብዚ ናውቲ ዝጥቀሙ ተመሃሮ ወስኽ፡ ኣርም ወይ ቀይር።</string>
+</resources>

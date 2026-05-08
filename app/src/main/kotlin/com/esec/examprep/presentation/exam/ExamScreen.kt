@@ -223,7 +223,8 @@ fun ExamScreen(
                             questionIndex    = state.currentIndex,
                             totalQuestions   = state.questions.size,
                             selectedOptionId = state.answers[q.id],
-                            revealAnswer     = state.mode == com.esec.examprep.domain.model.ExamMode.PRACTICE,
+                            revealAnswer     = state.mode == com.esec.examprep.domain.model.ExamMode.PRACTICE ||
+                                state.mode == com.esec.examprep.domain.model.ExamMode.REVIEW,
                             onOptionSelected = viewModel::selectAnswer,
                             onToggleBookmark = { viewModel.toggleBookmark(q.id) },
                         )

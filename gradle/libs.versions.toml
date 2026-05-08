@@ -15,6 +15,7 @@ gson                 = "2.11.0"
 coroutines           = "1.9.0"
 splashscreen         = "1.0.1"
 securityCrypto       = "1.1.0-alpha06"
+appcompat            = "1.7.0"
 junit                = "4.13.2"
 junitAndroid         = "1.2.1"
 espresso             = "3.6.1"
@@ -63,6 +64,9 @@ kotlinx-coroutines-android     = { group = "org.jetbrains.kotlinx",   name = "ko
 
 # Security
 androidx-security-crypto       = { group = "androidx.security",        name = "security-crypto",          version.ref = "securityCrypto" }
+
+# AppCompat (needed for per-app locales via AppCompatDelegate)
+androidx-appcompat             = { group = "androidx.appcompat",       name = "appcompat",                version.ref = "appcompat" }
 
 # Testing
 junit                          = { group = "junit",                    name = "junit",                    version.ref = "junit" }

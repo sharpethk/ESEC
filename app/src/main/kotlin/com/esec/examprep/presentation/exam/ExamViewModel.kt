@@ -7,11 +7,14 @@ import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.model.ExamMode
 import com.esec.examprep.domain.model.ExamSession
 import com.esec.examprep.domain.model.ExamCategory
+import com.esec.examprep.domain.usecase.BuildPracticeExamUseCase
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.GetSubjectsUseCase
+import com.esec.examprep.domain.usecase.GetWrongAnswerQuestionsUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import com.esec.examprep.presentation.common.ActiveProfileHolder
+import com.esec.examprep.presentation.common.PracticeConfigHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -31,6 +34,9 @@ class ExamViewModel @Inject constructor(
     private val getSubjects: GetSubjectsUseCase,
     private val submitExam: SubmitExamUseCase,
     private val toggleBookmarkUseCase: ToggleBookmarkUseCase,
+    private val getWrongAnswerQuestions: GetWrongAnswerQuestionsUseCase,
+    private val buildPracticeExam: BuildPracticeExamUseCase,
+    private val practiceConfigHolder: PracticeConfigHolder,
     private val prefsRepo: UserPreferencesRepository,
     private val activeProfile: ActiveProfileHolder,
 ) : ViewModel() {
@@ -65,9 +71,25 @@ class ExamViewModel @Inject constructor(
 
             val mode = runCatching { ExamMode.valueOf(modeArg) }.getOrDefault(ExamMode.PRACTICE)
             val prefs = prefsRepo.preferences.first()
-            val questions = getQuestions(profileIdSnapshot, subjectId, count = prefs.defaultExamLength, year = year)
-            val subjectName = getSubjects(categorySnapshot).first().firstOrNull { it.id == subjectId }?.name.orEmpty()
+            val questions = when (mode) {
+                ExamMode.REVIEW -> {
+                    val filter = subjectId.takeUnless { it == ALL_SUBJECTS_TOKEN }
+                    getWrongAnswerQuestions(profileIdSnapshot, filter)
+                }
+                ExamMode.PRACTICE_CUSTOM -> {
+                    val cfg = practiceConfigHolder.take()
+                    if (cfg != null) buildPracticeExam(profileIdSnapshot, cfg) else emptyList()
+                }
+                else -> getQuestions(profileIdSnapshot, subjectId, count = prefs.defaultExamLength, year = year)
+            }
+            val subjectName = when (mode) {
+                ExamMode.REVIEW -> ""
+                ExamMode.PRACTICE_CUSTOM -> ""
+                else -> getSubjects(categorySnapshot).first().firstOrNull { it.id == subjectId }?.name.orEmpty()
+            }
             val timerMinutes = when {
+                mode == ExamMode.REVIEW || mode == ExamMode.PRACTICE_CUSTOM ->
+                    maxOf(prefs.defaultTimerMinutes, questions.size)
                 year != null               -> maxOf(prefs.defaultTimerMinutes, questions.size)
                 prefs.defaultExamLength <= 0 -> maxOf(prefs.defaultTimerMinutes, questions.size)
                 else                        -> prefs.defaultTimerMinutes
@@ -160,5 +182,9 @@ class ExamViewModel @Inject constructor(
     override fun onCleared() {
         timerJob?.cancel()
         super.onCleared()
+    }
+
+    companion object {
+        const val ALL_SUBJECTS_TOKEN = "all"
     }
 }
