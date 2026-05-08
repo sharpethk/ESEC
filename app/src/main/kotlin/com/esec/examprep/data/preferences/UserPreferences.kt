@@ -13,4 +13,7 @@ data class UserPreferences(
     val defaultExamLength: Int = 40,
     val defaultTimerMinutes: Int = 30,
     val language: AppLanguage = AppLanguage.SYSTEM,
+    val remindersEnabled: Boolean = false,
+    val reminderHour: Int = 18,
+    val reminderMinute: Int = 0,
 )

@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.FamilyRestroom
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.ManageAccounts
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Schedule
@@ -49,6 +50,9 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
+import androidx.compose.material3.TimePicker
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -57,7 +61,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -228,6 +234,18 @@ fun SettingsScreen(
                 )
                 Spacer(Modifier.height(Spacing.xs))
                 HelperText("Used for timed-mode exams.")
+            }
+
+            SectionCard(title = "Reminders", icon = Icons.Default.Notifications) {
+                ReminderRow(
+                    enabled = prefs.remindersEnabled,
+                    hour = prefs.reminderHour,
+                    minute = prefs.reminderMinute,
+                    onEnabledChange = viewModel::onRemindersEnabledChanged,
+                    onTimeChange = viewModel::onReminderTimeChanged,
+                )
+                Spacer(Modifier.height(Spacing.sm))
+                HelperText("Daily challenge reminder at your chosen time. Skipped if you've already completed today.")
             }
 
             SectionCard(title = "Data", icon = Icons.Default.DeleteSweep) {
@@ -485,6 +503,71 @@ private fun HelperText(text: String) {
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ReminderRow(
+    enabled: Boolean,
+    hour: Int,
+    minute: Int,
+    onEnabledChange: (Boolean) -> Unit,
+    onTimeChange: (Int, Int) -> Unit,
+) {
+    var showPicker by remember { mutableStateOf(false) }
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                "Daily reminder",
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+            )
+            Text(
+                "%02d:%02d".format(hour, minute),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        AssistChip(
+            onClick = { showPicker = true },
+            enabled = enabled,
+            label = { Text("Change time") },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Schedule,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                )
+            },
+        )
+        Spacer(Modifier.size(Spacing.sm))
+        Switch(checked = enabled, onCheckedChange = onEnabledChange)
+    }
+
+    if (showPicker) {
+        val pickerState = rememberTimePickerState(
+            initialHour = hour,
+            initialMinute = minute,
+            is24Hour = true,
+        )
+        AlertDialog(
+            onDismissRequest = { showPicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    onTimeChange(pickerState.hour, pickerState.minute)
+                    showPicker = false
+                }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showPicker = false }) { Text("Cancel") }
+            },
+            title = { Text("Reminder time") },
+            text = { TimePicker(state = pickerState) },
+        )
+    }
 }
 
 @Composable

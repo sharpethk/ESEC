@@ -72,7 +72,7 @@ Work:
 
 Goal: retention loop (streaks, challenges, badges) + parent visibility + sharing. First introduces background work and notifications.
 
-### 3.1 Daily Challenge + streak tracking ❌ NOT IMPLEMENTED
+### 3.1 Daily Challenge + streak tracking ✅ DONE
 Work:
 - New entity `DailyChallengeEntity(profileId, date, questionIds, completedAt?, scorePercent?)` (schema v6 or v7).
 - Generation: deterministic seed = `(profileId, date)` → pick N questions weighted toward weak topics (reuse `observeWeakTopics()`).
@@ -80,21 +80,21 @@ Work:
 - UI: home-screen card "Today's Challenge"; streak flame badge in top bar.
 - Edge cases: timezone (use device local date, document it); freeze on grace day (no — keep it strict in v1).
 
-### 3.2 Achievements / badges ❌ NOT IMPLEMENTED
+### 3.2 Achievements / badges ✅ DONE
 Work:
 - New entities `AchievementEntity` (catalog, static-seeded) + `ProfileAchievementEntity(profileId, achievementId, unlockedAt)`.
 - Catalog v1: "First exam", "10 in a row correct", "7-day streak", "All subjects attempted", "100 questions answered", "GPA ≥ 3.5", "Wrong-answer notebook cleared".
 - Evaluation: single `AchievementEvaluator` invoked after `SubmitExam` and after daily-challenge completion. Idempotent; only inserts new unlocks.
 - UI: `AchievementsScreen` (grid, locked/unlocked); toast/snackbar on unlock.
 
-### 3.3 Parent View (read-only, PIN-gated) ❌ NOT IMPLEMENTED
+### 3.3 Parent View (read-only, PIN-gated) ✅ DONE
 Work:
 - Reuse existing `pinHash` on `ProfileEntity` — but parent view needs its own PIN, not the profile's. Add `parentPinHash` to a new `AppSettingsEntity` or DataStore (encrypted).
 - New top-level entry from Settings → "Parent View" → PIN gate → dashboard listing all profiles with: recent exams, GPA, streak, weak subjects, time-spent (already in `GetTimeStats`).
 - Read-only: no edit/delete actions inside parent view.
 - Lockout: 5 wrong PINs → 1-min cooldown (in-memory).
 
-### 3.4 Notifications (daily reminders) ❌ NOT IMPLEMENTED
+### 3.4 Notifications (daily reminders) ✅ IMPLEMENTED
 Work:
 - Add `androidx.work:work-runtime-ktx` and notification permission (Android 13+ runtime prompt).
 - `DailyReminderWorker` (PeriodicWorkRequest, 1-day, with `setRequiresBatteryNotLow`). Schedules at user-chosen time (default 18:00 local).
@@ -102,7 +102,7 @@ Work:
 - Settings toggle + time picker; persist in DataStore. Cancel/reschedule on toggle.
 - Don't fire if today's challenge already completed.
 
-### 3.5 Progress sharing / PDF export ❌ NOT IMPLEMENTED
+### 3.5 Progress sharing / PDF export ✅ IMPLEMENTED
 Work:
 - Two surfaces:
   - **Share image**: render a Compose card (score, subject, date, GPA) → `Bitmap` via `GraphicsLayer.toImageBitmap()` (Compose 1.6+) or `PixelCopy` → `FileProvider` URI → `ACTION_SEND`.
@@ -111,11 +111,11 @@ Work:
 - Privacy: never include profile name unless user confirms.
 
 ### Phase 3 deliverables checklist
-- [ ] Daily Challenge + streak (schema migration)
-- [ ] Achievements catalog + evaluator
-- [ ] Parent View behind separate PIN
-- [ ] Daily reminder notifications via WorkManager
-- [ ] Share image + PDF progress export
+- [x] Daily Challenge + streak (schema migration)
+- [x] Achievements catalog + evaluator
+- [x] Parent View behind separate PIN
+- [x] Daily reminder notifications via WorkManager
+- [x] Share image + PDF progress export
 
 ---
 

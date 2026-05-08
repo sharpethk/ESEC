@@ -2,6 +2,7 @@ package com.esec.examprep.data.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -25,6 +26,9 @@ class UserPreferencesRepository @Inject constructor(
             language = runCatching {
                 AppLanguage.valueOf(p[KEY_LANGUAGE] ?: AppLanguage.SYSTEM.name)
             }.getOrDefault(AppLanguage.SYSTEM),
+            remindersEnabled = p[KEY_REMINDERS_ENABLED] ?: false,
+            reminderHour = p[KEY_REMINDER_HOUR] ?: 18,
+            reminderMinute = p[KEY_REMINDER_MINUTE] ?: 0,
         )
     }
 
@@ -46,6 +50,17 @@ class UserPreferencesRepository @Inject constructor(
 
     suspend fun setLanguage(lang: AppLanguage) {
         dataStore.edit { it[KEY_LANGUAGE] = lang.name }
+    }
+
+    suspend fun setRemindersEnabled(enabled: Boolean) {
+        dataStore.edit { it[KEY_REMINDERS_ENABLED] = enabled }
+    }
+
+    suspend fun setReminderTime(hour: Int, minute: Int) {
+        dataStore.edit {
+            it[KEY_REMINDER_HOUR] = hour
+            it[KEY_REMINDER_MINUTE] = minute
+        }
     }
 
     suspend fun setActiveProfileId(id: String?) {
@@ -79,5 +94,8 @@ class UserPreferencesRepository @Inject constructor(
         val KEY_ACTIVE_PROFILE = stringPreferencesKey("active_profile_id")
         val KEY_LANGUAGE = stringPreferencesKey("app_language")
         val KEY_PARENT_PIN_HASH = stringPreferencesKey("parent_pin_hash")
+        val KEY_REMINDERS_ENABLED = booleanPreferencesKey("reminders_enabled")
+        val KEY_REMINDER_HOUR = intPreferencesKey("reminder_hour")
+        val KEY_REMINDER_MINUTE = intPreferencesKey("reminder_minute")
     }
 }

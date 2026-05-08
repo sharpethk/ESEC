@@ -19,6 +19,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.AlertDialog
@@ -46,6 +47,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -58,6 +60,7 @@ import com.esec.examprep.domain.model.WeakTopic
 import com.esec.examprep.presentation.components.IconBadge
 import com.esec.examprep.presentation.components.StatTile
 import com.esec.examprep.presentation.components.StatusPill
+import com.esec.examprep.presentation.share.PdfExporter
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
 import com.esec.examprep.presentation.theme.Spacing
@@ -75,6 +78,7 @@ fun DashboardScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val progress = state.progress
+    val context = LocalContext.current
     var showClearDialog by remember { mutableStateOf(false) }
 
     if (showClearDialog) {
@@ -121,6 +125,20 @@ fun DashboardScreen(
                 },
                 actions = {
                     if (progress.isNotEmpty()) {
+                        IconButton(onClick = {
+                            runCatching {
+                                PdfExporter.exportProgressPdf(
+                                    context = context,
+                                    profileName = null,
+                                    progress = state.progress,
+                                    recent = state.recent,
+                                    weakTopics = state.weakTopics,
+                                    avgTimePerQuestion = state.avgTimePerQuestion,
+                                )
+                            }
+                        }) {
+                            Icon(Icons.Default.FileDownload, contentDescription = "Export PDF")
+                        }
                         TextButton(onClick = { showClearDialog = true }) {
                             Text(
                                 stringResource(R.string.dashboard_clear),

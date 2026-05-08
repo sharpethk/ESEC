@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -51,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -63,6 +65,7 @@ import com.esec.examprep.domain.model.QuestionResult
 import com.esec.examprep.presentation.components.OptionItem
 import com.esec.examprep.presentation.components.ScoreRing
 import com.esec.examprep.presentation.components.StatusPill
+import com.esec.examprep.presentation.share.ShareUtil
 import com.esec.examprep.presentation.theme.CorrectGreen
 import com.esec.examprep.presentation.theme.Elevation
 import com.esec.examprep.presentation.theme.Radius
@@ -80,6 +83,7 @@ fun ResultScreen(
     viewModel: ResultViewModel = hiltViewModel(),
 ) {
     val result by viewModel.result.collectAsState()
+    val context = LocalContext.current
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -91,6 +95,14 @@ fun ResultScreen(
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold,
                     )
+                },
+                actions = {
+                    val r = result
+                    if (r != null) {
+                        androidx.compose.material3.IconButton(onClick = { ShareUtil.shareExamResult(context, r) }) {
+                            Icon(Icons.Default.Share, contentDescription = "Share result")
+                        }
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,

@@ -8,6 +8,7 @@ import com.esec.examprep.data.preferences.UserPreferencesRepository
 import com.esec.examprep.domain.repository.ExamSessionRepository
 import com.esec.examprep.domain.usecase.ReloadQuestionBankUseCase
 import com.esec.examprep.presentation.common.ActiveProfileHolder
+import com.esec.examprep.work.DailyReminderScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +22,7 @@ class SettingsViewModel @Inject constructor(
     private val examRepo: ExamSessionRepository,
     private val activeProfile: ActiveProfileHolder,
     private val reloadQuestionBank: ReloadQuestionBankUseCase,
+    private val reminderScheduler: DailyReminderScheduler,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -89,5 +91,23 @@ class SettingsViewModel @Inject constructor(
 
     fun consumeReloadBankMessage() {
         _state.update { it.copy(reloadBankMessage = null) }
+    }
+
+    fun onRemindersEnabledChanged(enabled: Boolean) {
+        viewModelScope.launch {
+            prefs.setRemindersEnabled(enabled)
+            val p = _state.value.preferences
+            if (enabled) reminderScheduler.schedule(p.reminderHour, p.reminderMinute)
+            else reminderScheduler.cancel()
+        }
+    }
+
+    fun onReminderTimeChanged(hour: Int, minute: Int) {
+        viewModelScope.launch {
+            prefs.setReminderTime(hour, minute)
+            if (_state.value.preferences.remindersEnabled) {
+                reminderScheduler.schedule(hour, minute)
+            }
+        }
     }
 }
