@@ -23,6 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -68,11 +69,7 @@ class ExamViewModel @Inject constructor(
 
     private fun loadQuestions() {
         viewModelScope.launch {
-            val profile = activeProfile.activeProfile.value
-                ?: run {
-                    _state.update { it.copy(isLoading = false) }
-                    return@launch
-                }
+            val profile = activeProfile.activeProfile.filterNotNull().first()
             profileIdSnapshot = profile.id
             categorySnapshot = profile.examCategory
 

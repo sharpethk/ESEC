@@ -1,5 +1,6 @@
 package com.esec.examprep.data.repository
 
+import android.util.Log
 import com.esec.examprep.data.crypto.QuestionBankDecryptor
 import com.esec.examprep.data.json.QuestionBankDto
 import com.esec.examprep.data.local.dao.BookmarkDao
@@ -95,6 +96,24 @@ class QuestionRepositoryImpl @Inject constructor(
                 q.options.all { it.id.isNotBlank() && it.text.isNotBlank() } &&
                 q.options.distinctBy { it.id }.size == q.options.size &&
                 q.options.any { it.id == q.correctOptionId }
+        }
+
+        val droppedCount = bank.questions.size - validQuestions.size
+        if (droppedCount > 0) {
+            val validIds = validQuestions.mapTo(HashSet(validQuestions.size)) { it.id }
+            val sampleIds = bank.questions.asSequence()
+                .filter { it.id !in validIds }
+                .take(5)
+                .joinToString(", ") { it.id }
+            Log.w(
+                "QuestionBank",
+                "Dropped $droppedCount/${bank.questions.size} malformed questions during seed. Sample IDs: $sampleIds",
+            )
+            val subjectsWithValid = validQuestions.mapTo(HashSet()) { it.subjectId }
+            val emptySubjects = bank.subjects.map { it.id }.filter { it !in subjectsWithValid }
+            if (emptySubjects.isNotEmpty()) {
+                Log.w("QuestionBank", "Subjects with zero valid questions after filtering: $emptySubjects")
+            }
         }
 
         val questionsBySubject = validQuestions.groupBy { it.subjectId }
