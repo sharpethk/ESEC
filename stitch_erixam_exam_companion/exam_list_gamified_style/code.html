@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EriXam - Mathematics Quests</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error": "#ba1a1a",
+                    "tertiary-container": "#ff7b70",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#74fd94",
+                    "inverse-surface": "#2c3135",
+                    "surface-container-low": "#eff4fa",
+                    "secondary-container": "#71fa92",
+                    "secondary": "#006d2f",
+                    "surface-container-high": "#e4e9ee",
+                    "on-secondary-fixed-variant": "#005322",
+                    "background": "#f5faff",
+                    "on-tertiary-fixed": "#410002",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-bright": "#f5faff",
+                    "primary": "#00658d",
+                    "on-surface-variant": "#3e4850",
+                    "tertiary-fixed": "#ffdad6",
+                    "on-secondary-fixed": "#002109",
+                    "primary-fixed": "#c6e7ff",
+                    "on-error-container": "#93000a",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#55e07b",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "on-tertiary-container": "#790009",
+                    "primary-fixed-dim": "#82cfff",
+                    "on-tertiary-fixed-variant": "#93000d",
+                    "surface-container-highest": "#dee3e8",
+                    "surface-dim": "#d6dae0",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#171c20",
+                    "on-secondary-container": "#007232",
+                    "outline-variant": "#bdc8d1",
+                    "surface-container": "#eaeef4",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#ecf1f7",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#c00015",
+                    "surface-tint": "#00658d",
+                    "on-surface": "#171c20",
+                    "inverse-primary": "#82cfff",
+                    "surface": "#f5faff",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "on-primary-container": "#003e58",
+                    "primary-container": "#00aeef",
+                    "on-error": "#ffffff",
+                    "outline": "#6e7881",
+                    "surface-variant": "#dee3e8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "md": "16px",
+                    "base": "4px",
+                    "margin-mobile": "16px",
+                    "lg": "24px",
+                    "gutter-mobile": "12px",
+                    "xs": "4px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Inter"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 sticky z-40 transition-colors duration-200">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<div class="flex items-center gap-md">
+<button class="transition-colors duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary">Quest Log</span>
+</div>
+<button class="transition-colors duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-margin-mobile py-md">
+<!-- Search and Context Header -->
+<div class="mb-lg">
+<h1 class="font-display-lg text-display-lg text-primary mb-xs">Mathematics</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Select your next challenge</p>
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary py-md pl-xl pr-md font-body-md transition-all outline-none rounded-t-lg" placeholder="Find a specific quest..." type="text"/>
+</div>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-sm overflow-x-auto pb-md no-scrollbar">
+<button class="flex items-center gap-xs px-md py-sm bg-primary-container text-on-primary-container rounded-full font-label-lg whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                Year
+            </button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface-variant rounded-full font-label-lg whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">school</span>
+                Grade
+            </button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface-variant rounded-full font-label-lg whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">category</span>
+                Difficulty
+            </button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface-variant rounded-full font-label-lg whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                More
+            </button>
+</div>
+<!-- Active Quests -->
+<section class="mt-lg">
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-title-lg text-title-lg text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+            Active Quests
+        </h2>
+<div class="h-[1px] flex-grow ml-md bg-primary/20"></div>
+</div>
+<div class="grid grid-cols-1 gap-md">
+<!-- Quest Bento Card 1 -->
+<article class="bg-surface-container-lowest border-2 border-primary/20 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all active:scale-[0.99]">
+<div class="p-md">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-sm mb-xs">
+<span class="bg-primary/10 text-primary px-sm py-[2px] rounded text-[10px] font-bold uppercase tracking-wider">Hard</span>
+<span class="flex items-center gap-xs text-secondary font-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    +500 XP
+                                </span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface leading-tight">Mathematics 2023 - Grade 12</h3>
+</div>
+<div class="p-sm bg-surface-container rounded-xl">
+<span class="material-symbols-outlined text-primary">functions</span>
+</div>
+</div>
+<div class="flex items-center gap-md mb-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">description</span>
+<span class="font-label-sm">50 Qs</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm">60m</span>
+</div>
+<div class="flex-grow"></div>
+<div class="flex items-center -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-primary/20 flex items-center justify-center text-[10px] font-bold">A</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface bg-secondary/20 flex items-center justify-center text-[10px] font-bold">B</div>
+<span class="ml-4 font-label-sm text-on-surface-variant text-[10px]">+12k Players</span>
+</div>
+</div>
+<button class="w-full py-md px-md bg-primary text-on-primary font-bold rounded-xl active:scale-95 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-sm">
+                    Start Quest
+                    <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- Completed Quests -->
+<section class="mt-xl">
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-title-lg text-title-lg text-secondary flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            Completed
+        </h2>
+<div class="h-[1px] flex-grow ml-md bg-secondary/20"></div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<!-- Completed Bento 1 -->
+<article class="bg-secondary/5 border border-secondary/20 rounded-2xl p-md flex flex-col justify-between opacity-80">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="bg-secondary/10 text-secondary px-sm py-[2px] rounded text-[10px] font-bold uppercase">Easy</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
+</div>
+<h3 class="font-label-lg text-on-surface mb-xs">Mock Paper 1</h3>
+<p class="text-[10px] text-on-surface-variant">Scored: 88%</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-secondary font-bold text-sm">+250 XP</span>
+<button class="p-xs text-primary"><span class="material-symbols-outlined text-[20px]">replay</span></button>
+</div>
+</article>
+<!-- Completed Bento 2 -->
+<article class="bg-secondary/5 border border-secondary/20 rounded-2xl p-md flex flex-col justify-between opacity-80">
+<div>
+<div class="flex justify-between items-start mb-sm">
+<span class="bg-secondary/10 text-secondary px-sm py-[2px] rounded text-[10px] font-bold uppercase">Easy</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
+</div>
+<h3 class="font-label-lg text-on-surface mb-xs">2022 Quiz</h3>
+<p class="text-[10px] text-on-surface-variant">Scored: 95%</p>
+</div>
+<div class="mt-md flex justify-between items-center">
+<span class="text-secondary font-bold text-sm">+300 XP</span>
+<button class="p-xs text-primary"><span class="material-symbols-outlined text-[20px]">replay</span></button>
+</div>
+</article>
+</div>
+</section>
+<!-- Locked Quests -->
+<section class="mt-xl">
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-title-lg text-title-lg text-on-surface-variant flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+            Locked Quests
+        </h2>
+<div class="h-[1px] flex-grow ml-md bg-outline-variant"></div>
+</div>
+<div class="space-y-md">
+<article class="bg-surface-container-high/50 border border-outline-variant/30 rounded-2xl p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded-xl flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline">lock</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-lg text-on-surface-variant">Mathematics 2024 (Early Access)</h3>
+<p class="text-[11px] text-outline flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">stars</span>
+                    Requires Level 10
+                </p>
+</div>
+<span class="text-xs font-bold text-primary bg-primary/10 px-sm py-1 rounded-full">+1000 XP</span>
+</article>
+</div>
+</section>
+<!-- Promotional Banner / Streak Info -->
+<section class="mt-xl bg-gradient-to-br from-primary to-primary-container rounded-2xl p-lg text-on-primary relative overflow-hidden shadow-lg">
+<div class="relative z-10">
+<h4 class="font-title-lg text-title-lg mb-xs">Maintain your Streak</h4>
+<p class="font-body-md text-body-md opacity-90 mb-md">Finish one quest today to keep your fire alive!</p>
+<div class="inline-flex items-center gap-sm bg-white/20 backdrop-blur-md px-md py-sm rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-lg">4 Day Streak</span>
+</div>
+</div>
+<!-- Abstract decorative element -->
+<div class="absolute -right-8 -bottom-8 opacity-20">
+<span class="material-symbols-outlined text-[160px]">military_tech</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs pb-safe bg-surface shadow-[0_-4px_10px_rgba(0,0,0,0.05)] rounded-t-2xl">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-all duration-300 active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Quests (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-full px-6 py-2 transition-all duration-300 active:scale-90 shadow-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<span class="font-label-sm text-label-sm font-bold">Quests</span>
+</a>
+<!-- Progress -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-all duration-300 active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Stats</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-all duration-300 active:scale-90 px-4 py-1" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

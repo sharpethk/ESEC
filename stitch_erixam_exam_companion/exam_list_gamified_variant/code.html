@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#bdc8d1",
+                        "secondary-container": "#71fa92",
+                        "on-surface-variant": "#3e4850",
+                        "tertiary-container": "#ff7b70",
+                        "secondary": "#006d2f",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#d6dae0",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary": "#c00015",
+                        "primary-fixed": "#c6e7ff",
+                        "secondary-fixed": "#74fd94",
+                        "secondary-fixed-dim": "#55e07b",
+                        "inverse-surface": "#2c3135",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#6e7881",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#003e58",
+                        "surface-variant": "#dee3e8",
+                        "on-secondary-fixed": "#002109",
+                        "on-tertiary-fixed": "#410002",
+                        "primary-container": "#00aeef",
+                        "on-secondary-fixed-variant": "#005322",
+                        "surface-container-highest": "#dee3e8",
+                        "surface-tint": "#00658d",
+                        "surface": "#f5faff",
+                        "primary-fixed-dim": "#82cfff",
+                        "primary": "#00658d",
+                        "surface-bright": "#f5faff",
+                        "surface-container-low": "#eff4fa",
+                        "on-surface": "#171c20",
+                        "on-tertiary-container": "#790009",
+                        "inverse-on-surface": "#ecf1f7",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eaeef4",
+                        "on-secondary-container": "#007232",
+                        "on-primary": "#ffffff",
+                        "on-background": "#171c20",
+                        "background": "#f5faff",
+                        "inverse-primary": "#82cfff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "on-primary-fixed": "#001e2d",
+                        "surface-container-high": "#e4e9ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "margin-mobile": "16px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter-mobile": "12px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "title-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-inner-shadow {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- Top App Bar -->
+<header class="bg-surface sticky top-0 z-50 flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<button class="transition-colors duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EriXam</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 bg-tertiary-fixed px-3 py-1 rounded-full text-on-tertiary-container border border-tertiary-container/20">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-label-lg text-label-lg">7</span>
+</div>
+<button class="transition-colors duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-margin-mobile pt-4 space-y-6">
+<!-- Streak/Quest Header Card -->
+<section class="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary-container to-primary p-lg text-on-primary border border-white/10 shadow-sm">
+<div class="absolute top-0 right-0 p-4 opacity-20 transform translate-x-4 -translate-y-4">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="relative z-10 space-y-4">
+<div class="space-y-1">
+<span class="bg-white/20 text-white font-label-sm text-label-sm px-2 py-0.5 rounded-md uppercase tracking-wider">Active Quest</span>
+<h2 class="font-display-lg text-display-lg leading-tight">Unlock Level 13</h2>
+<p class="font-body-md text-body-md opacity-90">Complete 3 more Math papers to prestige!</p>
+</div>
+<div class="w-full bg-black/10 rounded-full h-3">
+<div class="bg-secondary-container h-full rounded-full w-[65%] shadow-[0_0_8px_rgba(113,250,146,0.5)]"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-lg text-label-lg">Progress: 650 / 1000 XP</span>
+<button class="bg-surface text-primary px-4 py-2 rounded-lg font-label-lg text-label-lg shadow-md transition-all active:scale-95">Claim Daily Bonus</button>
+</div>
+</div>
+</section>
+<!-- Search & Filter Controls -->
+<section class="space-y-4">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container focus:ring-0 transition-all font-body-md text-on-surface rounded-t-lg" placeholder="Search quests by year or subject..." type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto custom-scrollbar pb-1">
+<div class="flex bg-surface-container-high p-1 rounded-xl">
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-lg text-label-lg transition-all">Grade 12</button>
+<button class="text-on-surface-variant px-4 py-2 rounded-lg font-label-lg text-label-lg transition-all hover:bg-surface-variant">Grade 11</button>
+</div>
+<div class="flex bg-surface-container-high p-1 rounded-xl">
+<button class="text-on-surface-variant px-4 py-2 rounded-lg font-label-lg text-label-lg transition-all hover:bg-surface-variant flex items-center gap-1">
+                        Year <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+</div>
+<div class="flex bg-surface-container-high p-1 rounded-xl">
+<button class="text-on-surface-variant px-4 py-2 rounded-lg font-label-lg text-label-lg transition-all hover:bg-surface-variant flex items-center gap-1">
+                        Type <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Quest Log (Exam List) -->
+<section class="space-y-4">
+<div class="flex justify-between items-center">
+<h3 class="font-title-lg text-title-lg text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+                    Quest Log
+                </h3>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">8 Quests Available</span>
+</div>
+<!-- Bento Card 1: Completed/Mastered -->
+<div class="grid grid-cols-6 gap-3">
+<div class="col-span-6 bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<div class="flex gap-2">
+<span class="bg-secondary-container/20 text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded border border-secondary-container">Easy</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded">2023</span>
+</div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-sm text-label-sm">Mastery 92%</span>
+</div>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">General Mathematics</h4>
+<p class="font-body-md text-on-surface-variant">Entrance Examination - Level 12</p>
+</div>
+<div class="flex items-center justify-between mt-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary-fixed flex items-center justify-center text-[10px] font-bold text-on-primary-fixed">JD</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-secondary-fixed flex items-center justify-center text-[10px] font-bold text-on-secondary-fixed">AB</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-highest flex items-center justify-center text-[10px] font-bold text-on-surface-variant">+42</div>
+</div>
+<button class="bg-outline-variant/20 text-on-surface-variant px-4 py-2 rounded-lg font-label-lg text-label-lg transition-all active:scale-95">Review Quest</button>
+</div>
+</div>
+<!-- Bento Card 2: High Difficulty -->
+<div class="col-span-6 bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative border-l-4 border-l-tertiary">
+<div class="flex justify-between items-start">
+<div class="flex gap-2">
+<span class="bg-tertiary-container/20 text-on-tertiary-container font-label-sm text-label-sm px-2 py-0.5 rounded border border-tertiary-container">Hard</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded">2022</span>
+</div>
+<span class="bg-surface-container text-outline text-[10px] font-bold px-2 py-0.5 rounded-full">+500 XP</span>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Physics &amp; Mechanics</h4>
+<p class="font-body-md text-on-surface-variant">National High School Exit - Level 12</p>
+</div>
+<div class="mt-4">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-lg font-label-lg text-label-lg shadow-sm hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+                            Start Quest
+                        </button>
+</div>
+</div>
+<!-- Bento Card 3: In Progress (Split Layout) -->
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3">
+<span class="bg-secondary/10 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded self-start">Medium</span>
+<h4 class="font-label-lg text-label-lg leading-tight text-on-surface">Biology Basics</h4>
+<div class="mt-auto pt-2">
+<div class="text-[10px] font-bold text-outline uppercase mb-1">Status</div>
+<div class="flex items-center gap-2">
+<div class="flex-1 bg-surface-container h-1 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-[40%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-primary">40%</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3">
+<span class="bg-secondary/10 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded self-start">Medium</span>
+<h4 class="font-label-lg text-label-lg leading-tight text-on-surface">Chemistry 101</h4>
+<div class="mt-auto pt-2">
+<button class="w-full bg-surface-container-high text-primary py-2 rounded-lg font-label-lg text-label-lg transition-all active:scale-95">Start</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Maintain Streak Section -->
+<section class="bg-secondary-container/10 border-2 border-dashed border-secondary-container/40 rounded-2xl p-lg flex flex-col items-center text-center space-y-3">
+<div class="bg-secondary-container text-on-secondary-container p-3 rounded-full shadow-lg">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+</div>
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">Maintain your Streak</h4>
+<p class="font-body-md text-on-surface-variant">Don't let the fire go out! Complete any quest today to reach an 8-day streak.</p>
+</div>
+<div class="flex gap-2 mt-2">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-xs text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] font-bold text-outline uppercase">M</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center mb-1">
+<span class="material-symbols-outlined text-xs text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-[10px] font-bold text-outline uppercase">T</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center mb-1 animate-pulse">
+<span class="material-symbols-outlined text-xs text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase">W</span>
+</div>
+<div class="flex flex-col items-center opacity-30">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center mb-1"></div>
+<span class="text-[10px] font-bold text-outline uppercase">T</span>
+</div>
+<div class="flex flex-col items-center opacity-30">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center mb-1"></div>
+<span class="text-[10px] font-bold text-outline uppercase">F</span>
+</div>
+<div class="flex flex-col items-center opacity-30">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center mb-1"></div>
+<span class="text-[10px] font-bold text-outline uppercase">S</span>
+</div>
+<div class="flex flex-col items-center opacity-30">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center mb-1"></div>
+<span class="text-[10px] font-bold text-outline uppercase">S</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface flex justify-around items-center px-sm py-xs pb-safe rounded-t-xl shadow-sm border-t border-outline-variant/10">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+</body></html>

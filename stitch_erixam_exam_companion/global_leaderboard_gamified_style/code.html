@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "primary-container": "#00aeef",
+                  "error-container": "#ffdad6",
+                  "tertiary-container": "#ff7b70",
+                  "on-secondary-fixed-variant": "#005322",
+                  "secondary-fixed-dim": "#55e07b",
+                  "background": "#f5faff",
+                  "on-secondary-fixed": "#002109",
+                  "on-tertiary-container": "#790009",
+                  "on-error": "#ffffff",
+                  "surface-bright": "#f5faff",
+                  "tertiary-fixed": "#ffdad6",
+                  "on-surface-variant": "#3e4850",
+                  "on-primary": "#ffffff",
+                  "tertiary-fixed-dim": "#ffb4ac",
+                  "on-surface": "#171c20",
+                  "on-secondary-container": "#007232",
+                  "primary": "#00658d",
+                  "on-tertiary": "#ffffff",
+                  "on-primary-fixed-variant": "#004c6b",
+                  "secondary": "#006d2f",
+                  "surface-tint": "#00658d",
+                  "surface-container-low": "#eff4fa",
+                  "inverse-surface": "#2c3135",
+                  "surface-container-lowest": "#ffffff",
+                  "secondary-container": "#71fa92",
+                  "on-background": "#171c20",
+                  "error": "#ba1a1a",
+                  "surface-variant": "#dee3e8",
+                  "inverse-primary": "#82cfff",
+                  "outline": "#6e7881",
+                  "primary-fixed": "#c6e7ff",
+                  "inverse-on-surface": "#ecf1f7",
+                  "on-tertiary-fixed-variant": "#93000d",
+                  "on-error-container": "#93000a",
+                  "surface-container-high": "#e4e9ee",
+                  "surface": "#f5faff",
+                  "on-primary-fixed": "#001e2d",
+                  "on-tertiary-fixed": "#410002",
+                  "primary-fixed-dim": "#82cfff",
+                  "outline-variant": "#bdc8d1",
+                  "on-secondary": "#ffffff",
+                  "tertiary": "#c00015",
+                  "surface-container-highest": "#dee3e8",
+                  "on-primary-container": "#003e58",
+                  "surface-container": "#eaeef4",
+                  "secondary-fixed": "#74fd94",
+                  "surface-dim": "#d6dae0"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "lg": "24px",
+                  "gutter-mobile": "12px",
+                  "xl": "32px",
+                  "sm": "8px",
+                  "base": "4px",
+                  "margin-mobile": "16px",
+                  "md": "16px",
+                  "xs": "4px"
+          },
+          "fontFamily": {
+                  "label-lg": ["Inter"],
+                  "display-lg": ["Plus Jakarta Sans"],
+                  "body-lg": ["Inter"],
+                  "title-lg": ["Inter"],
+                  "body-md": ["Inter"],
+                  "label-sm": ["Inter"],
+                  "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+                  "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                  "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}],
+                  "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #bdc8d1;
+      border-radius: 10px;
+    }
+    .podium-gradient {
+      background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,174,239,0.05) 100%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden flex flex-col h-screen">
+<!-- TopAppBar Section -->
+<header class="bg-surface dark:bg-on-background flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto sticky top-0 z-50">
+<div class="flex items-center gap-md">
+<button class="transition-colors duration-200 active:scale-95 hover:bg-surface-container-high dark:hover:bg-surface-variant p-2 rounded-full">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container">EriXam</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="transition-colors duration-200 active:scale-95 hover:bg-surface-container-high dark:hover:bg-surface-variant p-2 rounded-full">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed">search</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto custom-scrollbar max-w-md mx-auto w-full pb-32">
+<!-- Hero Header / Podium Section -->
+<section class="px-margin-mobile pt-lg pb-xl podium-gradient rounded-b-[2.5rem]">
+<div class="flex flex-col items-center mb-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs">National Leaderboard</h2>
+<div class="flex items-center gap-xs bg-secondary-container text-on-secondary-container px-md py-1 rounded-full">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+<span class="font-label-lg text-label-lg">Season 4 • 12 Days Left</span>
+</div>
+</div>
+<!-- Podium Bento Grid -->
+<div class="grid grid-cols-3 items-end gap-sm h-64">
+<!-- 2nd Place -->
+<div class="flex flex-col items-center">
+<div class="relative mb-base">
+<div class="w-16 h-16 rounded-full border-4 border-outline-variant overflow-hidden bg-surface-container">
+<img alt="Rank 2 Avatar" data-alt="A detailed digital illustration of a young Eritrean woman student with a friendly smile, styled in a minimalist and clean vector art aesthetic. She has dark curly hair and wears a professional light-blue academic scarf. The portrait is set against a vibrant secondary-container green background, evoking a sense of achievement and educational focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSg0pJCj7qpOXm6eTX3mGV0VY-QN5CPHtDzrIpQb-4VYCw3Skcxz08rH6MkbX7sxPcEB2fXC_wpnrHVmXEgvewdQNLdlRD2NgWZLqz8_zlJJ-RqC0LXOtt1tdEDyTlFD_Asvuch2lyaaD6V-rt5RNJKQg0FPAbRBTwItC13W9Ga1fahBL0h_qlV8bsXQhAIVE5oKQ1GTAWq5rr0yPi_KhC1UYYz4vERPYWW2SM5MPVD3M6luVdrNwJyVhaYRllhhGrl_kn384kQ_o"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-outline-variant text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">2</div>
+</div>
+<div class="bg-surface-container-high w-full rounded-t-xl h-24 flex flex-col items-center justify-center p-xs shadow-sm">
+<span class="font-label-lg text-label-lg text-on-surface text-center truncate w-full">Senai B.</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">14.2k XP</span>
+</div>
+</div>
+<!-- 1st Place -->
+<div class="flex flex-col items-center">
+<div class="relative mb-base -translate-y-4">
+<div class="w-20 h-20 rounded-full border-4 border-[#FFCC00] overflow-hidden bg-surface-container shadow-lg">
+<img alt="Rank 1 Avatar" data-alt="A sharp, modern vector portrait of a focused young male student with short dark hair, wearing a clean white shirt. The art style is crisp and professional, fitting an educational app. He is centered against a bright primary-container blue circular backdrop. The lighting is optimistic and bright, symbolizing excellence and top-tier academic performance in a gamified environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFC4srHD7Yu70Z-6eEEY-2ttt_4X7SuVWEPuE_BdSS7vQrMgvWEljDw_2pv_vGU6LJX7NBnAWUAqPzkMdcuj2XlBNs0hVj4fZDVTgtue3NPZR8BHK1-45WeqjiewTBAnYpVEkT5nC02cVqLYedFxCpKt3d7V8i1OObvxgoeKvYMFTVHAzEGCSSiAki94OyJMl-iumzrSPvSUEAJhISKwYefdn2VoIWvPHlLLGGMG1knUCkIPuRjDZA3Fr0rvklqP0PbLmYngHetPo"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-[#FFCC00] text-on-surface w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md">1</div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2">
+<span class="material-symbols-outlined text-[#FFCC00] text-3xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</div>
+<div class="bg-primary-container w-full rounded-t-2xl h-36 flex flex-col items-center justify-center p-xs shadow-md">
+<span class="font-title-lg text-title-lg text-white text-center truncate w-full">Dawit H.</span>
+<span class="font-label-lg text-label-lg text-white font-extrabold">16.8k XP</span>
+<div class="mt-base bg-white/20 px-sm py-0.5 rounded-full text-white text-[10px] font-bold">LVL 42</div>
+</div>
+</div>
+<!-- 3rd Place -->
+<div class="flex flex-col items-center">
+<div class="relative mb-base">
+<div class="w-16 h-16 rounded-full border-4 border-[#CD7F32]/40 overflow-hidden bg-surface-container">
+<img alt="Rank 3 Avatar" data-alt="A clean, minimalist digital character portrait of a studious young woman with glasses and a headscarf. The art style uses flat colors and soft shading, predominantly in shades of primary blue and light gray. The background is a soft tertiary-fixed pinkish hue, creating a professional yet warm academic mood for an educational platform's user profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWBFg5csq7x0ocPUu0hdhwLLkTtA16Y28bOySVUYFHMHwxZaxBkOWqVlrM3v7ghGPUGb8cpmKFG9F9KIXfYCsvurImDE4gndASi8YhMnxKWf0YMVbl_f5bFDxfO4N_PLFNZHemsJe8pZfm2Iw-0_0aBequZdkLpI-24pVySNgYZfTniecB97qj8FRbV0ScFcVXiA4VTvLHCXYJtOENpM0ldC9TycqdeDrnAbxPegX_pjY_sh2Qe7JiIcgG4SjORlxOa8Z2j2NMJ-Q"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-[#CD7F32] text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs">3</div>
+</div>
+<div class="bg-surface-container-high w-full rounded-t-xl h-20 flex flex-col items-center justify-center p-xs shadow-sm">
+<span class="font-label-lg text-label-lg text-on-surface text-center truncate w-full">Meron T.</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">12.9k XP</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Leaderboard List -->
+<section class="px-margin-mobile mt-lg">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-title-lg text-title-lg text-on-surface">Top Students</h3>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Total: 12,402</span>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- List Item 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-md rounded-xl flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-md">
+<span class="font-bold text-on-surface-variant w-6">4</span>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Rank 4 Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzat_nrBVs6Pz6tG2KhfKjxbuekArDhZZy4hFCz7YEhCR-Di88zdj1A29VqXz_sxRO0_n--Dtdp6xFloWNAUGmOvQ_uIYM0x30Z4SJSk_VFgJxTpARZOiwSE5MSL48CDNrcqfrVXdpGMEbohzUfH68ILERGygYOzmxvLq522mLYGu6YnVQHhOMUy0d-R-jJq6aVGlDhHk-pCrIkq_ypmLW6aIhq_mgsSKG1PUFa2p2LuRI58jfPFa02SHx-JrSKVLSAwDn6qG2sBs"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Yonas K.</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Level 38</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">11,240</p>
+<p class="text-[10px] text-on-surface-variant">XP</p>
+</div>
+</div>
+<!-- List Item 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-md rounded-xl flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-md">
+<span class="font-bold text-on-surface-variant w-6">5</span>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Rank 5 Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvSK0WSgva584X0ceJuEkYgq3GTCKh4RbDAPZ9CLg5ns5ccRFIFr19P-_tw4FZbQqcjTOaZXWWkoDuoWNlWmdPSz_lbXS7IEx-MYXWP7B92vU2i1qUewP8awgnz1zkoa0YaiZPJ43N3I2m9fHT8feHieAO5f1i1ZzlD6M0lEu85PJrNlvpjTLdQ2ekk53_66gOI5QHWPp9kldReIDKeKOFnz55Yv7_zqP2wTKZwymxdFMbN3h1S8ZmRG5ob2bJqW5y-_Z81O3RxH4"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Saba G.</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Level 37</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">10,890</p>
+<p class="text-[10px] text-on-surface-variant">XP</p>
+</div>
+</div>
+<!-- List Item 6 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-md rounded-xl flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-md">
+<span class="font-bold text-on-surface-variant w-6">6</span>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Rank 6 Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFxHEbuaiii4L5gbpgn7xbDHazhoX6jq150ySM5JVoHPxxEF1-fNDcmoUV-JQcMpTvkiJfXqUtII7QmvGZvKh9P59dSub7csx5PeAVdz6fiBnTFXPxWXb9neaOgD37oH6Eq0H-7MnlnZoSTbRfeeHH7-Utd4Qk6TQHpGxSEev8p2lHBIvec3j-rYucF7LDJ7VlEdqExCuiAqetglIfOIDZsXBnqKK8ceWRLL1jvcOBNg6st4DkUNB57CC6meaQoLcLMkzefKjAP-s"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Filmon W.</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Level 35</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">9,420</p>
+<p class="text-[10px] text-on-surface-variant">XP</p>
+</div>
+</div>
+<!-- Divider with ellipsis -->
+<div class="flex flex-col items-center py-base">
+<div class="w-1 h-1 bg-outline-variant rounded-full mb-1"></div>
+<div class="w-1 h-1 bg-outline-variant rounded-full mb-1"></div>
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+</div>
+<!-- User Nearby Entry 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 p-md rounded-xl flex items-center justify-between hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-md">
+<span class="font-bold text-on-surface-variant w-6">452</span>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Rank 452 Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5mAcr0nO14ykH9KoXgMbI9GqU9LM76bKcM17wH_-CiCL8jlzDM1fhV8TkSc2x8kj6rjVzsTz6Y0iCdkHHQozUCflP9ZqklAjO4qbwBtPYSSbzCIZ7udFQvWuZRS0gpfgEM2KszsUYJIpidxHSoraTLCBQJNngpUWYACZcpcENF6Kj5Mg_2wivYIv6JHV_YfUTN_qbRfmhknA_9WYz76D0zgyqrO5_KHpkyeAo5l_mdRoKEm111SOl8mmOASIuNIkK8-w_MBaf4vc"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Ruth S.</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-wider">Level 15</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-bold text-primary">2,150</p>
+<p class="text-[10px] text-on-surface-variant">XP</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky User Rank Bar -->
+<div class="fixed bottom-16 left-0 right-0 z-40 max-w-md mx-auto px-margin-mobile pointer-events-none">
+<div class="bg-primary text-white p-md rounded-xl shadow-xl flex items-center justify-between pointer-events-auto ring-4 ring-background">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full border-2 border-white/40 overflow-hidden bg-white/10">
+<img alt="My Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA7t9Cvem6yOusLgoSaZ1VLbN4jHWdhZveQmfz4viCDCvzWBVhjRF0xb5C4__nlGp70WYKPM1jvv-m23stRGtIBPQlJJswpWB5wQQv05Byck-uBO-xudrlqOUH9b-7d2VFqufsEYVFplaeG-uFHS7xi4OjIxqvEJDidWxUpko40E9_Q3N5IYHwWNOYrPTMAelK0sKSXFKR9iZuxtZzbMXRmPkXv4FTtgtBIpm-OgIOQ0WHicw1AXz-GEP7kYihfipEu3u3ZvGbKuo"/>
+</div>
+<div>
+<p class="font-label-lg text-label-lg font-bold">You</p>
+<p class="text-[10px] text-white/80 font-bold">Level 14 • 1,980 XP</p>
+</div>
+</div>
+<div class="flex items-center gap-base bg-white/20 px-md py-1 rounded-full">
+<span class="font-label-lg text-label-lg">Rank 453</span>
+<span class="material-symbols-outlined text-[16px]">expand_less</span>
+</div>
+</div>
+</div>
+<!-- BottomNavBar Section -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs pb-safe bg-surface dark:bg-on-background shadow-sm rounded-t-xl max-w-md mx-auto left-1/2 -translate-x-1/2">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest dark:hover:bg-inverse-surface rounded-full">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest dark:hover:bg-inverse-surface rounded-full">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-full px-4 py-1 transition-all duration-300 active:scale-90 shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest dark:hover:bg-inverse-surface rounded-full">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+</body></html>

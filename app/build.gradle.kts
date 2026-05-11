@@ -92,6 +92,13 @@ dependencies {
     // Serialization
     implementation(libs.gson)
 
+    // Image loading — Coil 3
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+    // Charts — Vico for Compose
+    implementation(libs.vico.compose.m3)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 

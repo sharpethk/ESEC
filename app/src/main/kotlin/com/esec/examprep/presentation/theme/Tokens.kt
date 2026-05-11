@@ -36,9 +36,9 @@ object Elevation {
 }
 
 val ESECShapes = Shapes(
-    extraSmall = RoundedCornerShape(Radius.sm),
-    small      = RoundedCornerShape(Radius.md),
-    medium     = RoundedCornerShape(Radius.lg),
-    large      = RoundedCornerShape(Radius.xl),
-    extraLarge = RoundedCornerShape(28.dp),
+    extraSmall = RoundedCornerShape(4.dp),
+    small      = RoundedCornerShape(8.dp),
+    medium     = RoundedCornerShape(12.dp),
+    large      = RoundedCornerShape(16.dp), // cards
+    extraLarge = RoundedCornerShape(24.dp), // pill buttons / hero CTAs
 )

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#82cfff",
+                    "tertiary-fixed": "#ffdad6",
+                    "surface-container": "#eaeef4",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#00658d",
+                    "primary": "#00658d",
+                    "surface-dim": "#d6dae0",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "on-secondary-fixed-variant": "#005322",
+                    "outline": "#6e7881",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-container": "#007232",
+                    "on-tertiary-container": "#790009",
+                    "primary-container": "#00aeef",
+                    "outline-variant": "#bdc8d1",
+                    "on-background": "#171c20",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#410002",
+                    "tertiary-container": "#ff7b70",
+                    "secondary-fixed": "#74fd94",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#55e07b",
+                    "primary-fixed": "#c6e7ff",
+                    "on-surface-variant": "#3e4850",
+                    "secondary": "#006d2f",
+                    "tertiary": "#c00015",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "inverse-on-surface": "#ecf1f7",
+                    "on-secondary-fixed": "#002109",
+                    "surface-bright": "#f5faff",
+                    "background": "#f5faff",
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#e4e9ee",
+                    "secondary-container": "#71fa92",
+                    "surface-container-low": "#eff4fa",
+                    "surface": "#f5faff",
+                    "primary-fixed-dim": "#82cfff",
+                    "on-tertiary-fixed-variant": "#93000d",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dee3e8",
+                    "on-surface": "#171c20",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#dee3e8",
+                    "on-primary-container": "#003e58",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#2c3135"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "xs": "4px",
+                    "gutter-mobile": "12px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .quest-card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background fixed top-0 left-0 right-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<button class="transition-colors duration-200 active:scale-95 text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container">EriXam</h1>
+<button class="transition-colors duration-200 active:scale-95 text-primary dark:text-primary-fixed">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-margin-mobile max-w-md mx-auto">
+<!-- Screen Title & Hero Section -->
+<section class="mb-lg">
+<div class="flex items-center justify-between mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">My Collection</h2>
+<div class="flex items-center gap-xs bg-secondary-container px-sm py-xs rounded-full">
+<span class="material-symbols-outlined text-[18px] text-on-secondary-container" data-icon="workspace_premium" data-weight="fill" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-lg text-label-lg text-on-secondary-container">Level 12</span>
+</div>
+</div>
+<p class="font-body-md text-on-surface-variant mb-md">Manage your quest items and special notes for final battle preparation.</p>
+<!-- Search Bar -->
+<div class="relative w-full mb-md">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-low border-none focus:ring-2 focus:ring-primary rounded-xl text-body-md placeholder:text-outline-variant transition-all" placeholder="Search saved questions..." type="text"/>
+</div>
+<!-- Tabs -->
+<div class="flex p-xs bg-surface-container-high rounded-xl mb-lg">
+<button class="flex-1 py-sm px-md rounded-lg font-label-lg text-label-lg text-on-primary bg-primary shadow-sm transition-all">
+                    Bookmarked
+                </button>
+<button class="flex-1 py-sm px-md rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-variant transition-all">
+                    Notes
+                </button>
+</div>
+</section>
+<!-- Filters (Horizontal Scroll) -->
+<section class="flex gap-sm overflow-x-auto pb-md no-scrollbar">
+<button class="flex items-center gap-xs px-md py-sm bg-primary-fixed text-on-primary-fixed-variant rounded-full border border-outline-variant whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+<span class="font-label-lg text-label-lg">All Subjects</span>
+</button>
+<button class="px-md py-sm bg-surface-container-lowest text-on-surface-variant rounded-full border border-outline-variant whitespace-nowrap font-label-lg text-label-lg">Math</button>
+<button class="px-md py-sm bg-surface-container-lowest text-on-surface-variant rounded-full border border-outline-variant whitespace-nowrap font-label-lg text-label-lg">Biology</button>
+<button class="px-md py-sm bg-surface-container-lowest text-on-surface-variant rounded-full border border-outline-variant whitespace-nowrap font-label-lg text-label-lg">History</button>
+<button class="px-md py-sm bg-surface-container-lowest text-on-surface-variant rounded-full border border-outline-variant whitespace-nowrap font-label-lg text-label-lg">Hard</button>
+</section>
+<!-- Question Cards Grid -->
+<section class="space-y-md">
+<!-- Card 1 -->
+<article class="quest-card-gradient border border-outline-variant p-md rounded-xl shadow-sm relative overflow-hidden group active:scale-98 transition-all">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex gap-xs">
+<span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-lg font-label-sm text-label-sm">Biology</span>
+<span class="px-sm py-xs bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-lg font-label-sm text-label-sm">Hard</span>
+</div>
+<button class="text-error active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="bookmark_remove" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bookmark_remove</span>
+</button>
+</div>
+<p class="font-title-lg text-title-lg text-on-surface line-clamp-2 mb-md leading-snug">Explain the process of photosynthesis and the specific role of chlorophyll in capturing sunlight.</p>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Saved 2 days ago</span>
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-xs">
+                        View Solution
+                        <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="absolute top-0 right-0 p-1">
+<span class="material-symbols-outlined text-outline-variant opacity-10 text-4xl" data-icon="eco">eco</span>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="quest-card-gradient border border-outline-variant p-md rounded-xl shadow-sm relative overflow-hidden group active:scale-98 transition-all">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex gap-xs">
+<span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-lg font-label-sm text-label-sm">Mathematics</span>
+<span class="px-sm py-xs bg-secondary-fixed text-on-secondary-fixed-variant rounded-lg font-label-sm text-label-sm">Medium</span>
+</div>
+<button class="text-error active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="bookmark_remove" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bookmark_remove</span>
+</button>
+</div>
+<p class="font-title-lg text-title-lg text-on-surface line-clamp-2 mb-md leading-snug">Find the derivative of f(x) = 3x^2 + 5x - 2 using the first principles of calculus.</p>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Saved 5 days ago</span>
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-xs">
+                        View Solution
+                        <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="absolute top-0 right-0 p-1">
+<span class="material-symbols-outlined text-outline-variant opacity-10 text-4xl" data-icon="calculate">calculate</span>
+</div>
+</article>
+<!-- Image Card (Bento Style) -->
+<div class="relative w-full h-48 rounded-xl overflow-hidden mb-md border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A serene, sun-drenched library with tall mahogany bookshelves filled with academic texts. The lighting is soft and golden, streaming through large windows, creating a peaceful and focused atmosphere perfect for deep study. The aesthetic is modern yet grounded in heritage, utilizing a palette of deep blues and ivory tones to convey professional wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKdXHOTTefqWLNRzxYSOD_6EH9rZv91sDLDicLqRvGjIZMaEdTdCasvqv1GDfg4EODQvN0LAABKsItiuYI0qeE297l6EoCou-lATUMkPLMbeAnq1szUQsR_4EsqKR8Jf4zEcadQJLlmYHlHIxtLeVcU6bESv_PPuu5VXCB327k5IuZE7knfeMP9Efro9S9iLfhM12UPij4PiWSZarPE9ww6l3pHrOZ9rnalVZ9xVBM1i0MCHqU5IiedUcY4V8LDXOEMKEpRBZbz0I"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<div class="text-white">
+<h3 class="font-title-lg text-title-lg font-bold">Quest Streak: 7 Days</h3>
+<p class="text-label-lg">Continue your mastery journey</p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<article class="quest-card-gradient border border-outline-variant p-md rounded-xl shadow-sm relative overflow-hidden group active:scale-98 transition-all">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex gap-xs">
+<span class="px-sm py-xs bg-primary-container text-on-primary-container rounded-lg font-label-sm text-label-sm">History</span>
+<span class="px-sm py-xs bg-secondary-fixed text-on-secondary-fixed-variant rounded-lg font-label-sm text-label-sm">Easy</span>
+</div>
+<button class="text-error active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="bookmark_remove" data-weight="fill" style="font-variation-settings: 'FILL' 1;">bookmark_remove</span>
+</button>
+</div>
+<p class="font-title-lg text-title-lg text-on-surface line-clamp-2 mb-md leading-snug">What were the primary outcomes of the Battle of Dogali in 1887?</p>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Saved 1 week ago</span>
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-xs">
+                        View Solution
+                        <span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="absolute top-0 right-0 p-1">
+<span class="material-symbols-outlined text-outline-variant opacity-10 text-4xl" data-icon="history_edu">history_edu</span>
+</div>
+</article>
+</section>
+</main>
+<!-- Review Now FAB -->
+<button class="fixed bottom-24 right-6 bg-secondary text-on-secondary px-lg py-md rounded-full shadow-lg flex items-center gap-sm transition-all active:scale-90 z-50">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+<span class="font-label-lg text-label-lg uppercase tracking-wider">Review Now</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs pb-safe bg-surface dark:bg-on-background shadow-sm rounded-t-xl">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Subjects -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</a>
+<!-- Progress (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-full px-4 py-1 transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats" data-weight="fill" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 hover:bg-surface-container-highest" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

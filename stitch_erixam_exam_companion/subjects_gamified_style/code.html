@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#3e4850",
+                        "surface-bright": "#f5faff",
+                        "on-secondary-fixed-variant": "#005322",
+                        "primary-fixed-dim": "#82cfff",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2c3135",
+                        "tertiary": "#c00015",
+                        "inverse-primary": "#82cfff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#171c20",
+                        "surface-variant": "#dee3e8",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#eff4fa",
+                        "on-tertiary-fixed": "#410002",
+                        "primary-fixed": "#c6e7ff",
+                        "tertiary-container": "#ff7b70",
+                        "on-primary-container": "#003e58",
+                        "error-container": "#ffdad6",
+                        "primary": "#00658d",
+                        "on-tertiary-container": "#790009",
+                        "secondary": "#006d2f",
+                        "background": "#f5faff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#eaeef4",
+                        "surface": "#f5faff",
+                        "outline-variant": "#bdc8d1",
+                        "on-secondary-container": "#007232",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d6dae0",
+                        "secondary-container": "#71fa92",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "secondary-fixed": "#74fd94",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#ecf1f7",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "outline": "#6e7881",
+                        "surface-tint": "#00658d",
+                        "on-surface": "#171c20",
+                        "surface-container-highest": "#dee3e8",
+                        "secondary-fixed-dim": "#55e07b",
+                        "surface-container-high": "#e4e9ee",
+                        "primary-container": "#00aeef",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "on-secondary-fixed": "#002109",
+                        "on-primary-fixed": "#001e2d",
+                        "tertiary-fixed": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "xs": "4px",
+                        "gutter-mobile": "12px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "serif": ["Plus Jakarta Sans", "serif"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-32 font-body-md">
+<!-- Top App Bar -->
+<header class="bg-surface sticky top-0 z-40 transition-colors duration-200">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<div class="flex items-center gap-4">
+<button class="transition-colors duration-200 active:scale-95 text-primary">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary">Academic Subjects</h1>
+</div>
+<div class="flex gap-2">
+<button class="transition-colors duration-200 active:scale-95 text-on-surface-variant p-2 rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-md mx-auto px-margin-mobile">
+<!-- Subject Mastery Summary - Bento Style -->
+<section class="mt-4 mb-6 grid grid-cols-2 gap-3">
+<div class="col-span-2 bg-primary-container text-on-primary-container p-lg rounded-3xl shadow-sm flex items-center justify-between overflow-hidden relative">
+<div class="z-10">
+<p class="font-label-lg opacity-90 uppercase tracking-wider">Overall Mastery</p>
+<h2 class="font-display-lg text-4xl mt-1">45.7%</h2>
+<p class="font-body-md mt-2">Almost halfway to Elite status!</p>
+</div>
+<div class="absolute right-[-10px] bottom-[-20px] opacity-20">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+</div>
+<div class="bg-secondary-container text-on-secondary-container p-md rounded-3xl shadow-sm flex flex-col justify-between aspect-square">
+<span class="material-symbols-outlined text-3xl">local_fire_department</span>
+<div>
+<h3 class="font-headline-md leading-tight">5 Day</h3>
+<p class="font-label-lg">Streak</p>
+</div>
+</div>
+<div class="bg-surface-container-highest p-md rounded-3xl shadow-sm flex flex-col justify-between aspect-square">
+<span class="material-symbols-outlined text-3xl text-primary">trending_up</span>
+<div>
+<h3 class="font-headline-md leading-tight">LVL 24</h3>
+<p class="font-label-lg text-on-surface-variant">Global Rank</p>
+</div>
+</div>
+</section>
+<!-- Search Bar -->
+<section class="mb-6">
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="block w-full pl-12 pr-4 py-4 bg-surface-container-lowest border-none ring-1 ring-outline-variant/30 rounded-2xl focus:ring-2 focus:ring-primary font-body-md placeholder:text-on-surface/40 transition-all shadow-sm" placeholder="Find your next challenge..." type="text"/>
+</div>
+</section>
+<!-- Subjects Grid - Bento Gamified Style -->
+<section class="flex flex-col gap-4 mb-8">
+<!-- Mathematics -->
+<div class="bg-white rounded-[2rem] p-lg shadow-md border border-outline-variant/20 overflow-hidden relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-primary/10 text-primary px-4 py-1.5 rounded-full font-label-lg text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        LVL 12
+                    </div>
+<div class="text-right">
+<p class="text-3xl font-display-lg text-primary">85%</p>
+<p class="text-xs font-label-lg text-outline uppercase tracking-tighter">Mastery</p>
+</div>
+</div>
+<h3 class="font-headline-md text-2xl mb-1 text-on-surface">Mathematics</h3>
+<p class="text-on-surface-variant font-body-md mb-6">15/18 Modules unlocked</p>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full mb-8 overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full shadow-[0_0_8px_rgba(0,101,141,0.4)]"></div>
+</div>
+<button class="w-full bg-primary text-white font-label-lg py-4 rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+                    Continue Journey
+                    <span class="material-symbols-outlined text-sm">play_arrow</span>
+</button>
+</div>
+<!-- Science -->
+<div class="bg-white rounded-[2rem] p-lg shadow-md border border-outline-variant/20 overflow-hidden relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-secondary/10 text-secondary px-4 py-1.5 rounded-full font-label-lg text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        LVL 08
+                    </div>
+<div class="text-right">
+<p class="text-3xl font-display-lg text-secondary">40%</p>
+<p class="text-xs font-label-lg text-outline uppercase tracking-tighter">Mastery</p>
+</div>
+</div>
+<h3 class="font-headline-md text-2xl mb-1 text-on-surface">Science</h3>
+<p class="text-on-surface-variant font-body-md mb-6">Explore biology &amp; physics</p>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full mb-8 overflow-hidden">
+<div class="bg-secondary h-full w-[40%] rounded-full shadow-[0_0_8px_rgba(0,109,47,0.4)]"></div>
+</div>
+<button class="w-full bg-secondary text-white font-label-lg py-4 rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+                    Resume Mission
+                    <span class="material-symbols-outlined text-sm">rocket_launch</span>
+</button>
+</div>
+<!-- English -->
+<div class="bg-white rounded-[2rem] p-lg shadow-md border border-outline-variant/20 overflow-hidden relative">
+<div class="flex justify-between items-start mb-6">
+<div class="bg-tertiary-container/30 text-tertiary px-4 py-1.5 rounded-full font-label-lg text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+                        LVL 03
+                    </div>
+<div class="text-right">
+<p class="text-3xl font-display-lg text-tertiary">12%</p>
+<p class="text-xs font-label-lg text-outline uppercase tracking-tighter">Mastery</p>
+</div>
+</div>
+<h3 class="font-headline-md text-2xl mb-1 text-on-surface">English</h3>
+<p class="text-on-surface-variant font-body-md mb-6">Grammar &amp; Literature intensive</p>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full mb-8 overflow-hidden">
+<div class="bg-tertiary h-full w-[12%] rounded-full shadow-[0_0_8px_rgba(192,0,21,0.4)]"></div>
+</div>
+<button class="w-full bg-tertiary text-white font-label-lg py-4 rounded-2xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+                    Start Learning
+                    <span class="material-symbols-outlined text-sm">edit_note</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface border-t border-outline-variant/30 shadow-lg rounded-t-[2rem]">
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary text-white rounded-full px-6 py-2 transition-all duration-300 active:scale-95 shadow-md">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+</body></html>

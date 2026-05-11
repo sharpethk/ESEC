@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#bdc8d1",
+                    "secondary-container": "#71fa92",
+                    "on-surface-variant": "#3e4850",
+                    "tertiary-container": "#ff7b70",
+                    "secondary": "#006d2f",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#93000d",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#d6dae0",
+                    "tertiary-fixed": "#ffdad6",
+                    "tertiary": "#c00015",
+                    "primary-fixed": "#c6e7ff",
+                    "secondary-fixed": "#74fd94",
+                    "secondary-fixed-dim": "#55e07b",
+                    "inverse-surface": "#2c3135",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#6e7881",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#003e58",
+                    "surface-variant": "#dee3e8",
+                    "on-secondary-fixed": "#002109",
+                    "on-tertiary-fixed": "#410002",
+                    "primary-container": "#00aeef",
+                    "on-secondary-fixed-variant": "#005322",
+                    "surface-container-highest": "#dee3e8",
+                    "surface-tint": "#00658d",
+                    "surface": "#f5faff",
+                    "primary-fixed-dim": "#82cfff",
+                    "primary": "#00658d",
+                    "surface-bright": "#f5faff",
+                    "surface-container-low": "#eff4fa",
+                    "on-surface": "#171c20",
+                    "on-tertiary-container": "#790009",
+                    "inverse-on-surface": "#ecf1f7",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "surface-container": "#eaeef4",
+                    "on-secondary-container": "#007232",
+                    "on-primary": "#ffffff",
+                    "on-background": "#171c20",
+                    "background": "#f5faff",
+                    "inverse-primary": "#82cfff",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#004c6b",
+                    "on-primary-fixed": "#001e2d",
+                    "surface-container-high": "#e4e9ee"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "margin-mobile": "16px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter-mobile": "12px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "title-lg": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f5faff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .bento-tall {
+            grid-row: span 2;
+        }
+        .bento-wide {
+            grid-column: span 2;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- Top Navigation Shell -->
+<nav class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto bg-surface fixed top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">EriXam</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1 bg-tertiary-container/20 px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-lg" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="text-label-lg font-bold text-tertiary">5</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</div>
+</nav>
+<main class="pt-20 pb-24 px-margin-mobile max-w-md mx-auto min-h-screen">
+<!-- Welcome Section -->
+<header class="mb-lg">
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">Selam!</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Ready to level up?</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="bento-grid">
+<!-- Streak Widget (Wide) -->
+<div class="bento-wide bg-gradient-to-br from-tertiary to-on-tertiary-container p-lg rounded-xl shadow-sm text-on-tertiary relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-sm">
+<span class="material-symbols-outlined text-3xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<h2 class="font-title-lg text-title-lg">5 Day Learning Streak</h2>
+</div>
+<p class="font-label-lg text-label-lg opacity-90">Keep the fire burning!</p>
+</div>
+<!-- Abstract visual element -->
+<div class="absolute right-[-20px] bottom-[-20px] opacity-20 transform rotate-12">
+<span class="material-symbols-outlined text-[120px]" data-icon="bolt">bolt</span>
+</div>
+</div>
+<!-- Mastery Progress (Tall) -->
+<div class="bento-tall bg-primary-container p-md rounded-xl shadow-sm flex flex-col items-center justify-center text-on-primary-container">
+<h3 class="font-label-lg text-label-lg mb-md text-center">Overall Mastery</h3>
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="opacity-20" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-white" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="88" stroke-width="8"></circle>
+</svg>
+<span class="absolute font-headline-md text-headline-md text-white">65%</span>
+</div>
+<div class="mt-md flex gap-1">
+<span class="material-symbols-outlined text-secondary-container" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-secondary-container" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-white/40" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Categories: Grade 12 -->
+<div class="bg-secondary-container p-md rounded-xl shadow-sm flex flex-col justify-between aspect-square">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-secondary-container text-3xl" data-icon="school">school</span>
+<span class="bg-on-secondary-container text-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full">LEVEL 12</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-secondary-container leading-tight">Grade 12</h3>
+<p class="font-label-sm text-label-sm text-on-secondary-container/80 mt-1">Mastery: 72%</p>
+</div>
+</div>
+<!-- Categories: Grade 8 -->
+<div class="bg-surface-container-highest p-md rounded-xl shadow-sm flex flex-col justify-between aspect-square border border-outline-variant/30">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="history_edu">history_edu</span>
+<span class="bg-primary text-primary-fixed text-[10px] font-bold px-2 py-0.5 rounded-full">LEVEL 8</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-primary leading-tight">Grade 8</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Mastery: 48%</p>
+</div>
+</div>
+<!-- Categories: College Entrance (Wide) -->
+<div class="bento-wide bg-surface-container p-md rounded-xl shadow-sm border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-primary-fixed p-3 rounded-lg">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h3 class="font-title-lg text-title-lg text-primary">College Entrance</h3>
+<div class="flex items-center gap-2">
+<div class="w-24 h-2 bg-outline-variant/30 rounded-full overflow-hidden">
+<div class="w-[15%] h-full bg-primary"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">15%</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Quest Log (Recent Practice) -->
+<section class="mt-xl">
+<div class="flex items-center justify-between mb-md">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="assignment">assignment</span>
+                    Quest Log
+                </h2>
+<button class="text-primary font-label-lg text-label-lg">View All</button>
+</div>
+<div class="space-y-md">
+<!-- Practice Item 1 -->
+<div class="flex items-center gap-4 bg-white p-md rounded-xl border border-outline-variant/20 shadow-sm transition-all duration-200 active:scale-[0.98]">
+<div class="w-12 h-12 bg-secondary-fixed flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">Mathematics 2023</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container rounded text-on-surface-variant">PAPER II</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">COMPLETED</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-title-lg text-title-lg text-on-surface">92%</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Score</p>
+</div>
+</div>
+<!-- Practice Item 2 -->
+<div class="flex items-center gap-4 bg-white p-md rounded-xl border border-outline-variant/20 shadow-sm transition-all duration-200 active:scale-[0.98]">
+<div class="w-12 h-12 bg-primary-fixed flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="pending">pending</span>
+</div>
+<div class="flex-1">
+<h4 class="font-title-lg text-title-lg text-on-surface">English 2022</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-label-sm text-label-sm px-2 py-0.5 bg-surface-container rounded text-on-surface-variant">VOCABULARY</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">IN PROGRESS</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="play_circle">play_circle</span>
+</div>
+</div>
+</section>
+<!-- Dynamic Hero Image Section -->
+<section class="mt-xl rounded-2xl overflow-hidden relative h-48 group">
+<img alt="Students studying" class="w-full h-full object-cover" data-alt="A group of energetic students in an Eritrean classroom setting, illuminated by golden morning sunlight streaming through windows. The atmosphere is academic yet vibrant, with bright blue and green educational materials scattered on desks. The image captures a sense of focus and collective empowerment, with high contrast and sharp modern photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWLxmDDjIBhcJWT_NX5kNbDohedXgvMB6N9nRki_ARjlUrHutq6bTQcS16B6ciGRxasN33FblSMaAtew8_74byB7yyCXfAl-k9qxpX19z8IQy7tl0OUehddrztaJ9iPRTthadOcoMSr4gZOx4BwhuFdL5U8ee6iKlU2mKNOVSnmCRfLUg3_-yfG7isYatvCVqblFO7vOhi1ArQWInz9nyaqp9RZVO9lGoJ0pbbtSAnW2fPbfSm4n8FN0xyXxPXwghezFkvDQd5cHg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-lg">
+<h3 class="text-white font-headline-md text-headline-md mb-xs">National Mock Exam</h3>
+<p class="text-white/80 font-body-md text-body-md">Starts in 3 days. Are you prepared?</p>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs pb-safe bg-surface dark:bg-on-background shadow-sm rounded-t-xl transition-all duration-300">
+<!-- Home Active -->
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<!-- Subjects -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</div>
+<!-- Progress -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</div>
+<!-- Profile -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-highest transition-all duration-300 active:scale-90">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<!-- Contextual FAB (Only for Home) -->
+<div class="fixed bottom-24 right-margin-mobile z-40">
+<button class="w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl shadow-lg flex items-center justify-center transition-transform duration-200 active:scale-95">
+<span class="material-symbols-outlined text-3xl" data-icon="add_task">add_task</span>
+</button>
+</div>
+</body></html>

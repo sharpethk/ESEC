@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+                  "inverse-primary": "#82cfff",
+                  "tertiary-fixed": "#ffdad6",
+                  "surface-container": "#eaeef4",
+                  "on-primary-fixed": "#001e2d",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-tint": "#00658d",
+                  "primary": "#00658d",
+                  "surface-dim": "#d6dae0",
+                  "tertiary-fixed-dim": "#ffb4ac",
+                  "on-secondary-fixed-variant": "#005322",
+                  "outline": "#6e7881",
+                  "on-tertiary": "#ffffff",
+                  "on-secondary-container": "#007232",
+                  "on-tertiary-container": "#790009",
+                  "primary-container": "#00aeef",
+                  "outline-variant": "#bdc8d1",
+                  "on-background": "#171c20",
+                  "on-primary": "#ffffff",
+                  "on-tertiary-fixed": "#410002",
+                  "tertiary-container": "#ff7b70",
+                  "secondary-fixed": "#74fd94",
+                  "on-error": "#ffffff",
+                  "secondary-fixed-dim": "#55e07b",
+                  "primary-fixed": "#c6e7ff",
+                  "on-surface-variant": "#3e4850",
+                  "secondary": "#006d2f",
+                  "tertiary": "#c00015",
+                  "on-primary-fixed-variant": "#004c6b",
+                  "inverse-on-surface": "#ecf1f7",
+                  "on-secondary-fixed": "#002109",
+                  "surface-bright": "#f5faff",
+                  "background": "#f5faff",
+                  "error": "#ba1a1a",
+                  "surface-container-high": "#e4e9ee",
+                  "secondary-container": "#71fa92",
+                  "surface-container-low": "#eff4fa",
+                  "surface": "#f5faff",
+                  "primary-fixed-dim": "#82cfff",
+                  "on-tertiary-fixed-variant": "#93000d",
+                  "error-container": "#ffdad6",
+                  "surface-variant": "#dee3e8",
+                  "on-surface": "#171c20",
+                  "on-error-container": "#93000a",
+                  "surface-container-highest": "#dee3e8",
+                  "on-primary-container": "#003e58",
+                  "on-secondary": "#ffffff",
+                  "inverse-surface": "#2c3135"
+          },
+          "borderRadius": {
+                  "DEFAULT": "0.25rem",
+                  "lg": "0.5rem",
+                  "xl": "0.75rem",
+                  "full": "9999px"
+          },
+          "spacing": {
+                  "margin-mobile": "16px",
+                  "xs": "4px",
+                  "gutter-mobile": "12px",
+                  "base": "4px",
+                  "sm": "8px",
+                  "md": "16px",
+                  "lg": "24px",
+                  "xl": "32px"
+          },
+          "fontFamily": {
+                  "body-md": ["Inter"],
+                  "headline-md": ["Plus Jakarta Sans"],
+                  "display-lg": ["Plus Jakarta Sans"],
+                  "label-sm": ["Inter"],
+                  "label-lg": ["Inter"],
+                  "title-lg": ["Inter"],
+                  "body-lg": ["Inter"]
+          },
+          "fontSize": {
+                  "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                  "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                  "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                  "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                  "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                  "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                  "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .mastery-radar {
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background docked full-width top-0 sticky z-50 transition-colors duration-200">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<div class="flex items-center gap-md">
+<button class="text-primary dark:text-primary-fixed transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container">EriXam</span>
+</div>
+<button class="text-primary dark:text-primary-fixed transition-colors duration-200 active:scale-95">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-margin-mobile pt-md space-y-lg">
+<!-- Header Title -->
+<section>
+<h1 class="text-title-lg font-title-lg text-on-surface">Parent Dashboard</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Monitoring <span class="font-bold text-primary">Nahom</span>'s Progress</p>
+</section>
+<!-- High-level KPIs -->
+<section class="grid grid-cols-3 gap-sm">
+<div class="bg-surface-container-low p-md rounded-xl text-center shadow-sm">
+<span class="text-label-sm font-label-sm text-on-surface-variant block mb-xs uppercase">Time Studied</span>
+<span class="text-title-lg font-title-lg text-primary">12.4h</span>
+<span class="text-[10px] text-secondary font-bold block mt-xs">+15%</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl text-center shadow-sm">
+<span class="text-label-sm font-label-sm text-on-surface-variant block mb-xs uppercase">Accuracy</span>
+<span class="text-title-lg font-title-lg text-primary">82%</span>
+<span class="text-[10px] text-secondary font-bold block mt-xs">Stable</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl text-center shadow-sm">
+<span class="text-label-sm font-label-sm text-on-surface-variant block mb-xs uppercase">Quests</span>
+<span class="text-title-lg font-title-lg text-primary">24</span>
+<span class="text-[10px] text-secondary font-bold block mt-xs">Mastery</span>
+</div>
+</section>
+<!-- Quick Action: Send Motivation -->
+<section>
+<button class="w-full bg-primary-container text-on-primary-container font-label-lg text-label-lg py-md rounded-full flex items-center justify-center gap-sm shadow-md active:scale-95 transition-all">
+<span class="material-symbols-outlined">send_time_extension</span>
+        Send Motivation to Nahom
+      </button>
+</section>
+<!-- Study Activity Chart (Visual Mockup) -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+<div class="flex justify-between items-end mb-md">
+<h3 class="text-title-lg font-title-lg text-on-surface">Study Activity</h3>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Last 7 Days</span>
+</div>
+<div class="flex items-end justify-between h-32 gap-xs">
+<div class="w-full bg-surface-container-high rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-primary-container rounded-t-sm h-[75%]"></div>
+<div class="w-full bg-surface-container-high rounded-t-sm h-[50%]"></div>
+<div class="w-full bg-primary-container rounded-t-sm h-[90%]"></div>
+<div class="w-full bg-primary-container rounded-t-sm h-[65%]"></div>
+<div class="w-full bg-primary rounded-t-sm h-[100%]"></div>
+<div class="w-full bg-surface-container-high rounded-t-sm h-[30%]"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="text-[10px] font-label-sm text-on-surface-variant">Mon</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Tue</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Wed</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Thu</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Fri</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Sat</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Sun</span>
+</div>
+</section>
+<!-- Strengths & Weaknesses Mastery Radar -->
+<section class="grid grid-cols-2 gap-md items-center bg-surface-container-low p-md rounded-xl">
+<div class="space-y-sm">
+<h3 class="text-title-lg font-title-lg text-on-surface leading-tight">Mastery Radar</h3>
+<ul class="space-y-xs">
+<li class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-secondary rounded-full"></span>
+<span class="text-label-sm font-label-sm text-on-surface">Math (92%)</span>
+</li>
+<li class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-primary-container rounded-full"></span>
+<span class="text-label-sm font-label-sm text-on-surface">Physics (74%)</span>
+</li>
+<li class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-tertiary-container rounded-full"></span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Civics (45%)</span>
+</li>
+</ul>
+</div>
+<div class="relative w-full aspect-square flex items-center justify-center">
+<!-- Visualizing Radar with CSS -->
+<div class="absolute inset-0 border border-outline-variant mastery-radar opacity-20"></div>
+<div class="absolute inset-2 border border-outline-variant mastery-radar opacity-40"></div>
+<div class="absolute inset-4 bg-primary-container mastery-radar opacity-60 scale-[0.7] transform rotate-12"></div>
+<span class="material-symbols-outlined text-primary scale-150" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+</section>
+<!-- Reward Center -->
+<section class="space-y-md">
+<div class="flex justify-between items-center">
+<h3 class="text-title-lg font-title-lg text-on-surface">Reward Center</h3>
+<button class="text-primary text-label-lg font-label-lg flex items-center">
+<span class="material-symbols-outlined text-md">add_circle</span> Add
+        </button>
+</div>
+<div class="space-y-sm">
+<!-- Reward Card 1 -->
+<div class="bg-surface-container-highest rounded-xl p-md flex gap-md items-center border-l-4 border-secondary">
+<div class="bg-secondary-container p-sm rounded-lg">
+<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">flight_takeoff</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold text-on-surface">Weekend Trip to Massawa</p>
+<div class="flex justify-between items-center mt-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Goal: Level 15 Mastery</span>
+<span class="text-label-sm font-label-sm text-secondary font-bold">75% Complete</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-secondary h-full w-3/4"></div>
+</div>
+</div>
+</div>
+<!-- Reward Card 2 -->
+<div class="bg-surface-container-highest rounded-xl p-md flex gap-md items-center border-l-4 border-primary">
+<div class="bg-primary-container p-sm rounded-lg">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">videogame_asset</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md font-bold text-on-surface">Extra Gaming Hour</p>
+<div class="flex justify-between items-center mt-xs">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Goal: 5 Study Streak</span>
+<span class="text-label-sm font-label-sm text-primary font-bold">2/5 Days</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-xs overflow-hidden">
+<div class="bg-primary h-full w-[40%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Academic Banner Image -->
+<section class="pt-sm pb-lg">
+<div class="relative w-full h-48 rounded-2xl overflow-hidden shadow-lg group">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-key photograph of a focused study environment with a clean desk, an open notebook showing neat diagrams, and a bright tablet displaying educational charts. The lighting is warm and golden, evoking a sense of calm and academic achievement. The color palette features soft whites, deep blues, and accents of emerald green, creating an empowering and heritage-inspired atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPDKWtygkcfFKRnC-xv8lDbjCxa_ojX0X8nZazYl1ah2NCkd0PbhS38vhe9zTiaajcLqnnoC2sH2WJ9T_oWH3kR6mG1UaA_wFUrn73e9DQgIRdyA6HMYd4mOYJjaK--VM9lzVa-Ci1udxD_9_c7d6Jxbhmm2PvGhR3QfFr8Gs8yc4jvoPWIfmPfcHWRCNjSgp1Z3s6WiRlFm9grXkHoxYKGzaUA0PaWBfpnezoY1dJRfPzT2okDFw_h0BHPTidPR6BGxARNfUlu3Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent flex flex-col justify-end p-md">
+<p class="text-white font-title-lg text-title-lg">Investing in Excellence</p>
+<p class="text-white/80 text-label-sm font-label-sm">Consistency is the bridge between goals and accomplishment.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm py-xs pb-safe bg-surface dark:bg-on-background shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-inverse-surface transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-inverse-surface transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-full px-4 py-1 transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 hover:bg-surface-container-highest dark:hover:bg-inverse-surface transition-all duration-300 active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

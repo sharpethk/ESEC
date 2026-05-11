@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#82cfff",
+                        "tertiary-fixed": "#ffdad6",
+                        "surface-container": "#eaeef4",
+                        "on-primary-fixed": "#001e2d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-tint": "#00658d",
+                        "primary": "#00658d",
+                        "surface-dim": "#d6dae0",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "on-secondary-fixed-variant": "#005322",
+                        "outline": "#6e7881",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#007232",
+                        "on-tertiary-container": "#790009",
+                        "primary-container": "#00aeef",
+                        "outline-variant": "#bdc8d1",
+                        "on-background": "#171c20",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#410002",
+                        "tertiary-container": "#ff7b70",
+                        "secondary-fixed": "#74fd94",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#55e07b",
+                        "primary-fixed": "#c6e7ff",
+                        "on-surface-variant": "#3e4850",
+                        "secondary": "#006d2f",
+                        "tertiary": "#c00015",
+                        "on-primary-fixed-variant": "#004c6b",
+                        "inverse-on-surface": "#ecf1f7",
+                        "on-secondary-fixed": "#002109",
+                        "surface-bright": "#f5faff",
+                        "background": "#f5faff",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e4e9ee",
+                        "secondary-container": "#71fa92",
+                        "surface-container-low": "#eff4fa",
+                        "surface": "#f5faff",
+                        "primary-fixed-dim": "#82cfff",
+                        "on-tertiary-fixed-variant": "#93000d",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#dee3e8",
+                        "on-surface": "#171c20",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dee3e8",
+                        "on-primary-container": "#003e58",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2c3135"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "xs": "4px",
+                        "gutter-mobile": "12px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "0.2px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f5faff;
+            color: #171c20;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background docked full-width top-0 fixed top-0 left-0 right-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile h-16 max-w-md mx-auto">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed transition-colors duration-200 active:scale-95 cursor-pointer">menu</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-container">EriXam</h1>
+</div>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed transition-colors duration-200 active:scale-95 cursor-pointer">search</span>
+</div>
+</div>
+</header>
+<main class="mt-16 px-margin-mobile max-w-md mx-auto py-lg space-y-lg">
+<!-- Header Stats Card: Improvement Hub -->
+<section class="relative overflow-hidden rounded-xl bg-primary text-on-primary p-lg shadow-sm">
+<div class="relative z-10">
+<h2 class="font-title-lg text-title-lg mb-xs">Improvement Hub</h2>
+<p class="font-body-md text-primary-fixed opacity-90 mb-md">Turn your weaknesses into strengths!</p>
+<div class="flex items-end gap-sm">
+<span class="text-[48px] font-bold leading-none">42</span>
+<span class="font-label-lg pb-1">Mistakes to Conquer</span>
+</div>
+</div>
+<!-- Decorative Olive Wreath Background Element -->
+<div class="absolute -right-4 -bottom-4 opacity-10 rotate-12">
+<span class="material-symbols-outlined !text-[120px]" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+</section>
+<!-- Nested Filtering Section -->
+<section class="space-y-md">
+<div>
+<span class="font-label-lg text-on-surface-variant block mb-sm">Filter by Subject</span>
+<div class="flex gap-sm overflow-x-auto pb-sm scrollbar-hide">
+<!-- Subject Chips -->
+<button class="flex items-center gap-xs px-md py-sm bg-secondary-container text-on-secondary-container rounded-full whitespace-nowrap transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">functions</span>
+<span class="font-label-lg">Maths</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container text-on-surface-variant rounded-full whitespace-nowrap transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">science</span>
+<span class="font-label-lg">Biology</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container text-on-surface-variant rounded-full whitespace-nowrap transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">history_edu</span>
+<span class="font-label-lg">History</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container text-on-surface-variant rounded-full whitespace-nowrap transition-all duration-300 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-label-lg">English</span>
+</button>
+</div>
+</div>
+<div>
+<span class="font-label-lg text-on-surface-variant block mb-sm">Exam Year</span>
+<div class="flex gap-sm">
+<button class="px-md py-xs bg-primary text-on-primary rounded-lg font-label-lg transition-all duration-300 active:scale-95">2023</button>
+<button class="px-md py-xs border border-outline-variant text-on-surface-variant rounded-lg font-label-lg transition-all duration-300 active:scale-95">2022</button>
+<button class="px-md py-xs border border-outline-variant text-on-surface-variant rounded-lg font-label-lg transition-all duration-300 active:scale-95">2021</button>
+<button class="px-md py-xs border border-outline-variant text-on-surface-variant rounded-lg font-label-lg transition-all duration-300 active:scale-95">2020</button>
+</div>
+</div>
+</section>
+<!-- Questions List -->
+<section class="space-y-md">
+<div class="flex justify-between items-center px-xs">
+<h3 class="font-title-lg text-title-lg">Review Pool</h3>
+<span class="font-label-sm text-outline">Sorted by: Recent</span>
+</div>
+<!-- Question Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm space-y-md">
+<div class="flex justify-between items-start">
+<div class="space-y-xs">
+<span class="font-label-sm text-primary font-bold uppercase tracking-wider">Mathematics • 2023</span>
+<h4 class="font-body-md font-semibold text-on-surface">Topic: Quadratic Equations</h4>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-on-surface-variant">Mastery</span>
+<span class="font-title-lg text-tertiary">20%</span>
+</div>
+</div>
+<!-- Mastery Progress Bar -->
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[20%]"></div>
+</div>
+<p class="font-body-md text-on-surface-variant italic line-clamp-2">
+                    "Find the value of x that satisfies the equation 2x² - 5x + 3 = 0 using the quadratic formula..."
+                </p>
+<div class="flex gap-sm">
+<button class="flex-1 py-sm bg-primary text-on-primary rounded-lg font-label-lg transition-all duration-200 active:scale-95">
+                        Re-attempt
+                    </button>
+<button class="flex-1 py-sm border border-primary text-primary rounded-lg font-label-lg transition-all duration-200 active:scale-95">
+                        View Explanation
+                    </button>
+</div>
+</div>
+<!-- Question Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm space-y-md">
+<div class="flex justify-between items-start">
+<div class="space-y-xs">
+<span class="font-label-sm text-primary font-bold uppercase tracking-wider">Mathematics • 2023</span>
+<h4 class="font-body-md font-semibold text-on-surface">Topic: Calculus Integrals</h4>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-on-surface-variant">Mastery</span>
+<span class="font-title-lg text-secondary">65%</span>
+</div>
+</div>
+<!-- Mastery Progress Bar -->
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full w-[65%]"></div>
+</div>
+<p class="font-body-md text-on-surface-variant italic line-clamp-2">
+                    "Evaluate the definite integral of sin(x) from 0 to π/2..."
+                </p>
+<div class="flex gap-sm">
+<button class="flex-1 py-sm bg-primary text-on-primary rounded-lg font-label-lg transition-all duration-200 active:scale-95">
+                        Re-attempt
+                    </button>
+<button class="flex-1 py-sm border border-primary text-primary rounded-lg font-label-lg transition-all duration-200 active:scale-95">
+                        View Explanation
+                    </button>
+</div>
+</div>
+<!-- Mastery Tip Card -->
+<div class="bg-primary-container/20 border-2 border-dashed border-primary-container rounded-xl p-md flex items-center gap-md">
+<div class="bg-primary-container p-sm rounded-lg">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div>
+<h5 class="font-label-lg text-on-primary-container">Mastery Tip</h5>
+<p class="font-label-sm text-on-primary-container opacity-80">Students who re-attempt mistakes within 24 hours show 4x better retention.</p>
+</div>
+</div>
+</section>
+<!-- Asymmetric Featured Action -->
+<section class="grid grid-cols-2 gap-md">
+<div class="bg-secondary-container text-on-secondary-container p-md rounded-xl flex flex-col justify-between aspect-square transition-all duration-300 hover:shadow-md cursor-pointer">
+<span class="material-symbols-outlined text-[32px]">bolt</span>
+<div>
+<h4 class="font-title-lg leading-tight">Quick Fire Drill</h4>
+<p class="font-label-sm opacity-70">10 random mistakes</p>
+</div>
+</div>
+<div class="bg-surface-container-highest text-on-surface p-md rounded-xl flex flex-col justify-between aspect-square transition-all duration-300 hover:shadow-md cursor-pointer">
+<span class="material-symbols-outlined text-[32px]">emoji_events</span>
+<div>
+<h4 class="font-title-lg leading-tight">Earn Wreaths</h4>
+<p class="font-label-sm opacity-70">Master a full topic</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface dark:bg-on-background shadow-sm rounded-t-xl z-50 flex justify-around items-center px-sm py-xs pb-safe">
+<!-- Home -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<!-- Subjects (Active) -->
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-on-secondary-fixed-variant text-on-secondary-container dark:text-secondary-fixed rounded-full px-4 py-1 transition-all duration-300 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-label-sm text-label-sm">Subjects</span>
+</div>
+<!-- Progress -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-label-sm text-label-sm">Progress</span>
+</div>
+<!-- Profile -->
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-4 py-1 transition-all duration-300 active:scale-90 cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<!-- FAB Contextual (Only if relevant) -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary-container text-on-primary-container rounded-2xl shadow-lg flex items-center justify-center transition-all duration-300 active:scale-95 z-40">
+<span class="material-symbols-outlined">auto_fix_high</span>
+</button>
+</body></html>
