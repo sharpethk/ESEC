@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Placeholder splash artwork. Replace this XML with the real
+    EriXam splash PNG at:
+        app/src/main/res/drawable-nodpi/splash_artwork.png
+    and delete this file. The composable `SplashScreen` references
+    R.drawable.splash_artwork, which resolves to whichever resource
+    (drawable XML or drawable-nodpi PNG) is present.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#F4A300"
+                android:centerColor="#D62828"
+                android:endColor="#0A2A6B" />
+        </shape>
+    </item>
+</layer-list>

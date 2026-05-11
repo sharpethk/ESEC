@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ESEC Exam Prep</string>
+    <string name="app_name">EriXam</string>
 
     <!-- Home -->
-    <string name="home_title">ESEC Exam Prep</string>
+    <string name="home_title">EriXam</string>
     <string name="home_tagline">Practice past papers. Offline. Anytime.</string>
     <string name="home_section_get_started">Get started</string>
-    <string name="home_section_why">Why ESEC</string>
+    <string name="home_section_why">Why EriXam</string>
     <string name="home_start_exam">Start an exam</string>
     <string name="home_start_exam_desc">Pick a subject and choose timed or practice mode.</string>
     <string name="home_my_progress">My progress</string>

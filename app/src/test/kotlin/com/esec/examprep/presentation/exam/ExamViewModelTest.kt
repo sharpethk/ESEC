@@ -12,11 +12,17 @@ import com.esec.examprep.domain.model.Profile
 import com.esec.examprep.domain.model.Question
 import com.esec.examprep.domain.model.Subject
 import com.esec.examprep.domain.repository.ProfileRepository
+import com.esec.examprep.domain.usecase.BuildPracticeExamUseCase
+import com.esec.examprep.domain.usecase.CompleteDailyChallengeUseCase
+import com.esec.examprep.domain.usecase.EvaluateAchievementsUseCase
 import com.esec.examprep.domain.usecase.GetQuestionsForExamUseCase
 import com.esec.examprep.domain.usecase.GetSubjectsUseCase
+import com.esec.examprep.domain.usecase.GetWrongAnswerQuestionsUseCase
 import com.esec.examprep.domain.usecase.SubmitExamUseCase
 import com.esec.examprep.domain.usecase.ToggleBookmarkUseCase
 import com.esec.examprep.presentation.common.ActiveProfileHolder
+import com.esec.examprep.presentation.common.DailyChallengeRunHolder
+import com.esec.examprep.presentation.common.PracticeConfigHolder
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -41,6 +47,10 @@ class ExamViewModelTest {
     private val getSubjects: GetSubjectsUseCase = mockk()
     private val submitExam: SubmitExamUseCase = mockk()
     private val toggleBookmark: ToggleBookmarkUseCase = mockk(relaxed = true)
+    private val getWrongAnswerQuestions: GetWrongAnswerQuestionsUseCase = mockk(relaxed = true)
+    private val buildPracticeExam: BuildPracticeExamUseCase = mockk(relaxed = true)
+    private val completeDailyChallenge: CompleteDailyChallengeUseCase = mockk(relaxed = true)
+    private val evaluateAchievements: EvaluateAchievementsUseCase = mockk(relaxed = true)
     private val prefsRepo: UserPreferencesRepository = mockk()
     private val profileRepo: ProfileRepository = mockk()
 
@@ -66,7 +76,23 @@ class ExamViewModelTest {
     private fun buildViewModel(mode: String = ExamMode.PRACTICE.name): ExamViewModel {
         val handle = SavedStateHandle(mapOf("subjectId" to "sub", "mode" to mode))
         val holder = ActiveProfileHolder(profileRepo)
-        return ExamViewModel(handle, getQuestions, getSubjects, submitExam, toggleBookmark, prefsRepo, holder)
+        val practiceConfigHolder = PracticeConfigHolder()
+        val dailyChallengeRunHolder = DailyChallengeRunHolder()
+        return ExamViewModel(
+            handle,
+            getQuestions,
+            getSubjects,
+            submitExam,
+            toggleBookmark,
+            getWrongAnswerQuestions,
+            buildPracticeExam,
+            practiceConfigHolder,
+            dailyChallengeRunHolder,
+            completeDailyChallenge,
+            evaluateAchievements,
+            prefsRepo,
+            holder,
+        )
     }
 
     @Test

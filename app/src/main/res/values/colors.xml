@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="splash_background">#0D47A1</color>
-    <color name="ic_launcher_background">#0D47A1</color>
+    <!-- Matches the deep-blue lower band of the EriXam splash artwork so the
+         system splash transitions seamlessly into the in-app splash image. -->
+    <color name="splash_background">#0A2A6B</color>
+    <color name="ic_launcher_background">#0A2A6B</color>
 </resources>

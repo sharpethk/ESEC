@@ -7,7 +7,9 @@ import com.esec.examprep.domain.model.ExamCategory
 import com.esec.examprep.domain.model.Profile
 import com.esec.examprep.domain.repository.ExamSessionRepository
 import com.esec.examprep.domain.repository.ProfileRepository
+import com.esec.examprep.domain.usecase.ReloadQuestionBankUseCase
 import com.esec.examprep.presentation.common.ActiveProfileHolder
+import com.esec.examprep.work.DailyReminderScheduler
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -33,6 +35,8 @@ class SettingsViewModelTest {
     private val prefs: UserPreferencesRepository = mockk(relaxUnitFun = true)
     private val examRepo: ExamSessionRepository = mockk(relaxUnitFun = true)
     private val profileRepo: ProfileRepository = mockk()
+    private val reloadQuestionBank: ReloadQuestionBankUseCase = mockk(relaxUnitFun = true)
+    private val reminderScheduler: DailyReminderScheduler = mockk(relaxUnitFun = true)
     private val prefsFlow = MutableStateFlow(UserPreferences())
 
     private val testProfile = Profile(
@@ -49,7 +53,7 @@ class SettingsViewModelTest {
 
     private fun build(): SettingsViewModel {
         val holder = ActiveProfileHolder(profileRepo)
-        return SettingsViewModel(prefs, examRepo, holder)
+        return SettingsViewModel(prefs, examRepo, holder, reloadQuestionBank, reminderScheduler)
     }
 
     @Test

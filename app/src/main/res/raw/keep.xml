@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Keep splash-screen related resources from being stripped by
+    `shrinkResources true` in release builds. The shrinker does not
+    follow `windowSplashScreenBackground` / `windowSplashScreenAnimatedIcon`
+    references inside the app theme, so without this file the splash
+    drawable, color and AndroidX splash styles get removed and the
+    splash screen never appears in the release APK.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="
+        @drawable/ic_splash_logo,
+        @drawable/splash_artwork,
+        @color/splash_background,
+        @style/Theme.ESEC,
+        @style/Theme.ESEC.Main"
+    tools:shrinkMode="safe" />

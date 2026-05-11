@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ESEC ፈተና ምድላው</string>
+    <string name="app_name">EriXam</string>
 
     <!-- Home -->
-    <string name="home_title">ESEC ፈተና ምድላው</string>
+    <string name="home_title">EriXam</string>
     <string name="home_tagline">ናይ ሕሉፍ ፈተናታት ተለማመዱ። ብዘይ ኢንተርነት። ኩሉ ሳዕ።</string>
     <string name="home_section_get_started">ጀምር</string>
-    <string name="home_section_why">ስለምንታይ ESEC</string>
+    <string name="home_section_why">ስለምንታይ EriXam</string>
     <string name="home_start_exam">ፈተና ጀምር</string>
     <string name="home_start_exam_desc">ትምህርቲ ምረጽ፡ ብጊዜ ወይ ብልምምድ ምርጫኻ ግበር።</string>
     <string name="home_my_progress">ምዕባለይ</string>
