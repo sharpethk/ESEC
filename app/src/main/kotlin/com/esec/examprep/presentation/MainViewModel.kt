@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,19 +38,35 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            // Seed the question bank before mounting the nav graph so any tab
-            // (Exam included) sees a populated DB on first navigation.
-            runCatching { ensureDataLoaded() }
-                .onFailure { Log.e("MainViewModel", "ensureDataLoaded failed", it) }
+            // Hardened launch sequence: every step is failure-tolerant so a bad
+            // disk/preferences/decryption state can never leave the splash stuck.
+            try {
+                // Seed the question bank before mounting the nav graph so any tab
+                // (Exam included) sees a populated DB on first navigation. A 25s
+                // ceiling guarantees the splash dismisses even on very slow I/O.
+                withTimeoutOrNull(25_000L) {
+                    runCatching { ensureDataLoaded() }
+                        .onFailure { Log.e("MainViewModel", "ensureDataLoaded failed", it) }
+                }
 
-            val profiles = profileRepo.observeProfiles().first()
-            val active = profileRepo.getActiveProfile()
-            // Auto-select the only profile *before* exposing startDestination,
-            // so ExamViewModel never sees a null active profile on first launch.
-            if (profiles.size == 1) {
-                profileRepo.setActiveProfile(profiles.first().id)
+                val profiles = runCatching { profileRepo.observeProfiles().first() }
+                    .onFailure { Log.e("MainViewModel", "observeProfiles failed", it) }
+                    .getOrDefault(emptyList())
+                val active = runCatching { profileRepo.getActiveProfile() }
+                    .onFailure { Log.e("MainViewModel", "getActiveProfile failed", it) }
+                    .getOrNull()
+
+                // Auto-select the only profile *before* exposing startDestination,
+                // so ExamViewModel never sees a null active profile on first launch.
+                if (profiles.size == 1) {
+                    runCatching { profileRepo.setActiveProfile(profiles.first().id) }
+                        .onFailure { Log.e("MainViewModel", "setActiveProfile failed", it) }
+                }
+                _startDestination.value = decideStart(profiles, active)
+            } catch (t: Throwable) {
+                Log.e("MainViewModel", "Fatal init failure; falling back to Home", t)
+                _startDestination.value = Screen.Home.route
             }
-            _startDestination.value = decideStart(profiles, active)
         }
     }
 

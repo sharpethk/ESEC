@@ -26,6 +26,11 @@ object DatabaseModule {
                 AppDatabase.MIGRATION_5_6,
                 AppDatabase.MIGRATION_6_7,
             )
+            // Safety net: any unexpected schema delta (e.g. stale install left
+            // behind by an interrupted upgrade) wipes the DB rather than
+            // crashing the app at launch. The encrypted question bank is
+            // re-seeded by EnsureDataLoadedUseCase on first launch anyway.
+            .fallbackToDestructiveMigration()
             .build()
 
     @Provides fun provideSubjectDao(db: AppDatabase) = db.subjectDao()
