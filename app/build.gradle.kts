@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,21 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
+
+// ---- Release signing: read from local.properties (never committed) ----
+val releaseProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) load(FileInputStream(f))
+}
+val releaseStoreFile: String? = releaseProps.getProperty("RELEASE_STORE_FILE")
+val releaseStorePassword: String? = releaseProps.getProperty("RELEASE_STORE_PASSWORD")
+val releaseKeyAlias: String? = releaseProps.getProperty("RELEASE_KEY_ALIAS")
+val releaseKeyPassword: String? = releaseProps.getProperty("RELEASE_KEY_PASSWORD")
+val hasReleaseSigning: Boolean = !releaseStoreFile.isNullOrBlank() &&
+    !releaseStorePassword.isNullOrBlank() &&
+    !releaseKeyAlias.isNullOrBlank() &&
+    !releaseKeyPassword.isNullOrBlank() &&
+    file(releaseStoreFile!!).exists()
 
 android {
     namespace = "com.esec.examprep"
@@ -21,12 +39,42 @@ android {
         buildConfigField("String", "QUESTION_BANK_ASSET", "\"questions_bank.enc\"")
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(releaseStoreFile!!)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+                enableV1Signing = true
+                enableV2Signing = true
+                enableV3Signing = true
+            }
+        }
+    }
+
     buildTypes {
         release {
+            // Minification disabled by default to guarantee the app launches.
+            // To produce a size-optimised APK, build the `releaseMinified` type instead.
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = if (hasReleaseSigning)
+                signingConfigs.getByName("release")
+            else
+                signingConfigs.getByName("debug")
+        }
+        create("releaseMinified") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (hasReleaseSigning)
+                signingConfigs.getByName("release")
+            else
+                signingConfigs.getByName("debug")
         }
         debug {
             isDebuggable = true
