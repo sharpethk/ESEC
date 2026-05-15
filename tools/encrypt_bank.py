@@ -92,6 +92,7 @@ def validate(bank: dict) -> tuple[list[str], list[str]]:
     blank_difficulty = 0
     too_few_options = 0
     blank_option_text = 0
+    duplicate_option_ids = 0
 
     for i, q in enumerate(questions):
         qid = q.get("id")
@@ -141,7 +142,12 @@ def validate(bank: dict) -> tuple[list[str], list[str]]:
                 errors.append(f"{loc}.options[{j}]: missing or blank 'id'")
                 continue
             if oid in opt_ids:
-                errors.append(f"{loc}.options[{j}]: duplicate option id '{oid}'")
+                # Mirrors QuestionRepositoryImpl.loadQuestionsFromEncryptedAsset:
+                # questions with duplicate option ids are silently dropped at
+                # seed time, so treat this as a warning rather than a hard
+                # error that blocks regeneration of the encrypted asset.
+                duplicate_option_ids += 1
+                question_drop = True
             opt_ids.add(oid)
             if not isinstance(opt.get("text"), str) or not opt["text"].strip():
                 blank_option_text += 1
@@ -177,6 +183,11 @@ def validate(bank: dict) -> tuple[list[str], list[str]]:
         warnings.append(
             f"{blank_option_text} option(s) have blank text; "
             f"their parent question(s) will be skipped at seed time"
+        )
+    if duplicate_option_ids:
+        warnings.append(
+            f"{duplicate_option_ids} question(s) have duplicate option ids "
+            f"and will be skipped at seed time"
         )
     for sid in subject_ids:
         if per_subject_valid[sid] == 0:

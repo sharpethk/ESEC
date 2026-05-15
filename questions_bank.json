@@ -4,25 +4,25 @@
       "id": "social_studies",
       "name": "Social Studies",
       "description": "Eritrean Grade 8 End-of-Basic Education National Examination covering History, Geography, Government, Economics, and Environment.",
-      "category": "Grade 8"
+      "category": "GRADE_8"
     },
     {
       "id": "science",
       "name": "Science",
       "description": "Eritrean Grade 8 End-of-Basic Education National Examination covering general science topics including physics, chemistry, biology, earth science, environment, and agriculture.",
-      "category": "Grade 8"
+      "category": "GRADE_8"
     },
     {
       "id": "citizenship",
       "name": "Citizenship",
       "description": "Eritrean Grade 8 National Examination covering citizenship, rights and responsibilities, patriotism, culture, history, government, law, values, and social harmony.",
-      "category": "Grade 8"
+      "category": "GRADE_8"
     },
     {
       "id": "english",
       "name": "English",
       "description": "Eritrean Grade 8 End-of-Basic Education National Examination covering English grammar, vocabulary, dialogue completion, reading comprehension, and language use.",
-      "category": "Grade 8"
+      "category": "GRADE_8"
     }
   ],
   "questions": [
